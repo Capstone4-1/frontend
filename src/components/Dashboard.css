@@ -19,7 +19,81 @@
     justify-content: start;
     align-items: start;
     gap: 30px;
+    flex-direction: row;
+}
 
+.Dashboard .MainBoard{
+    flex-direction: column;
+    display: flex;
+    background-color: white;
+    flex-basis: 70%;
+    height: 100vh;
+    gap: 50px;
+}
+
+.Dashboard .AnannouncementBoard{
+    background-color: grey;
+    flex-basis: 20%;
+}
+
+.Dashboard .TopDividedBoard{
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    flex-basis: 30%;
+    gap: 30%;
+}
+
+.Dashboard .BulletinBoard{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 40%;
+    background-color: grey;
+}
+
+.Dashboard .LectureBoard{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 40%;
+    background-color: grey;
+}
+
+.Dashboard .Market{
+    background-color: grey;
+    flex-basis: 20%;
+}
+
+.Dashboard .DownDividedBoard{
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    flex-basis: 30%;
+    gap: 30%;
+}
+
+.Dashboard .HottopicBoard{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 40%;
+    background-color: grey;
+}
+
+.Dashboard .SecretBulletinBoard{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 40%;
+    background-color: grey;
+}
+
+.Dashboard .SideBoard{
+    background-color: white;
+    flex-grow: 1;
+    height: 100vh;
+}
+
+.Dashboard .EmploymentinformationBoard{
+    background-color: grey;
+    height: 100vh;
 }
 
 .Dashboard .box{
