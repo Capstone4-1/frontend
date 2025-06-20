@@ -8,7 +8,7 @@
     margin: 0;
 }
 .left-side{
-    background-image: url("/icons/background.png"); 
+    background-image: url("/images/background.png"); 
     width: 100%;
     flex-basis: 130%;
     height: 100%;
