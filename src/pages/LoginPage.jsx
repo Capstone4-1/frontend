@@ -1,10 +1,10 @@
 import LoginForm from "../components/LoginForm";
-import "./Page.css";
+import "./AuthPage.css";
 import IntroBox from "../components/IntroBox";
 
 const LoginPage = ({ setIsAuthenticated }) => {
     return (
-        <div className="Page">
+        <div className="auth-page">
             <div className="left-side">
                 <IntroBox />
             </div>

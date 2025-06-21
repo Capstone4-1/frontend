@@ -1,4 +1,4 @@
-.Page {
+.auth-page {
     display: flex;
     width: 100%;
     height: 100vh;
@@ -7,8 +7,8 @@
     padding: 0;
     margin: 0;
 }
-.left-side{
-    background-image: url("/images/background.png"); 
+.auth-page .left-side {
+    background-image: url("/images/background.png");
     width: 100%;
     flex-basis: 130%;
     height: 100%;
@@ -16,13 +16,13 @@
     background-size: cover; /* 화면 크기에 맞게 조정 */
     background-position: center; /* 배경 위치 중앙 정렬 */
 }
-.right-side{
+.auth-page .right-side {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.form-container{
+.auth-page .form-container {
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -30,16 +30,16 @@
     padding: 100px;
 }
 
-.logo-img{
+.auth-page .logo-img {
     width: 120px;
     height: 60px;
 }
 
 @media (max-width: 800px) {
-    .left-side{
-        display: none;
+    .auth-page {
+        justify-content: center;
     }
-    .Page{
-    justify-content: center;
+    .auth-page .left-side {
+        display: none;
     }
 }
