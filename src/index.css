@@ -1,14 +1,11 @@
-@font-face {
-    font-family: "Pretendard-Light";
-    src: url("components/fonts/Pretendard-Light.otf") format("opentype");
-}
+@import "./styles/fonts.css";
 
 html,
 body {
     width: 100vw;
     height: 100vh;
     overflow-x: hidden; /*지우지마마*/
-    font-family: Pretendard-Light;
+    font-family: Pretendard, "Noto Sans KR", sans-serif;
     font-size: 0.9rem;
 }
 
