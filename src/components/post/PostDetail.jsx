@@ -129,14 +129,15 @@ const PostDetail = () => {
         }
     };
 
-    // const handleReplySubmit = async (parentId) => {
-    const handleReplySubmit = async () => {
+    const handleReplySubmit = async (parentId) => {
+    // const handleReplySubmit = async () => {
         if (!replyContent.trim()) return;
         setIsSubmitting(true);
         try {
             await axiosInstance.post(`/post/${postId}/comments`, {
                 content: replyContent,
-                // parentId,
+                parentId,
+                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`,
             });
             setReplyContent("");
             setReplyingTo(null);
