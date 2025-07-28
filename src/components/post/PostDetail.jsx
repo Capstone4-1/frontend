@@ -15,8 +15,8 @@ const PostDetail = () => {
     const [newComment, setNewComment] = useState("");
     const [replyingTo, setReplyingTo] = useState(null);
     const [replyContent, setReplyContent] = useState("");
-    // const [childComments, setChildComments] = useState({});
-    // const [expandedReplies, setExpandedReplies] = useState({});
+    const [childComments, setChildComments] = useState({}); // 대댓글 저장
+    const [expandedReplies, setExpandedReplies] = useState({}); // 대댓글 확장 상태 저장
     const [isSubmitting, setIsSubmitting] = useState(false);
     const lastSubmitTime = useRef(0);
     const navigate = useNavigate();
@@ -48,28 +48,28 @@ const PostDetail = () => {
         }
     };
 
-    // const fetchReplies = async (parentId) => {
-    //     try {
-    //         const res = await axiosInstance.get(`/post/${parentId}/replies`);
-    //         const replies = res.data.replies || [];
-    //         setChildComments((prev) => ({ ...prev, [parentId]: replies }));
-    //         setExpandedReplies((prev) => ({ ...prev, [parentId]: true }));
-    //     } catch (err) {
-    //         console.error("❌ 대댓글 불러오기 실패:", err);
-    //     }
-    // };
+    const fetchReplies = async (parentId) => {
+        try {
+            const res = await axiosInstance.get(`/post/${parentId}/replies`);
+            const replies = res.data.replies || [];
+            setChildComments((prev) => ({ ...prev, [parentId]: replies }));
+            setExpandedReplies((prev) => ({ ...prev, [parentId]: true }));
+        } catch (err) {
+            console.error("❌ 대댓글 불러오기 실패:", err);
+        }
+    };
 
-    // const toggleReplies = async (parentId) => {
-    //     if (expandedReplies[parentId]) {
-    //         setExpandedReplies((prev) => ({ ...prev, [parentId]: false }));
-    //     } else {
-    //         if (!childComments[parentId]) {
-    //             await fetchReplies(parentId);
-    //         } else {
-    //             setExpandedReplies((prev) => ({ ...prev, [parentId]: true }));
-    //         }
-    //     }
-    // };
+    const toggleReplies = async (parentId) => {
+        if (expandedReplies[parentId]) {
+            setExpandedReplies((prev) => ({ ...prev, [parentId]: false }));
+        } else {
+            if (!childComments[parentId]) {
+                await fetchReplies(parentId);
+            } else {
+                setExpandedReplies((prev) => ({ ...prev, [parentId]: true }));
+            }
+        }
+    };
 
     const handleCommentLike = (commentId) => {
         setComments((prev) =>
@@ -150,48 +150,6 @@ const PostDetail = () => {
             setIsSubmitting(false);
         }
     };
-
-    // const renderCommentTree = (comment) => (
-    //     <CommentBox
-    //         key={comment.id}
-    //         comment={comment}
-    //         boardType={post.boardType}
-    //         handleCommentLike={handleCommentLike}
-    //         onDeleteSuccess={(deletedId) => {
-    //             setComments((prev) => prev.filter((c) => c.id !== deletedId));
-    //             setChildComments((prev) => {
-    //                 const updated = { ...prev };
-    //                 Object.keys(updated).forEach((key) => {
-    //                     updated[key] = updated[key].filter(
-    //                         (r) => r.id !== deletedId
-    //                     );
-    //                 });
-    //                 return updated;
-    //             });
-    //         }}
-    //         onReplyClick={(id) => {
-    //             setReplyingTo(id === replyingTo ? null : id);
-    //             setReplyContent("");
-    //         }}
-    //         isReplying={replyingTo === comment.id}
-    //         replyContent={replyContent}
-    //         setReplyContent={setReplyContent}
-    //         onSubmitReply={handleReplySubmit}
-    //         showReplies={expandedReplies[comment.id]}
-    //         onToggleReplies={() => toggleReplies(comment.id)}
-    //     >
-    //         {expandedReplies[comment.id] &&
-    //             (childComments[comment.id] || []).map((child) => (
-    //                 <div
-    //                     key={child.id}
-    //                     className="nested-reply"
-    //                     style={{ marginLeft: "20px" }}
-    //                 >
-    //                     {renderCommentTree(child)}
-    //                 </div>
-    //             ))}
-    //     </CommentBox>
-    // );
 
     if (!post)
         return <div className="PostDetail">게시글을 찾을 수 없습니다.</div>;
@@ -299,9 +257,8 @@ const PostDetail = () => {
             </div>
 
             <ul className="comment-list">
-                {comments.map((c) => (
+                {comments.filter(c => !c.parentId).map((c) => (
                     <li key={c.id} className="comment-item">
-                      {/* {renderCommentTree(c)} */}
                         <CommentBox
                             comment={c}
                             boardType={post.boardType}
@@ -317,8 +274,34 @@ const PostDetail = () => {
                             isReplying={replyingTo === c.id}
                             replyContent={replyContent}
                             setReplyContent={setReplyContent}
-                            onSubmitReply={handleReplySubmit}
-                        />
+                            onSubmitReply={() => handleReplySubmit(c.id)}
+                            onToggleReplies={() => toggleReplies(c.id)}
+                            showReplies={expandedReplies[c.id]}
+                        >
+                            {expandedReplies[c.id] &&
+                                (childComments[c.id] || []).map((reply) => (
+                                    <div key={reply.id} className="nested-reply">
+                                        <CommentBox
+                                            comment={reply}
+                                            boardType={post.boardType}
+                                            handleCommentLike={handleCommentLike}
+                                            onDeleteSuccess={(deletedId) => {
+                                                setChildComments((prev) => ({
+                                                    ...prev,
+                                                    [c.id]: prev[c.id].filter(r => r.id !== deletedId)
+                                                }));
+                                            }}
+                                            onReplyClick={() =>
+                                                handleReplyClick(reply.id, reply.writerNickname)
+                                            }
+                                            isReplying={replyingTo === reply.id}
+                                            replyContent={replyContent}
+                                            setReplyContent={setReplyContent}
+                                            onSubmitReply={() => handleReplySubmit(c.id)}
+                                        />
+                                    </div>
+                                ))}
+                        </CommentBox>
                     </li>
                 ))}
             </ul>

@@ -14,9 +14,9 @@ const CommentBox = ({
     replyContent,
     setReplyContent,
     onSubmitReply,
-    // onToggleReplies, // 🔽 대댓글 토글 함수
-    // showReplies, // 🔽 현재 열린 상태
-    // children, // 🔽 대댓글 컴포넌트들
+    onToggleReplies, // 대댓글 토글 함수
+    showReplies, // 현재 열린 상태
+    children, // 대댓글 컴포넌트들
 }) => {
     const formattedDate = new Date(comment.createdDate).toLocaleString(
         "ko-KR",
@@ -70,13 +70,14 @@ const CommentBox = ({
                 </div>
 
                 <div className="comment-actions">
-                    <button
-                        onClick={() =>
-                            onReplyClick(comment.id, comment.writerNickname)
-                        }
-                    >
+                    <button onClick={() => onReplyClick(comment.id, comment.writerNickname)}>
                         답글
                     </button>
+                    {onToggleReplies && comment.countChildren > 0 && (
+                        <button onClick={onToggleReplies}>
+                            {showReplies ? "답글 숨기기" : `답글 ${comment.countChildren}개`}
+                        </button>
+                    )}
                 </div>
 
                 {isReplying && (
@@ -89,16 +90,16 @@ const CommentBox = ({
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
                                     e.preventDefault();
-                                    onSubmitReply(comment.id);
+                                    onSubmitReply();
                                 }
                             }}
                         />
-                        <button onClick={() => onSubmitReply(comment.id)}>
+                        <button onClick={onSubmitReply}>
                             작성
                         </button>
                     </div>
                 )}
-                {/* {showReplies && children} */}
+                {children}
             </div>
         </div>
     );
