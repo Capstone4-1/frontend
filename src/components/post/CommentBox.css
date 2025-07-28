@@ -29,7 +29,7 @@
     align-items: flex-start;
 }
 
-.comment-date {
+.CommentBox .comment-date {
     font-size: 12px;
     color: #888;
     margin: 0;
@@ -116,6 +116,6 @@
 }
 
 .CommentBox .chevron-icon {
-  margin-left: 6px;
-  margin-right: -6px;
+    margin-left: 6px;
+    margin-right: -6px;
 }

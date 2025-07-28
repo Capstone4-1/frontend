@@ -5,7 +5,7 @@ import "./PostDetail.css";
 import CommentBox from "./CommentBox";
 import ProfileTemplate from "../ProfileTemplate";
 import MenuButton from "./MenuButton";
-import { Heart } from "lucide-react";
+import { Heart, Check } from "lucide-react";
 
 const PostDetail = () => {
     const { postId } = useParams();
@@ -14,6 +14,7 @@ const PostDetail = () => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [replyingTo, setReplyingTo] = useState(null);
+    const [sortOrder, setSortOrder] = useState("oldest"); // 댓글 정렬. 'oldest' 또는 'newest'
     const [replyContent, setReplyContent] = useState("");
     const [childComments, setChildComments] = useState({}); // 대댓글 저장
     const [expandedReplies, setExpandedReplies] = useState({}); // 대댓글 확장 상태 저장
@@ -35,19 +36,24 @@ const PostDetail = () => {
         }
     };
 
+    const sortComments = (comments, order) => {
+        return [...comments].sort((a, b) => {
+            const dateA = new Date(a.createdDate);
+            const dateB = new Date(b.createdDate);
+            return order === "oldest" ? dateA - dateB : dateB - dateA;
+        });
+    };
+
     const fetchComments = async () => {
         try {
             const res = await axiosInstance.get(`/post/${postId}/comments`);
             const commentList = res.data.comments || [];
-            const sorted = [...commentList].sort(
-                (a, b) => new Date(a.createdDate) - new Date(b.createdDate) // 최신 댓글이 아래로
-            );
+            const sorted = sortComments(commentList, sortOrder);
             setComments(sorted);
         } catch (err) {
             console.error("❌ 댓글 불러오기 실패:", err);
         }
     };
-
     const fetchReplies = async (parentId) => {
         try {
             const res = await axiosInstance.get(`/post/${parentId}/replies`);
@@ -117,7 +123,9 @@ const PostDetail = () => {
         try {
             await axiosInstance.post(`/post/${postId}/comments`, {
                 content: newComment,
-                targetUrl : `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`
+                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${
+                    post.id
+                }`,
             });
             setNewComment("");
             await fetchComments();
@@ -130,14 +138,16 @@ const PostDetail = () => {
     };
 
     const handleReplySubmit = async (parentId) => {
-    // const handleReplySubmit = async () => {
+        // const handleReplySubmit = async () => {
         if (!replyContent.trim()) return;
         setIsSubmitting(true);
         try {
             await axiosInstance.post(`/post/${postId}/comments`, {
                 content: replyContent,
                 parentId,
-                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`,
+                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${
+                    post.id
+                }`,
             });
             setReplyContent("");
             setReplyingTo(null);
@@ -235,6 +245,34 @@ const PostDetail = () => {
                 <span className="comment-header">
                     💬 댓글 {comments.length}
                 </span>
+                <div className="sort-controls">
+                    <button
+                        className={`sort-button ${
+                            sortOrder === "oldest" ? "active" : ""
+                        }`}
+                        onClick={() => {
+                            setSortOrder("oldest");
+                            setComments(sortComments(comments, "oldest"));
+                        }}
+                    >
+                        {" "}
+                        <Check />
+                        등록순
+                    </button>
+                    <button
+                        className={`sort-button ${
+                            sortOrder === "newest" ? "active" : ""
+                        }`}
+                        onClick={() => {
+                            setSortOrder("newest");
+                            setComments(sortComments(comments, "newest"));
+                        }}
+                    >
+                        {" "}
+                        <Check />
+                        최신순
+                    </button>
+                </div>
             </div>
 
             <div className="comment-form">
@@ -257,53 +295,79 @@ const PostDetail = () => {
             </div>
 
             <ul className="comment-list">
-                {comments.filter(c => !c.parentId).map((c) => (
-                    <li key={c.id} className="comment-item">
-                        <CommentBox
-                            comment={c}
-                            boardType={post.boardType}
-                            handleCommentLike={handleCommentLike}
-                            onDeleteSuccess={(deletedId) => {
-                                setComments((prev) =>
-                                    prev.filter((c) => c.id !== deletedId)
-                                );
-                            }}
-                            onReplyClick={() =>
-                                handleReplyClick(c.id, c.writerNickname)
-                            }
-                            isReplying={replyingTo === c.id}
-                            replyContent={replyContent}
-                            setReplyContent={setReplyContent}
-                            onSubmitReply={() => handleReplySubmit(c.id)}
-                            onToggleReplies={() => toggleReplies(c.id)}
-                            showReplies={expandedReplies[c.id]}
-                        >
-                            {expandedReplies[c.id] &&
-                                (childComments[c.id] || []).map((reply) => (
-                                    <div key={reply.id} className="nested-reply">
-                                        <CommentBox
-                                            comment={reply}
-                                            boardType={post.boardType}
-                                            handleCommentLike={handleCommentLike}
-                                            onDeleteSuccess={(deletedId) => {
-                                                setChildComments((prev) => ({
-                                                    ...prev,
-                                                    [c.id]: prev[c.id].filter(r => r.id !== deletedId)
-                                                }));
-                                            }}
-                                            onReplyClick={() =>
-                                                handleReplyClick(reply.id, reply.writerNickname)
-                                            }
-                                            isReplying={replyingTo === reply.id}
-                                            replyContent={replyContent}
-                                            setReplyContent={setReplyContent}
-                                            onSubmitReply={() => handleReplySubmit(c.id)}
-                                        />
-                                    </div>
-                                ))}
-                        </CommentBox>
-                    </li>
-                ))}
+                {comments
+                    .filter((c) => !c.parentId)
+                    .map((c) => (
+                        <li key={c.id} className="comment-item">
+                            <CommentBox
+                                comment={c}
+                                boardType={post.boardType}
+                                handleCommentLike={handleCommentLike}
+                                onDeleteSuccess={(deletedId) => {
+                                    setComments((prev) =>
+                                        prev.filter((c) => c.id !== deletedId)
+                                    );
+                                }}
+                                onReplyClick={() =>
+                                    handleReplyClick(c.id, c.writerNickname)
+                                }
+                                isReplying={replyingTo === c.id}
+                                replyContent={replyContent}
+                                setReplyContent={setReplyContent}
+                                onSubmitReply={() => handleReplySubmit(c.id)}
+                                onToggleReplies={() => toggleReplies(c.id)}
+                                showReplies={expandedReplies[c.id]}
+                            >
+                                {expandedReplies[c.id] &&
+                                    (childComments[c.id] || []).map((reply) => (
+                                        <div
+                                            key={reply.id}
+                                            className="nested-reply"
+                                        >
+                                            <CommentBox
+                                                comment={reply}
+                                                boardType={post.boardType}
+                                                handleCommentLike={
+                                                    handleCommentLike
+                                                }
+                                                onDeleteSuccess={(
+                                                    deletedId
+                                                ) => {
+                                                    setChildComments(
+                                                        (prev) => ({
+                                                            ...prev,
+                                                            [c.id]: prev[
+                                                                c.id
+                                                            ].filter(
+                                                                (r) =>
+                                                                    r.id !==
+                                                                    deletedId
+                                                            ),
+                                                        })
+                                                    );
+                                                }}
+                                                onReplyClick={() =>
+                                                    handleReplyClick(
+                                                        reply.id,
+                                                        reply.writerNickname
+                                                    )
+                                                }
+                                                isReplying={
+                                                    replyingTo === reply.id
+                                                }
+                                                replyContent={replyContent}
+                                                setReplyContent={
+                                                    setReplyContent
+                                                }
+                                                onSubmitReply={() =>
+                                                    handleReplySubmit(c.id)
+                                                }
+                                            />
+                                        </div>
+                                    ))}
+                            </CommentBox>
+                        </li>
+                    ))}
             </ul>
         </div>
     );
