@@ -167,20 +167,28 @@
 }
 
 .PostDetail .back-to-list-button {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    text-decoration: none;
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
+  display: block;
+  margin: 32px auto 20px auto; /* 가운데 정렬 + 상하 여백 */
+  padding: 7px 14px;
+  background-color: #3399ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .PostDetail .back-to-list-button:hover {
-    background-color: #e5e7eb;
+  background-color: #2b85e4;
+  transform: translateY(-1px);
+}
+
+.PostDetail .back-to-list-button:active {
+  background-color: #1e6fd8;
+  transform: scale(0.98);
 }
 
 .PostDetail .market-detail {

@@ -76,10 +76,10 @@ const PostDetail = () => {
             prev.map((c) =>
                 c.id === commentId
                     ? {
-                          ...c,
-                          liked: !c.liked,
-                          likes: (c.likes || 0) + (c.liked ? -1 : 1),
-                      }
+                        ...c,
+                        liked: !c.liked,
+                        likes: (c.likes || 0) + (c.liked ? -1 : 1),
+                    }
                     : c
             )
         );
@@ -117,7 +117,7 @@ const PostDetail = () => {
         try {
             await axiosInstance.post(`/post/${postId}/comments`, {
                 content: newComment,
-                targetUrl : `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`
+                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`
             });
             setNewComment("");
             await fetchComments();
@@ -212,7 +212,7 @@ const PostDetail = () => {
                     <span>{post.likeCount ?? 0}</span>
                     {post.isAuthor && (
                         <MenuButton
-                            onEdit={() => {}}
+                            onEdit={() => { }}
                             onDelete={handlePostDelete}
                         />
                     )}
@@ -271,6 +271,14 @@ const PostDetail = () => {
                     </section>
                 </>
             )}
+            <button
+                className="back-to-list-button"
+                onClick={() =>
+                    navigate(`/main/community/${post.boardType.toLowerCase()}`)
+                }
+            >
+                목록으로
+            </button>
 
             <div className="comment-header-line">
                 <span className="comment-header">
@@ -300,7 +308,7 @@ const PostDetail = () => {
             <ul className="comment-list">
                 {comments.map((c) => (
                     <li key={c.id} className="comment-item">
-                      {/* {renderCommentTree(c)} */}
+                        {/* {renderCommentTree(c)} */}
                         <CommentBox
                             comment={c}
                             boardType={post.boardType}
