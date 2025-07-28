@@ -1,37 +1,66 @@
-.MyLectureList {
-  background-color: #fff;
-  padding: 16px 20px;
-  border-radius: 10px;
+.lecture-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 16px;
+}
+
+.lecture-card {
+  background-color: white;
   border: 1px solid #ddd;
-  margin-bottom: 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #333;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+  padding: 16px;
+  position: relative;
 }
 
-.list-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 12px;
+.lecture-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.lecture-info {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  height: 100%;
 }
 
-.lecture-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.lecture-list li {
+.lecture-info h3 {
+  font-size: 18px;
+  font-weight: 700;
   margin-bottom: 8px;
 }
 
-.lecture-link {
-  color: #1d4ed8;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
+.lecture-info p {
+  font-size: 14px;
+  color: #555;
+  margin: 2px 0;
 }
 
-.lecture-link:hover {
-  color: #0f172a;
-  text-decoration: underline;
+.mark-count {
+  margin-top: auto;
+  font-size: 13px;
+  color: #555;
+  text-align: right;
+}
+
+.no-lecture {
+  text-align: center;
+  color: #888;
+  padding: 32px;
+  font-size: 14px;
+}
+
+/* 모바일 대응 */
+@media screen and (max-width: 768px) {
+  .lecture-info h3 {
+    font-size: 16px;
+  }
+
+  .lecture-info p,
+  .mark-count {
+    font-size: 12px;
+  }
 }

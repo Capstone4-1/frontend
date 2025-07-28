@@ -1,0 +1,82 @@
+.timetable-wrapper {
+  padding: 20px;
+  width: 100%;          
+  max-width: none;      
+  margin: 0;             
+  box-sizing: border-box; 
+}
+
+
+.timetable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  overflow: hidden;
+}
+
+.timetable th,
+.timetable td {
+  border: 0.5px solid #ddd;
+  text-align: center;
+  height: 48px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.timetable thead th:first-child,
+.timetable thead th:last-child,
+.timetable tbody tr:last-child td:first-child,
+.timetable tbody tr:last-child td:last-child {
+  border-radius: 0;
+}
+
+.timetable th {
+  background-color: #f2f4f6;
+  font-weight: 500;
+  color: #333;
+}
+
+.time-cell {
+  background-color: #f2f4f6;
+  font-weight: 500;
+  color: #555;
+  width: 30px; 
+}
+
+.empty-cell {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.timetable-wrapper {
+  overflow-x: auto;
+  padding: 16px;
+}
+
+.timetable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  table-layout: fixed;
+}
+
+.timetable th,
+.timetable td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.time-cell {
+  font-weight: bold;
+  background-color: #f8f8f8;
+  width: 60px;
+}
+
+.timetable-cell {
+  height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

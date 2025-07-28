@@ -50,7 +50,7 @@ const Dashboard = () => {
           </div>
 
         </div>
-        <aside>
+        {/* <aside>
           <ul>
             <li>
               <div>첫 번째 메뉴sdfㄴㅇㄴㅇㅇㅇㅇㅇㅇㄹㅇㄴsdfsdsdfsd</div>
@@ -61,7 +61,7 @@ const Dashboard = () => {
                 <br /> 메ㄹㅇㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ뉴</div>
             </li>
           </ul>
-        </aside>
+        </aside> */}
 
       </div>
     </div>

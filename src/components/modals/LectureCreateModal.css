@@ -1,63 +1,151 @@
 .modal-backdrop {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
+  height: auto;
 }
 
 .modal-box {
   background: #fff;
-  padding: 24px 20px;
+  padding: 32px; /* 패딩 키움 */
   border-radius: 12px;
-  width: 360px;
-  max-width: 95%;
+  width: 70%; /* 넓이 키움 */
+  max-width: 800px; /* 최대 넓이 키움 */
+  min-width: 360px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  height: auto;
 }
 
 .modal-box h2 {
-  margin-bottom: 18px;
-  font-size: 20px;
-  font-weight: 600;
+  margin-bottom: 24px;
+  font-size: 24px; /* 글자도 약간 키움 */
+  font-weight: 700;
   text-align: center;
+  color: #333;
 }
 
 .modal-box label {
   display: block;
-  margin: 12px 0 6px;
-  font-size: 14px;
-  font-weight: 500;
+  margin: 12px 0 8px; /* 간격도 약간 키움 */
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+
+.modal-box textarea {
+  min-height: 70px;
+  max-height: 120px;
+  resize: vertical;
 }
 
 .modal-box input,
 .modal-box textarea,
 .modal-box select {
   width: 100%;
-  padding: 8px 10px;
+  padding: 12px 14px; /* 패딩 살짝 키움 */
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 14px;
-  resize: vertical;
+  font-size: 15px; /* 폰트도 약간 키움 */
   box-sizing: border-box;
+  transition: border-color 0.2s ease;
 }
 
-.modal-box textarea {
-  min-height: 60px;
-  max-height: 100px;
+.modal-box input:focus,
+.modal-box textarea:focus,
+.modal-box select:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
+/* 학년/학기 */
+.grade-semester-area {
+  display: flex;
+  gap: 12px; /* 간격 좀 키움 */
+  align-items: center;
+  margin: 10px 0 16px;
+}
+
+.grade-semester-area label {
+  font-size: 15px;
+}
+
+.grade-semester-area select {
+  width: 90px;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+
+/* 강의 시간 카드 */
+.lecture-time-row {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* 간격 좀 키움 */
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.lecture-time-row select {
+  width: 80px;
+  padding: 8px;
+  font-size: 15px;
+}
+
+.lecture-time-row input[type="number"] {
+  width: 70px;
+  padding: 8px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+
+  /* 삭제 버튼 크기 유지 */
+  padding: 4px 8px;
+  font-size: 12px;
+
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.delete-btn:hover {
+  background-color: #b02a37;
+}
+
+.add-time-btn {
+  margin-top: 8px;
+  background-color: #e9ecef;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.add-time-btn:hover {
+  background-color: #d6d8db;
+}
+
+/* 컬러 팔레트 */
 .color-palette {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 10px;
+  margin-top: 8px;
 }
 
 .color-box {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 6px;
   border: 2px solid transparent;
   cursor: pointer;
@@ -72,31 +160,43 @@
 .custom-color-picker {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  margin-left: auto;
-  margin-top: 8px;
+  gap: 8px;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
 .custom-color-picker input[type="color"] {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   border: none;
-  background: transparent;
   cursor: pointer;
 }
 
+/* 내부 레이아웃 */
+.inner-layout {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.inner-layout > div {
+  flex: 1;
+  min-width: 300px;
+}
+
+/* 모달 버튼 */
 .modal-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .modal-actions button {
   flex: 1;
-  padding: 8px 0;
-  font-size: 14px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -105,7 +205,7 @@
 .modal-actions button:first-child {
   background-color: #007bff;
   color: #fff;
-  margin-right: 8px;
+  margin-right: 12px;
 }
 
 .modal-actions button:first-child:hover {
@@ -119,4 +219,34 @@
 
 .modal-actions button:last-child:hover {
   background-color: #ddd;
+}
+
+/* 반응형 - 모바일 */
+@media (max-width: 768px) {
+  .modal-box {
+    width: 92%;
+    padding: 16px;
+  }
+
+  .inner-layout {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .lecture-time-row {
+    flex-wrap: wrap;
+  }
+
+  .lecture-time-row input,
+  .lecture-time-row select {
+    flex: 1;
+  }
+
+  .delete-btn {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 6px;
+    padding: 6px 0;
+    font-size: 14px;
+  }
 }

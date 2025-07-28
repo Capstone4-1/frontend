@@ -1,17 +1,13 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Panel from "../components/Panel";
-import StudyDashboard from "../components/StudyDashboard";
+import MyLectureList from "../components/MyLectureList"; 
 import "./StudyDashboardPage.css";
 
 const StudyDashboardPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isSubPage = location.pathname !== "/main/study-dashboard";
-
-  const handleFindLecture = () => {
-    navigate("/main/study-dashboard/lectures");
-  };
 
   return (
     <div className="StudyDashboardPage">
@@ -21,7 +17,7 @@ const StudyDashboardPage = () => {
           <Panel mode="study" />
         </div>
         <div className="Dashboard-container">
-          {isSubPage ? <Outlet /> : <StudyDashboard onFindLectureClick={handleFindLecture} />}
+          {isSubPage ? <Outlet /> : <MyLectureList />} 
         </div>
       </div>
     </div>

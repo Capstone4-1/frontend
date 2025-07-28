@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { LayoutDashboard, Search } from "lucide-react";
 
 const StudyNavi = () => {
+  
   return (
     <div className="StudyNavi">
       <Link to="/main/study-dashboard" className="study-link">

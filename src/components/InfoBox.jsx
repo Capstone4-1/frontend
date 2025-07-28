@@ -1,23 +1,21 @@
 import "./InfoBox.css";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; // ✅ useNavigate 추가
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "./utils/AxiosInstance";
 import PostTag from "./PostTag";
-import { getBoardLabel } from "./utils/boardUtils"; // 🔥 boardTypeMap 재사용
+import { getBoardLabel } from "./utils/boardUtils";
 
 const InfoBox = ({ boardTypes, title }) => {
-  const navigate = useNavigate(); // ✅ useNavigate 훅 사용
+  const navigate = useNavigate();
   const [selectedBoard, setSelectedBoard] = useState("ALL");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const PAGE_SIZE = 5;
 
-  // ✅ + 버튼 클릭 시 게시판으로 이동
   const handleMoreClick = () => {
     let boardToGo = selectedBoard;
 
     if (selectedBoard === "ALL") {
-      // boardTypes 배열이 존재하면 그 중 첫 번째로 fallback
       if (boardTypes.length > 0) {
         boardToGo = boardTypes[0];
       } else {
@@ -75,7 +73,9 @@ const InfoBox = ({ boardTypes, title }) => {
         <div className="top">
           <div className="title-area">
             <h1>{title}</h1>
-            <button className="more-btn" onClick={handleMoreClick}>+</button>
+            <button className="more-btn" onClick={handleMoreClick}>
+              +
+            </button>
           </div>
           <div className="filter-area">
             <button
@@ -97,7 +97,7 @@ const InfoBox = ({ boardTypes, title }) => {
         </div>
 
         <div className="list-area">
-          <ul className="list">
+          <ul className={`list ${loading ? "skeleton-list" : ""}`}>
             {loading ? (
               [...Array(PAGE_SIZE)].map((_, i) => (
                 <li key={i} className="item skeleton">
@@ -115,10 +115,11 @@ const InfoBox = ({ boardTypes, title }) => {
                     to={`/main/community/${post.boardType.toLowerCase()}/post/${post.id}`}
                   >
                     <PostTag type={post.boardType} />
-                    <strong>{post.title}</strong>
+                    <strong className="post-title">{post.title}</strong>
                   </Link>
                   <div className="meta">
-                    {post.writerNickname} | {post.createdDate?.slice(0, 10)} | 댓글: {post.commentCount}
+                    {post.writerNickname} |{" "}
+                    {post.createdDate?.slice(0, 10)} | 댓글: {post.commentCount}
                   </div>
                 </li>
               ))
