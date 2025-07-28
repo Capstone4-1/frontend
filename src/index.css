@@ -13,6 +13,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: inherit;
     overflow-wrap: break-word;
     word-wrap: break-word;
     white-space: normal; /* 공백을 유지하면서 줄바꿈 */

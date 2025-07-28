@@ -1,106 +1,111 @@
 .CommentBox {
-  display: flex;
-  gap: 12px;
-  width: 100%;
-  padding: 12px 0;
-  margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 0;
+    margin-bottom: 16px;
 }
 
 .my-comment {
-  background-color: #f7f7f7;
-  border-radius: 8px;
-  padding: 12px 0;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 12px 0;
 }
 
 .comment-content-left {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
 .comment-body-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .comment-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .comment-date {
-  font-size: 12px;
-  color: #888;
-  margin: 0;
+    font-size: 12px;
+    color: #888;
+    margin: 0;
 }
 
 .anonymous-nickname {
-  font-weight: bold;
-  font-size: 14px;
-  color: #444;
+    font-weight: bold;
+    font-size: 14px;
+    color: #444;
 }
 
 .content-box {
-  font-size: 14px;
-  line-height: 1.5;
-  white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
 }
 
 .comment-actions {
-  display: flex;
-  gap: 6px;
-  margin-top: 4px;
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
 }
 
 .comment-actions button {
-  background-color: transparent;
-  border: none;
-  padding: 3px 8px;
-  font-size: 13px;
-  border-radius: 6px;
-  color: #555;
-  cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 3px 8px;
+    font-size: 13px;
+    border-radius: 6px;
+    color: #555;
+    cursor: pointer;
 }
 
 .comment-actions button:hover {
-  background-color: #e0e0e0;
+    background-color: #e0e0e0;
 }
 
 /* 답글 토글 버튼은 아이콘만 보여줌 */
 .toggle-replies-btn {
-  background: none;
-  border: none;
-  color: #666;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0 4px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 4px;
 }
 
 .reply-input-form {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
 }
 
 .reply-input-form input {
-  flex: 1;
-  padding: 6px 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+    flex: 1;
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }
 
 .reply-input-form button {
-  padding: 6px 12px;
-  font-size: 14px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+    padding: 6px 12px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 .reply-input-form button:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
+}
+
+.reply-toggle {
+    display: flex;
+    align-items: center;
 }

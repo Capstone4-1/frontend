@@ -3,6 +3,7 @@ import axiosInstance from "../utils/AxiosInstance";
 import "./CommentBox.css";
 import MenuButton from "./MenuButton";
 axiosInstance;
+import { ChevronDown } from "lucide-react";
 
 const CommentBox = ({
     comment,
@@ -70,13 +71,22 @@ const CommentBox = ({
                 </div>
 
                 <div className="comment-actions">
-                    <button onClick={() => onReplyClick(comment.id, comment.writerNickname)}>
+                    <button
+                        onClick={() =>
+                            onReplyClick(comment.id, comment.writerNickname)
+                        }
+                    >
                         답글
                     </button>
                     {onToggleReplies && comment.countChildren > 0 && (
-                        <button onClick={onToggleReplies}>
-                            {showReplies ? "답글 숨기기" : `답글 ${comment.countChildren}개`}
-                        </button>
+                        <div className="reply-toggle">
+                            <button onClick={onToggleReplies}>
+                                {showReplies
+                                    ? "답글 숨기기"
+                                    : `답글 ${comment.countChildren}개`}
+                            </button>
+                            <ChevronDown />
+                        </div>
                     )}
                 </div>
 
@@ -94,9 +104,7 @@ const CommentBox = ({
                                 }
                             }}
                         />
-                        <button onClick={onSubmitReply}>
-                            작성
-                        </button>
+                        <button onClick={onSubmitReply}>작성</button>
                     </div>
                 )}
                 {children}
