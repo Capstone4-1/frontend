@@ -57,10 +57,14 @@
     background-color: transparent;
     border: none;
     padding: 3px 8px;
-    font-size: 13px;
+    font-size: var(--font-size-2xs);
     border-radius: 6px;
-    color: #555;
     cursor: pointer;
+    font-weight: 500;
+}
+
+.CommentBox .reply-btn {
+    color: #555;
 }
 
 .comment-actions button:hover {
@@ -105,7 +109,13 @@
     background-color: #0056b3;
 }
 
-.reply-toggle {
+.CommentBox .reply-toggle {
     display: flex;
     align-items: center;
+    color: var(--point-text-color-blue);
+}
+
+.CommentBox .chevron-icon {
+  margin-left: 6px;
+  margin-right: -6px;
 }
