@@ -16,7 +16,7 @@ const MyPage = () => {
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
     const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
     const [isEmailModalOpen, setIsEmailModalOpen] = useState(false); // ★
-    const [isConfirmingEmailChange, setIsConfirmingEmailChange] = useState(false); 
+    const [isConfirmingEmailChange, setIsConfirmingEmailChange] = useState(false);
     const { user, setUser } = useContext(UserContext);
     const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
@@ -83,8 +83,7 @@ const MyPage = () => {
                         <MyProfile profileImageUrl={user.profileImageUrl} onImageSelect={handleImageSelect} />
                     </div>
                     <div className="profile-info">
-                        <strong>{user.name}</strong><br />
-                        <label>별명</label>
+                        <label>닉네임: {nickname} </label>
                         <input
                             type="text"
                             value={nickname}
@@ -126,7 +125,7 @@ const MyPage = () => {
                             }
                         }}>저장</button>
                         <br />
-                        <label>자기소개</label>
+                        <label>자기소개: </label>
                         <textarea
                             value={intro}
                             placeholder="200자 이내로 입력하세요"
@@ -172,11 +171,11 @@ const MyPage = () => {
                         <h3>기타</h3>
                         <ul>
                             <li
-  className="interactive-item"
-  onClick={() => setIsWithdrawModalOpen(true)}
->
-  회원 탈퇴
-</li>
+                                className="interactive-item"
+                                onClick={() => setIsWithdrawModalOpen(true)}
+                            >
+                                회원 탈퇴
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -213,10 +212,10 @@ const MyPage = () => {
             />
 
             {/* 탈퇴 확인 모달 */}
-<WithdrawConfirmModal
-  isOpen={isWithdrawModalOpen}
-  onClose={() => setIsWithdrawModalOpen(false)}
-/>
+            <WithdrawConfirmModal
+                isOpen={isWithdrawModalOpen}
+                onClose={() => setIsWithdrawModalOpen(false)}
+            />
         </div>
     );
 };

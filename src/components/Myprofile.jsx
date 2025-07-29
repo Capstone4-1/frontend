@@ -1,16 +1,25 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { Camera } from "lucide-react";
 import "./Myprofile.css";
+import axiosInstance from "./utils/AxiosInstance";
+import { UserContext } from "./utils/UserContext";
 
-const MyProfile = ({ profileImageUrl, onImageSelect }) => {
-  const [selectedImage, setSelectedImage] = useState(profileImageUrl);
+const MyProfile = ({ profileImageUrl }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showEditOptions, setShowEditOptions] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const menuRef = useRef(null);
+  const { user, setUser } = useContext(UserContext);
 
-  
+  // 최초에 이미지 동기화 (user 정보 갱신된 후 처리)
+  useEffect(() => {
+    if (profileImageUrl) {
+      setSelectedImage(profileImageUrl);
+    }
+  }, [profileImageUrl]);
+
   const toggleMenu = () => {
     setShowProfileMenu((prev) => !prev);
     setShowEditOptions(false);
@@ -26,7 +35,7 @@ const MyProfile = ({ profileImageUrl, onImageSelect }) => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage(imageUrl);
-      onImageSelect?.(file); // 상위에 파일 전달
+      handleImageSelect(file);
     }
     setShowProfileMenu(false);
     setShowEditOptions(false);
@@ -37,9 +46,8 @@ const MyProfile = ({ profileImageUrl, onImageSelect }) => {
   };
 
   const handleDeleteImage = () => {
-    // 이미지 시각적 제거만, 실제 삭제는 저장할 때 수행
     setSelectedImage(null);
-    onImageSelect?.(null); // 상위에 "삭제된 상태" 전달
+    handleImageSelect(null); // 삭제 요청
     setShowProfileMenu(false);
     setShowEditOptions(false);
   };
@@ -58,6 +66,44 @@ const MyProfile = ({ profileImageUrl, onImageSelect }) => {
     };
   }, [showProfileMenu]);
 
+  const handleImageSelect = async (file) => {
+    const MAX_FILE_SIZE = 4 * 1024 * 1024;
+
+    try {
+      if (!file) {
+        const res = await axiosInstance.delete("/member/delete-profile-image");
+        if (res.data?.imageUrl) {
+          setUser((prev) => ({ ...prev, profileImageUrl: res.data.imageUrl }));
+          setSelectedImage(res.data.imageUrl);
+        }
+        alert("프로필 이미지가 삭제되었습니다!");
+        return;
+      }
+
+      if (file.size > MAX_FILE_SIZE) {
+        alert("이미지 크기는 4MB 이하만 가능합니다.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("profileImage", file);
+
+      const res = await axiosInstance.post("/member/set-profile-image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (res.data?.imageUrl) {
+        setUser((prev) => ({ ...prev, profileImageUrl: res.data.imageUrl }));
+        setSelectedImage(res.data.imageUrl);
+      }
+
+      alert("프로필 이미지가 저장되었습니다!");
+    } catch (err) {
+      console.error("프로필 이미지 업로드 실패:", err);
+      alert("프로필 이미지 저장에 실패했습니다.");
+    }
+  };
+
   return (
     <div className="profile-pic-container">
       {selectedImage ? (
@@ -65,7 +111,6 @@ const MyProfile = ({ profileImageUrl, onImageSelect }) => {
       ) : (
         <div className="profile-pic empty">No Image</div>
       )}
-
 
       <Camera className="camera-icon" onClick={toggleMenu} />
 
