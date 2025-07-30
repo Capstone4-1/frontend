@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/AxiosInstance";
 import "./PostDetail.css";
@@ -10,7 +10,8 @@ import { Heart, Check } from "lucide-react";
 const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
-    const [liked, setLiked] = useState(false);
+    const [liked, setLiked] = useState(false); // 좋아요 여부
+    const [likenum, setLikenum] = useState(0); // 좋아요 수
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [replyingTo, setReplyingTo] = useState(null);
@@ -27,10 +28,14 @@ const PostDetail = () => {
         fetchComments();
     }, [postId]);
 
+    // 게시글 상세 정보 불러오기
     const fetchPost = async () => {
         try {
             const res = await axiosInstance.get(`/post/${postId}`);
-            setPost(res.data.dto);
+            const postData = res.data.dto;
+            setPost(postData);
+            setLikenum(postData.likeCount || 0);
+            setLiked(postData.isLike || false);
         } catch (err) {
             console.error("❌ 게시글 상세 불러오기 실패:", err);
         }
@@ -136,7 +141,6 @@ const PostDetail = () => {
     };
 
     const handleReplySubmit = async (parentId) => {
-        // const handleReplySubmit = async () => {
         if (!replyContent.trim()) return;
         setIsSubmitting(true);
         try {
@@ -149,7 +153,6 @@ const PostDetail = () => {
             });
             setReplyContent("");
             setReplyingTo(null);
-            // await fetchReplies(parentId);
             await fetchComments();
         } catch (e) {
             console.error("답글 등록 실패:", e);
@@ -158,6 +161,24 @@ const PostDetail = () => {
             setIsSubmitting(false);
         }
     };
+
+    const handleLikeBtnClick = async () => {
+        try {
+            if (!liked) {
+                const res = await axiosInstance.post(`/post/${postId}/like`);
+                setLiked(true);
+                setLikenum(res.data.currentCount || likenum + 1);
+            } else {
+                const res = await axiosInstance.post(`/post/${postId}/unlike`);
+                console.log("좋아요 취소 성공:", res);
+                setLiked(false);
+                setLikenum(res.data.currentCount);
+            }
+        } catch (err) {
+            console.error("Error while toggling like: ", err);
+            alert("좋아요 처리 중 오류가 발생했습니다.");
+        }
+    }
 
     if (!post)
         return <div className="PostDetail">게시글을 찾을 수 없습니다.</div>;
@@ -169,14 +190,14 @@ const PostDetail = () => {
                 <div className="like-container">
                     <button
                         className={`like-toggle-button${liked ? " liked" : ""}`}
-                        onClick={() => setLiked(!liked)}
+                        onClick={handleLikeBtnClick}
                     >
                         <Heart
                             color={liked ? "#e74c3c" : "#aaa"}
                             fill={liked ? "#e74c3c" : "none"}
                         />
                     </button>
-                    <span>{post.likeCount ?? 0}</span>
+                    <span>{likenum}</span>
                     {post.isAuthor && (
                         <MenuButton
                             onEdit={() => { }}
