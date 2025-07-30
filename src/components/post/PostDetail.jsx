@@ -6,6 +6,7 @@ import CommentBox from "./CommentBox";
 import ProfileTemplate from "../ProfileTemplate";
 import MenuButton from "./MenuButton";
 import { Heart, Check } from "lucide-react";
+import { likePost, unlikePost } from "../../api/posts/like"; // 좋아요 API 함수
 
 const PostDetail = () => {
     const { postId } = useParams();
@@ -87,10 +88,10 @@ const PostDetail = () => {
             prev.map((c) =>
                 c.id === commentId
                     ? {
-                        ...c,
-                        liked: !c.liked,
-                        likes: (c.likes || 0) + (c.liked ? -1 : 1),
-                    }
+                          ...c,
+                          liked: !c.liked,
+                          likes: (c.likes || 0) + (c.liked ? -1 : 1),
+                      }
                     : c
             )
         );
@@ -128,7 +129,9 @@ const PostDetail = () => {
         try {
             await axiosInstance.post(`/post/${postId}/comments`, {
                 content: newComment,
-                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`
+                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${
+                    post.id
+                }`,
             });
             setNewComment("");
             await fetchComments();
@@ -165,20 +168,19 @@ const PostDetail = () => {
     const handleLikeBtnClick = async () => {
         try {
             if (!liked) {
-                const res = await axiosInstance.post(`/post/${postId}/like`);
+                const data = await likePost(postId);
                 setLiked(true);
-                setLikenum(res.data.currentCount || likenum + 1);
+                setLikenum(data.currentCount || likenum + 1);
             } else {
-                const res = await axiosInstance.post(`/post/${postId}/unlike`);
-                console.log("좋아요 취소 성공:", res);
+                const data = await unlikePost(postId);
                 setLiked(false);
-                setLikenum(res.data.currentCount);
+                setLikenum(data.currentCount || likenum - 1);
             }
         } catch (err) {
             console.error("Error while toggling like: ", err);
             alert("좋아요 처리 중 오류가 발생했습니다.");
         }
-    }
+    };
 
     if (!post)
         return <div className="PostDetail">게시글을 찾을 수 없습니다.</div>;
@@ -200,7 +202,7 @@ const PostDetail = () => {
                     <span>{likenum}</span>
                     {post.isAuthor && (
                         <MenuButton
-                            onEdit={() => { }}
+                            onEdit={() => {}}
                             onDelete={handlePostDelete}
                         />
                     )}
