@@ -26,9 +26,7 @@ import LectureCategoryBox from "./components/board-box/LectureCategoryBox.jsx";
 import LecturePostDetail from "./components/post/LecturePostDetail.jsx";
 import TestPage from "./pages/TestPage.jsx";
 import Account from "./components/mypage/account.jsx";
-import MyComments from "./components/mypage/MyComments.jsx";
-import MyPosts from "./components/mypage/MyPosts.jsx";
-import MyInfo from "./components/mypage/MyInfo.jsx";
+import MyActivity from "./components/mypage/MyActivity.jsx";
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAuthChecked, setIsAuthChecked] = useState(false); // 추가
@@ -102,9 +100,7 @@ function App() {
                         }
                     />
                     <Route path="/mypage" element={<MyPageV2 />}>
-                        <Route path="posts" element={<MyPosts />} />
-                        <Route path="comments" element={<MyComments />} />
-                        <Route path="info" element={<MyInfo />} />
+                        <Route path="activity" element={<MyActivity />} />
                         <Route path="account" element={<Account />} />
                     </Route>
                     <Route

@@ -1,5 +1,4 @@
 .Mypage {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
   background-color: #fafafa;
   min-height: 100vh;
@@ -22,13 +21,19 @@
 
 /* 사이드바 */
 .Mypage aside {
+  position: sticky;
+  top: 110px; /* 원하는 고정 위치 */
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
   gap: 30px;
   width: 30%;
+  min-width: 350px;
+  max-width: 500px;
+  /* max-height는 margin 포함하지 않게 padding으로 조절 */
+  max-height: calc(100vh - 100px); /* top 위치만 빼고 margin은 padding으로 대체 */
   margin-top: 30px;
-  margin-bottom: 30px;
-  padding: 0 15px;
+  padding: 0 15px 30px 15px; /* 아래에 padding 추가 */
   box-sizing: border-box;
 }
 

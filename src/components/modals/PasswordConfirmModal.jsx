@@ -1,6 +1,6 @@
 import "./PasswordConfirmModal.css";
 import { useState } from "react";
-import axiosInstance from "../components/utils/AxiosInstance";
+import axiosInstance from "../utils/AxiosInstance";
 
 const PasswordConfirmModal = ({ isOpen, onClose, onConfirm }) => {
   const [password, setPassword] = useState("");
@@ -22,7 +22,9 @@ const PasswordConfirmModal = ({ isOpen, onClose, onConfirm }) => {
         password: password,
       });
 
-      if (response.status === 200 && response.data.message === true) {
+      const result = response.data?.message;
+
+      if (result === true) {
         onConfirm(password);
         setPassword("");
         setErrorMessage("");
@@ -31,7 +33,12 @@ const PasswordConfirmModal = ({ isOpen, onClose, onConfirm }) => {
       }
     } catch (error) {
       console.error("비밀번호 확인 요청 실패:", error);
-      setErrorMessage("비밀번호가 일치하지 않습니다.");
+
+      if (error.response?.data?.message === false) {
+        setErrorMessage("비밀번호가 일치하지 않습니다.");
+      } else {
+        setErrorMessage("서버 오류가 발생했습니다. 다시 시도해주세요.");
+      }
     } finally {
       setIsChecking(false);
     }
@@ -53,13 +60,18 @@ const PasswordConfirmModal = ({ isOpen, onClose, onConfirm }) => {
           placeholder="비밀번호 입력"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleConfirm();
+            }
+          }}
+          disabled={isChecking}
         />
         {errorMessage && <p style={{ color: "red", marginTop: "8px" }}>{errorMessage}</p>}
         <div className="modal-buttons">
-         <button onClick={handleConfirm} disabled={isChecking}>
-  확인
-</button>
-
+          <button onClick={handleConfirm} disabled={isChecking}>
+            확인
+          </button>
           <button onClick={handleClose} disabled={isChecking}>
             취소
           </button>

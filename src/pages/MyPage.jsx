@@ -4,7 +4,7 @@ import "./MyPage.css";
 import { useEffect, useState, useContext } from "react";
 import axiosInstance from "../components/utils/AxiosInstance";
 import { UserContext } from "../components/utils/UserContext";
-import PasswordConfirmModal from "../components/PasswordConfirmModal";
+import PasswordConfirmModal from "../components/modals/PasswordConfirmModal";
 import PasswordEditModal from "../components/PasswordEditModal";
 import EmailEditModal from "../components/EmailEditModal"; // ★ 이메일 모달 import
 import WithdrawConfirmModal from "../components/WithdrawConfirmModal";
