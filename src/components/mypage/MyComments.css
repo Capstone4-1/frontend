@@ -24,7 +24,7 @@
   border-top: 1px solid #ddd;
 }
 
-.comment-item {
+.MyComments .comment-item {
   padding: 12px 0;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
@@ -35,7 +35,7 @@
   user-select: none;
 }
 
-.comment-item:hover {
+.MyComments .comment-item:hover {
   color: #27ae60;
   background-color: #f0f9f5;
 }
