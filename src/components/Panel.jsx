@@ -2,7 +2,7 @@ import "./Panel.css";
 import Favorites from "./Favorites";
 import Friends from "./Friends";
 import { Link } from "react-router-dom";
-import Calendar from "./Calendar";
+import Calendar from "./CalendarPanel";
 import axiosInstance from "./utils/AxiosInstance";
 import { UserContext } from "./utils/UserContext";
 import { useContext, useRef } from "react";

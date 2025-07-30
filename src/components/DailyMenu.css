@@ -1,0 +1,43 @@
+.DailyMenu {
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-buttons button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.tab-buttons button.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.menu-content h2 {
+  margin-bottom: 10px;
+}
+
+.menu-content p {
+  font-size: 16px;
+}
+
+.menu-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.menu-list li {
+  margin-bottom: 6px;
+  font-size: 16px;
+}

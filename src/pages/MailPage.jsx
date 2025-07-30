@@ -11,7 +11,6 @@ const MailPage = () => {
     const [message, setMessage] = useState("");
     const [chatRooms, setChatRooms] = useState([]);
     const [hasMore, setHasMore] = useState(true);
-
     const isFetchingRef = useRef(false);
     const isSendingRef = useRef(false); // ✅ 중복 전송 방지용
     const selectedRoomRef = useRef(null);
@@ -73,9 +72,7 @@ const MailPage = () => {
 
     const handleSend = async () => {
         if (!message.trim() || isSendingRef.current) return;
-
         isSendingRef.current = true;
-
         try {
             const response = await axiosInstance.post(
                 `/mail/send-mail/${selectedRoom.roomId}`,
