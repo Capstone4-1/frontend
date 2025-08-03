@@ -1,3 +1,5 @@
+// 해당 강의 페이지 
+import Header from "../components/Header";
 import { useParams, useNavigate } from "react-router-dom";
 import "./LectureBoardPage.css";
 import { useState, useEffect } from "react";
@@ -125,6 +127,7 @@ const LectureBoardPage = () => {
 
   return (
     <div className="LectureBoardPage">
+      <Header title="강의 게시판" />  {/* ✅ Header 추가 */}
       <div className="lecture-board-container">
         <div className="lecture-main-content">
           <div className="lecture-header">

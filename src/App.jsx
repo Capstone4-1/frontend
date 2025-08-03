@@ -25,9 +25,10 @@ import StudyDashboardPage from "./pages/StudyDashboardPage.jsx";
 import LectureCategoryBox from "./components/board-box/LectureCategoryBox.jsx";
 import LecturePostDetail from "./components/post/LecturePostDetail.jsx";
 import TestPage from "./pages/TestPage.jsx";
+
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isAuthChecked, setIsAuthChecked] = useState(false); // 추가
+    const [isAuthChecked, setIsAuthChecked] = useState(false);
     const location = useLocation();
 
     const isTokenExpired = (token) => {
@@ -50,7 +51,7 @@ function App() {
             localStorage.removeItem("accessToken");
             delete axios.defaults.headers.common["Authorization"];
         }
-        setIsAuthChecked(true); // 인증 체크 완료
+        setIsAuthChecked(true);
     }, []);
 
     const hideFooterRoutes = [
@@ -61,7 +62,6 @@ function App() {
     ];
     const shouldShowFooter = !hideFooterRoutes.includes(location.pathname);
 
-    // 인증 상태 확인 전이면 아무것도 렌더링하지 않음
     if (!isAuthChecked) return null;
 
     return (
@@ -81,14 +81,11 @@ function App() {
                     <Route
                         path="/login"
                         element={
-                            <LoginPage
-                                setIsAuthenticated={setIsAuthenticated}
-                            />
+                            <LoginPage setIsAuthenticated={setIsAuthenticated} />
                         }
                     />
                     <Route path="/login/register" element={<RegisterPage />} />
 
-                    {/* 인증이 필요한 경로들 */}
                     <Route
                         path="/main"
                         element={
@@ -129,7 +126,6 @@ function App() {
                             </PrivateRoute>
                         }
                     />
-
                     <Route
                         path="/write/:boardType"
                         element={
@@ -158,11 +154,14 @@ function App() {
                         path="/test"
                         element={
                             <PrivateRoute isAuthenticated={isAuthenticated}>
-                                <TestPage/>
+                                <TestPage />
                             </PrivateRoute>
                         }
                     />
 
+                    {/* ✅ ✅ ✅ 여기부터가 스터디 대시보드 관련 수정 부분 ✅ ✅ ✅ */}
+
+                    {/* 스터디 대시보드 메인 페이지 */}
                     <Route
                         path="/main/study-dashboard"
                         element={
@@ -170,25 +169,47 @@ function App() {
                                 <StudyDashboardPage />
                             </PrivateRoute>
                         }
-                    >
-                        <Route
-                            path="lectures"
-                            element={<LectureCategoryBox />}
-                        />
-                        <Route
-                            path=":lectureId"
-                            element={<LectureBoardPage />}
-                        />{" "}
-                        {/* ✅ 추가 */}
-                        <Route
-                            path=":lectureId/write"
-                            element={<LectureWritePage />}
-                        />
-                        <Route
-                            path=":lectureId/:postId"
-                            element={<LecturePostDetail />}
-                        />
-                    </Route>
+                    />
+
+                    {/* 강의 목록 페이지 */}
+                    <Route
+                        path="/main/study-dashboard/lectures"
+                        element={
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <LectureCategoryBox />
+                            </PrivateRoute>
+                        }
+                    />
+
+                    {/* 강의 상세 페이지 */}
+                    <Route
+                        path="/main/study-dashboard/:lectureId"
+                        element={
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <LectureBoardPage />
+                            </PrivateRoute>
+                        }
+                    />
+
+                    {/* 강의 글쓰기 페이지 */}
+                    <Route
+                        path="/main/study-dashboard/:lectureId/write"
+                        element={
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <LectureWritePage />
+                            </PrivateRoute>
+                        }
+                    />
+
+                    {/* 강의 게시글 상세 페이지 */}
+                    <Route
+                        path="/main/study-dashboard/:lectureId/:postId"
+                        element={
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <LecturePostDetail />
+                            </PrivateRoute>
+                        }
+                    />
                 </Routes>
             </div>
             {shouldShowFooter && <Footer />}
