@@ -1,4 +1,4 @@
-.header-container {
+.header {
   display: flex;
   border-bottom: 1px solid var(--base-border-color);
   background-color: var(--base-point-color);
@@ -9,7 +9,7 @@
   min-width: 300px;
 }
 
-.header-container .logo_btn {
+.header .logo_btn {
   background-image: url("/icons/logo.svg");
   background-size: cover;
   background-position: center;
@@ -23,7 +23,7 @@
   /* 기본 링크 스타일 제거 */
 }
 
-.header-container .menu-btn{
+.header .menu-btn{
   display: flex;
   margin-left: 15px;
   justify-content: center;
@@ -74,7 +74,7 @@
 }
 
 /* 클릭 시 X 아이콘 파란색 */
-.header-container .menu-btn:hover {
+.header .menu-btn:hover {
   color: var(--point-text-color-blue)
 }
 

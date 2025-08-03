@@ -61,7 +61,7 @@ function Header({ title }) {
   }, []);
 
   return (
-    <div className="header-container">
+    <div className="header">
       <button className="menu-btn" onClick={openSidebar}> {/* ✅ 변경 */}
         <Menu size={30} />
       </button>
