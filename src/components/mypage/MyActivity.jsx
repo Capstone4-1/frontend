@@ -31,9 +31,12 @@ const MyActivity = () => {
     return (
         <div className="MyActivity">
             <h2>나의 활동</h2>
-
             <section ref={commentsRef} tabIndex={-1} className="activity-section">
                 <MyComments />
+            </section>
+
+             <section ref={postsRef} tabIndex={-1} className="activity-section">
+                <MyPosts />
             </section>
 
             {/* 임의 데이터 샘플 섹션들 */}
@@ -52,9 +55,7 @@ const MyActivity = () => {
                 <p>임의의 추가 활동 내용입니다.</p>
             </section>
 
-            <section ref={postsRef} tabIndex={-1} className="activity-section">
-                <MyPosts />
-            </section>
+           
         </div>
     );
 };

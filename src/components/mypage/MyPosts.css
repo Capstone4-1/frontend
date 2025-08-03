@@ -1,41 +1,49 @@
 .MyPosts {
   max-width: 600px;
   margin: 40px auto;
+  padding: 0 20px;
   font-family: 'Noto Sans KR', sans-serif;
   color: #333;
   background-color: #fff;
-  padding: 0 16px;
 }
 
 .MyPosts > h2 {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
-  border-bottom: 2px solid #27ae60;
-  padding-bottom: 8px;
+  border-left: 4px solid #27ae60;
+  padding-left: 12px;
   color: #27ae60;
 }
 
-/* 리스트 스타일 */
+/* 리스트 전체 */
 .MyPosts .posts-list {
-  padding: 0;
   margin: 0;
+  padding: 0;
   list-style: none;
   border-top: 1px solid #ddd;
 }
 
+/* 개별 카드 */
 .MyPosts .post-card {
-  padding: 12px 0;
+  padding: 14px 12px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 500;
   color: #2c3e50;
-  transition: color 0.2s ease, background-color 0.2s ease;
-  user-select: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .MyPosts .post-card:hover {
-  color: #27ae60;
   background-color: #f0f9f5;
+  color: #27ae60;
+}
+
+/* 글이 없을 때 메시지 */
+.MyPosts .no-posts {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-size: 16px;
 }

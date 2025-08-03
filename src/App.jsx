@@ -100,6 +100,8 @@ function App() {
                         }
                     />
                     <Route path="/mypage" element={<MyPageV2 />}>
+                        {/* ✅ Navigate는 Route의 element 속성 안에서만 사용 가능 */}
+                        <Route index element={<Navigate to="activity" replace />} />
                         <Route path="activity" element={<MyActivity />} />
                         <Route path="account" element={<Account />} />
                     </Route>

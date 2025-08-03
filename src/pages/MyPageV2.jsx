@@ -9,7 +9,6 @@ import PasswordConfirmModal from "../components/modals/PasswordConfirmModal";
 const MyPageV2 = () => {
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
-
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
     const [pendingRoute, setPendingRoute] = useState(null);
     const [pendingRouteFocus, setPendingRouteFocus] = useState(null);
@@ -19,7 +18,6 @@ const MyPageV2 = () => {
         return <div className="mypage-loading">유저 정보를 불러오는 중입니다...</div>;
     }
 
-    // 계정 및 보안 메뉴 클릭 시 항상 account 컴포넌트로 가고 내부 섹션 focus 전달
     const handleSecureNavigate = (route, focusSection = null) => {
         if (isPasswordVerified) {
             if (route === "account" && focusSection) {
@@ -49,11 +47,10 @@ const MyPageV2 = () => {
                             <div>
                                 <h3>내 활동</h3>
                                 <ul>
-                                    <li>이용 제한 내역</li>
                                     <li>좋아요 한 게시물</li>
                                     <li onClick={() => navigate("activity", { state: { focusSection: "comments" } })}>작성한 댓글</li>
                                     <li onClick={() => navigate("activity", { state: { focusSection: "posts" } })}>작성한 글</li>
-
+                                    <li>이용 제한 내역</li>
                                 </ul>
                             </div>
 
