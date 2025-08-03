@@ -13,11 +13,11 @@ function Header({ title }) {
   const [notices, setNotices] = useState([]);
   const [newMailCount, setNewMailCount] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
-  const [sidebarOpen, setSidebarOpen] = useState(false); // ✅ 추가
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  const openSidebar = () => setSidebarOpen(true); // ✅ 추가
-  const closeSidebar = () => setSidebarOpen(false); // ✅ 추가
+  const openSidebar = () => setSidebarOpen(true);
+  const closeSidebar = () => setSidebarOpen(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -62,7 +62,7 @@ function Header({ title }) {
 
   return (
     <div className="header">
-      <button className="menu-btn" onClick={openSidebar}> {/* ✅ 변경 */}
+      <button className="menu-btn" onClick={openSidebar}>
         <Menu size={30} />
       </button>
       <Link to="/main" className="logo_btn"></Link>
@@ -79,7 +79,7 @@ function Header({ title }) {
           <LogOut />
         </button>
       </div>
-      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} /> {/* ✅ 변경 */}
+      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
     </div>
   );
 }
