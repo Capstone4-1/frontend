@@ -12,7 +12,7 @@ function Header({ title }) {
   const { user } = useContext(UserContext);
   const [notices, setNotices] = useState([]);
   const [newMailCount, setNewMailCount] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 760);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [sidebarOpen, setSidebarOpen] = useState(false); // ✅ 추가
   const navigate = useNavigate();
 
