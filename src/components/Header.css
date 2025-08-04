@@ -9,7 +9,7 @@
     min-width: 300px;
     height: 64px;
     background-color: var(--base-point-color);
-    border-bottom: 1px solid var(--base-border-color);
+    border-bottom: 1px solid var(--light-border-color);
 }
 
 .header-container {
@@ -25,6 +25,8 @@
     align-items: center;
     height: 100%;
 }
+
+/* 헤더 좌측 */
 
 .header .menu-btn {
     display: flex;
@@ -57,6 +59,125 @@
     gap: 25px;
     margin-left: 48px;
 }
+
+.header .gnb-inner {
+    position: relative;
+    display: flex;
+    gap: 8px;
+}
+
+.header .tooltip-area {
+    position: relative;
+    display: inline-block;
+}
+
+.header .tooltip-label {
+    position: relative;
+    cursor: pointer;
+}
+
+.header .gnb-title {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    color: #44474b;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.header .gnb-title.on::after {
+    position: absolute;
+    right: 0;
+    bottom: -11px;
+    left: 16px;
+    width: calc(100% - 32px);
+    height: 3px;
+    background-color: #121619;
+    z-index: 1;
+    content: "";
+}
+
+.header .tooltip {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 12px 0;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    min-width: 240px;
+}
+
+.header .tooltip-area:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.header .gnb-sub {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.header .submenu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #212529;
+    transition: background 0.2s;
+}
+
+.header .submenu-item:hover {
+    background: #f8f9fa;
+}
+
+.header .submenu-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.header .icon-blue {
+    background-color: #748ffc;
+}
+.header .icon-green {
+    background-color: #51cf66;
+}
+.header .icon-yellow {
+    background-color: #fcc419;
+}
+.header .icon-purple {
+    background-color: #b197fc;
+}
+
+.header .submenu-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.header .submenu-title {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.header .submenu-desc {
+    font-size: 12px;
+    color: #868e96;
+    margin-top: 2px;
+}
+
+/* 헤더 우측 */
 
 .logout-btn {
     display: flex;

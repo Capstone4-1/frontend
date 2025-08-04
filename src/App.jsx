@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import {
-    Route,
-    Routes,
-    Navigate,
-    useLocation,
-} from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import BoardPage from "./pages/BoardPage";
@@ -29,7 +24,7 @@ import Account from "./components/mypage/account.jsx";
 import MyActivity from "./components/mypage/MyActivity.jsx";
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isAuthChecked, setIsAuthChecked] = useState(false); // 추가
+    const [isAuthChecked, setIsAuthChecked] = useState(false);
     const location = useLocation();
 
     const isTokenExpired = (token) => {
@@ -177,7 +172,6 @@ function App() {
                             path=":lectureId"
                             element={<LectureBoardPage />}
                         />{" "}
-                        {/* ✅ 추가 */}
                         <Route
                             path=":lectureId/write"
                             element={<LectureWritePage />}
