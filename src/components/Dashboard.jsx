@@ -4,10 +4,13 @@ import InfoBox from "./InfoBox";
 import LectureRoomCard from "./cards-widget/LectureRoomCard";
 import MyPageCard from "./cards-widget/MyPageCard";
 import QuickLinks from "./QuickLinks";
-import Calendar from "./Calendar";
 import Friends from "./Friends";
-
+import DailyMenu from "./DailyMenu";
+import CalendarPanel from "./CalendarPanel";
+import { useState } from "react";
 const Dashboard = () => {
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
   return (
     <div className="Dashboard">
       <div className="Content-container">
@@ -25,10 +28,10 @@ const Dashboard = () => {
             </section>
           </div>
 
+
+          
           <div className="div-area">
-            <div className="left-half">
-              <Calendar />
-            </div>
+
 
             <div className="left-half">
               <section className="inner-container">
@@ -38,7 +41,7 @@ const Dashboard = () => {
                 <LectureRoomCard />
               </section>
               <section className="inner-container">
-                <Friends/>
+                <Friends />
               </section>
             </div>
 
@@ -49,8 +52,13 @@ const Dashboard = () => {
             </div>
           </div>
 
+          <div className="daily-area">
+            <CalendarPanel date={selectedDate} onChange={setSelectedDate} />
+            <DailyMenu selectedDate={selectedDate} /> 
+          </div>
+
         </div>
-        <aside>
+        {/* <aside>
           <ul>
             <li>
               <div>첫 번째 메뉴sdfㄴㅇㄴㅇㅇㅇㅇㅇㅇㄹㅇㄴsdfsdsdfsd</div>
@@ -61,7 +69,7 @@ const Dashboard = () => {
                 <br /> 메ㄹㅇㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ뉴</div>
             </li>
           </ul>
-        </aside>
+        </aside> */}
 
       </div>
     </div>

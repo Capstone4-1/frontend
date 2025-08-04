@@ -1,0 +1,45 @@
+.MyActivity {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #333;
+  font-family: 'Noto Sans KR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.MyActivity > h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  border-left: 5px solid #4caf50;
+  padding-left: 12px;
+  color: #333;
+}
+
+.activity-section {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+  margin-bottom: 2.5rem;
+  transition: box-shadow 0.3s ease;
+  outline: none;
+}
+
+.activity-section:hover,
+.activity-section:focus {
+  box-shadow: 0 6px 14px rgb(0 0 0 / 0.15);
+  outline: none;
+}
+
+.activity-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #4caf50;
+}
+
+.activity-section p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}

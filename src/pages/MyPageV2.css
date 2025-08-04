@@ -1,0 +1,124 @@
+.Mypage {
+  color: #333;
+  background-color: #fafafa;
+  min-height: 100vh;
+}
+
+/* 메인 컨테이너 레이아웃 유지 */
+.Mypage .out-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.Mypage .container {
+  display: flex;
+  width: 70%;
+  max-width: 2000px;
+  gap: 20px;
+}
+
+/* 사이드바 */
+.Mypage aside {
+  position: sticky;
+  top: 110px; /* 원하는 고정 위치 */
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 30%;
+  min-width: 350px;
+  max-width: 500px;
+  /* max-height는 margin 포함하지 않게 padding으로 조절 */
+  max-height: calc(100vh - 100px); /* top 위치만 빼고 margin은 padding으로 대체 */
+  margin-top: 30px;
+  padding: 0 15px 30px 15px; /* 아래에 padding 추가 */
+  box-sizing: border-box;
+}
+
+/* 프로필 박스 */
+.Mypage .proflie-img-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--base-border-color);
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+}
+
+.Mypage .proflie-img-box > div {
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+/* 메뉴 박스 */
+.Mypage .menu-box {
+  border: 1px solid var(--base-border-color);
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 메뉴 섹션 제목 */
+.Mypage .menu-box h3 {
+  margin-bottom: 12px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #222;
+  border-bottom: 2px solid var(--base-border-color);
+  padding-bottom: 6px;
+}
+
+/* 메뉴 리스트 */
+.Mypage .menu-box ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.Mypage .menu-box ul li {
+  padding: 10px 12px;
+  font-size: 1rem;
+  color: #555;
+  border-bottom: 1px solid #eee;
+  user-select: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* 클릭 가능한 항목 커서, 호버 효과 */
+.Mypage .menu-box ul li:hover {
+  background-color: #f0f8ff;
+  color: #0078d4;
+  cursor: pointer;
+}
+
+.Mypage .menu-box ul li:last-child {
+  border-bottom: none;
+}
+
+/* 클릭 불가 항목은 색상 좀 더 연하게 */
+.Mypage .menu-box ul li:not([onClick]) {
+  color: #999;
+  cursor: default;
+}
+
+/* display-area (메인 컨텐츠 영역) */
+.Mypage .display-area {
+  flex-grow: 1;
+  border: 1px solid var(--base-border-color);
+  border-radius: 10px;
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #fff;
+  min-height: 500px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.07);
+  overflow-y: auto;
+}

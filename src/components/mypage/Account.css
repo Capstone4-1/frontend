@@ -1,0 +1,40 @@
+.Account {
+  padding: 2rem;
+  
+}
+
+.account-nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.account-nav button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.account-nav button:hover {
+  color: #000;
+}
+
+.account-section {
+  margin-bottom: 3rem;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+.account-section {
+  scroll-margin-top: 100px; /* 헤더 안 가리도록 */
+  outline: none;
+}

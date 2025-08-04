@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import axiosInstance from "./AxiosInstance";
 const refreshAccessToken = async () => {
   try {
-    const response = await axios.post("http://localhost:8080/auth/refresh", {
+    const response = await axiosInstance.post("/auth/refresh", {
       refreshToken: localStorage.getItem("refreshToken"),
     });
 

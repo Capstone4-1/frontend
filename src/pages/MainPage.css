@@ -3,6 +3,7 @@
   width: 100%;
   flex-grow: 1;
   position: relative; /* 오버레이 기준 */
+  background-color: var(--background-color);
 }
 
 .MainPage .Panel-Dashboard-Container {

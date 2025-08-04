@@ -1,0 +1,41 @@
+.MyComments {
+  max-width: 600px;
+  margin: 40px auto;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #333;
+  background-color: #fff;
+  padding: 0 16px;
+}
+
+.MyComments > h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #27ae60;
+  padding-bottom: 8px;
+  color: #27ae60;
+}
+
+/* 리스트 스타일 */
+.comments-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border-top: 1px solid #ddd;
+}
+
+.MyComments .comment-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  color: #2c3e50;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  user-select: none;
+}
+
+.MyComments .comment-item:hover {
+  color: #27ae60;
+  background-color: #f0f9f5;
+}

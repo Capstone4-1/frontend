@@ -1,5 +1,6 @@
 .InfoBox {
   width: 100%;
+  background-color: white;
 }
 
 .InfoBox h1 {
@@ -8,7 +9,14 @@
 
 .InfoBox .top {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between; /* 좌우 정렬 */
+  align-items: center;
+}
+
+.InfoBox .left-group {
+  display: flex;
+  flex-direction: row; /* 또는 row */
+  gap: 10px;
 }
 
 .InfoBox .title-area {
@@ -24,17 +32,40 @@
   justify-content: center;
   border-radius: 4px;
   border: 1px solid var(--base-border-color);
-  color: #A9A9A8;
+  color: #a9a9a8;
   width: 20px;
   height: 20px;
   font-size: 1.5rem;
   cursor: pointer;
   background-color: transparent;
 }
-.InfoBox .more-btn:hover{
+.InfoBox .more-btn:hover {
   color: #626262;
   border: 2px solid #626262;
 }
+
+.InfoBox .go-to-board-btn {
+  width: auto;
+  height: auto;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fbfafa;
+  border-radius: 6px;
+  border: 1px solid rgb(253, 253, 253);
+  background-color: #3399ff;
+  transition: all 0.2s ease-in-out;
+
+}
+
+.InfoBox .go-to-board-btn:hover {
+  box-shadow: 0 0 0 2px #5c5c5c;
+  border: 1px solid #5c5c5c; /* 그대로 유지 */
+  color: white;
+  background-color: #5c5c5c;
+}
+
+
 
 .InfoBox .filter-area {
   margin-left: 10px;
@@ -42,7 +73,6 @@
   gap: 5px;
 }
 
-/* 기본 버튼 스타일 */
 .InfoBox .filter-area button {
   outline: none;
   cursor: pointer;
@@ -56,41 +86,44 @@
   transition: all 0.2s ease-in-out;
 }
 
-/* 활성화된 버튼 (진한 회색) */
 .InfoBox .filter-area button.active {
   background-color: #5c5c5c;
   border-color: #5c5c5c;
   color: white;
 }
 
-/* hover: 활성화된 버튼 제외, 마우스 올렸을 때 옅은 회색 배경 */
 .InfoBox .filter-area button:not(.active):hover {
   background-color: #5c5c5c;
   border-color: #5c5c5c;
   color: white;
-
 }
 
 .InfoBox .list-area {
-  min-height: 390px;
-  max-height: 500px;
+  min-height: 460px;
+  max-height: 460px;
   overflow-y: auto;
   border-radius: 24px;
   margin: 14px 0 0;
   border: 1px solid var(--base-border-color);
   box-shadow: var(--board-shadow-color);
   transition: all 0.2s ease-in-out;
+  position: relative;
 }
 
 .InfoBox .list {
   list-style: none;
   padding: 22px 30px;
   margin: 0;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.InfoBox .list.skeleton-list {
+  opacity: 1;
 }
 
 .InfoBox .item {
   padding: 13px 0;
-  position: relative;
   border-bottom: 1px solid #f0f0f0;
   display: flex;
   flex-direction: column;
@@ -98,20 +131,27 @@
   min-height: 56px;
 }
 
+.InfoBox .post-title {
+  display: inline-block;
+  max-width: calc(100% - 80px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+}
+
 .InfoBox .item.skeleton {
-  background: transparent;
-  height: auto;
+  height: 56px;
   padding: 13px 0;
   border-bottom: 1px solid #f0f0f0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
 }
 
 .InfoBox .item.skeleton .skeleton-title,
 .InfoBox .item.skeleton .skeleton-meta {
-  background-size: 200% 100%;
+  background: #e0e0e0;
   border-radius: 4px;
+  animation: pulse 1.2s ease-in-out infinite;
 }
 
 .InfoBox .item.skeleton .skeleton-title {
@@ -124,12 +164,28 @@
   height: 12px;
 }
 
-/* 링크 스타일 제거 */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
 .InfoBox .post-link {
+  display: flex;
+  align-items: center;
   text-decoration: none;
   color: inherit;
 }
 
+.InfoBox .post-link:hover .post-title {
+  text-decoration: underline;
+}
 
 @media (max-width: 1480px) {
   .InfoBox .top {
@@ -140,5 +196,4 @@
   .InfoBox .filter-area {
     margin: 10px 0 0;
   }
-
 }
