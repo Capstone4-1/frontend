@@ -17,19 +17,23 @@
 .myinfo-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
-.myinfo-form label {
+/* 각 항목별 묶음 */
+.myinfo-item {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.myinfo-item label {
   font-size: 15px;
   color: #555;
 }
 
-.myinfo-form input,
-.myinfo-form textarea {
-  margin-top: 6px;
+.myinfo-item input,
+.myinfo-item textarea {
   padding: 10px 14px;
   font-size: 14px;
   border: 1px solid #ccc;
@@ -37,24 +41,31 @@
   transition: border-color 0.2s;
 }
 
-.myinfo-form input:focus,
-.myinfo-form textarea:focus {
+.myinfo-item input:focus,
+.myinfo-item textarea:focus {
   border-color: #4CAF50;
   outline: none;
 }
 
-.save-btn {
+.myinfo-item button {
   align-self: flex-end;
-  padding: 10px 20px;
+  padding: 8px 16px;
   background-color: #4CAF50;
   color: white;
-  font-size: 15px;
+  font-size: 14px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
-.save-btn:hover {
+.myinfo-item button:hover {
   background-color: #388E3C;
+}
+
+
+.error-text {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
 }

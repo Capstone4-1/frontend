@@ -71,29 +71,32 @@ const InfoBox = ({ boardTypes, title }) => {
     <div className="InfoBox">
       <div className="inner">
         <div className="top">
-          <div className="title-area">
-            <h1>{title}</h1>
-            <button className="more-btn" onClick={handleMoreClick}>
-              +
-            </button>
-          </div>
-          <div className="filter-area">
-            <button
-              onClick={() => setSelectedBoard("ALL")}
-              className={selectedBoard === "ALL" ? "active" : ""}
-            >
-              전체
-            </button>
-            {boardTypes.map((type) => (
+          <div className="left-group">
+            <div className="title-area">
+              <h1>{title}</h1>
+            </div>
+            <div className="filter-area">
               <button
-                key={type}
-                onClick={() => setSelectedBoard(type)}
-                className={selectedBoard === type ? "active" : ""}
+                onClick={() => setSelectedBoard("ALL")}
+                className={selectedBoard === "ALL" ? "active" : ""}
               >
-                {getBoardLabel(type)}
+                전체
               </button>
-            ))}
+              {boardTypes.map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setSelectedBoard(type)}
+                  className={selectedBoard === type ? "active" : ""}
+                >
+                  {getBoardLabel(type)}
+                </button>
+              ))}
+            </div>
           </div>
+
+          <button className="go-to-board-btn" onClick={handleMoreClick}>
+            게시판 바로가기
+          </button>
         </div>
 
         <div className="list-area">

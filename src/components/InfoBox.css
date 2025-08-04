@@ -1,6 +1,6 @@
 .InfoBox {
   width: 100%;
-  background-color: white;
+  background-color: transparent
 }
 
 .InfoBox h1 {
@@ -9,7 +9,14 @@
 
 .InfoBox .top {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between; /* 좌우 정렬 */
+  align-items: center;
+}
+
+.InfoBox .left-group {
+  display: flex;
+  flex-direction: row; /* 또는 row */
+  gap: 10px;
 }
 
 .InfoBox .title-area {
@@ -36,6 +43,29 @@
   color: #626262;
   border: 2px solid #626262;
 }
+
+.InfoBox .go-to-board-btn {
+  width: auto;
+  height: auto;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fbfafa;
+  border-radius: 6px;
+  border: 1px solid rgb(253, 253, 253);
+  background-color: #3399ff;
+  transition: all 0.2s ease-in-out;
+
+}
+
+.InfoBox .go-to-board-btn:hover {
+  box-shadow: 0 0 0 2px #5c5c5c;
+  border: 1px solid #5c5c5c; /* 그대로 유지 */
+  color: white;
+  background-color: #5c5c5c;
+}
+
+
 
 .InfoBox .filter-area {
   margin-left: 10px;
@@ -78,6 +108,7 @@
   box-shadow: var(--board-shadow-color);
   transition: all 0.2s ease-in-out;
   position: relative;
+  background-color: white
 }
 
 .InfoBox .list {

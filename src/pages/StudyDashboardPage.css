@@ -1,28 +1,157 @@
-.StudyDashboardPage {
-    height: 100%;
-    width: 100%;
-    flex-grow: 1; 
-    display: flex;
+.DashboardLayout {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 60px);
+}
+
+.TimetableSection {
+  flex: 8;
+  padding: 16px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.SidePanelSection {
+  flex: 2;
+  padding: 16px;
+  border-left: 1px solid #e0e0e0;
+  background-color: #fafafa;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+/* 드롭다운 디자인 */
+.SemesterSelect {
+  width: 100%; /* 👉 부모 영역 꽉 채움 */
+  height: 44px; /* 👉 높이 조금 키움 */
+  font-size: 16px;
+  padding: 0 16px; /* 👉 양옆 여유 공간 */
+  border: 1px solid #bbb;
+  border-radius: 8px; /* 👉 둥글게 버튼 느낌 */
+  background: linear-gradient(to bottom, #f8f8f8 0%, #dcdcdc 100%);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 9L2 3h8L6 9z' fill='%23333'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 12px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+  margin-bottom: 16px; 
+}
+
+/* 학점 정보 박스 */
+.CreditInfoBox {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #fff; /* 👉 흰 배경으로 깔끔하게 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px; /* 👉 제목과 학점 간격 */
+}
+
+.CreditInfoBox .Title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.CreditInfoBox .SubInfo {
+  font-size: 13px;
+  color: #888;
+  display: flex;
+  gap: 8px;
+}
+
+.CreditInfoBox .Credit {
+  font-weight: bold;
+}
+
+.CreditInfoBox .Updated {
+  font-size: 12px;
+  color: #aaa;
+}
+
+@media (max-width: 760px) {
+  .DashboardLayout {
     flex-direction: column;
-}
+    height: auto; /* 고정값 해제 */
+  }
 
-.StudyDashboardPage .Panel-Dashboard-Container {
-    flex-grow: 1;
-    display: flex;
-}
+  .TimetableSection {
+    flex: none;
+    width: 100%;
+    padding: 8px;
+    height: auto;
+    overflow-x: hidden;  /* 좌우 스크롤 방지 */
+  }
 
-.StudyDashboardPage .Panel-container {
-    width: 280px;
-    min-width: 10px;
-    border-right: 1px solid var(--base-border-color);
-    z-index: 10;
+  .timetable {
+    width: 100%;  /* 테이블 전체 폭 맞춤 */
+    table-layout: fixed;  /* 셀 크기 균등 배분 */
+    border-collapse: collapse;
+  }
 
-}
+  .timetable th,
+  .timetable td {
+    word-break: break-word;
+    white-space: normal;
+    padding: 6px 4px;
+    font-size: 12px;
+  }
 
-.StudyDashboardPage .Dashboard-container {
-    flex-grow: 1;
-    width: 300px;
-    min-width: 10px;
-    margin-bottom: 400px;
-    padding: 30px;
+  .timetable th:first-child,
+  .timetable td:first-child,
+  .timetable th:last-child,
+  .timetable td:last-child {
+    width: 10%; /* 시간 표시 셀 */
+  }
+
+  .timetable th:not(:first-child):not(:last-child),
+  .timetable td:not(:first-child):not(:last-child) {
+    width: calc(80% / 5); /* 요일 5등분 */
+  }
+
+  .block-content .lecture-title {
+    font-size: 12px;
+  }
+
+  .block-content .lecture-detail {
+    font-size: 11px;
+  }
+
+  .SidePanelSection {
+    flex: none;
+    width: 100%;
+    padding: 8px;
+    border-left: none;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .SemesterSelect {
+    height: 40px;
+    font-size: 14px;
+    padding: 0 12px;
+    background-position: right 12px center;
+    background-size: 10px;
+  }
+
+  .CreditInfoBox {
+    padding: 12px;
+  }
+
+  .CreditInfoBox .Title {
+    font-size: 16px;
+  }
+
+  .CreditInfoBox .SubInfo {
+    font-size: 12px;
+  }
+
+  .interactive-item:hover {
+    transform: scale(1.02);
+  }
 }

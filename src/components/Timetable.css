@@ -1,82 +1,87 @@
 .timetable-wrapper {
-  padding: 20px;
-  width: 100%;          
-  max-width: none;      
-  margin: 0;             
-  box-sizing: border-box; 
-}
-
-
-.timetable {
+  padding: 0 20px; /* 좌우 여백 유지 */
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  overflow: hidden;
-}
-
-.timetable th,
-.timetable td {
-  border: 0.5px solid #ddd;
-  text-align: center;
-  height: 48px;
-  padding: 10px;
-  font-size: 14px;
-}
-
-.timetable thead th:first-child,
-.timetable thead th:last-child,
-.timetable tbody tr:last-child td:first-child,
-.timetable tbody tr:last-child td:last-child {
-  border-radius: 0;
-}
-
-.timetable th {
-  background-color: #f2f4f6;
-  font-weight: 500;
-  color: #333;
-}
-
-.time-cell {
-  background-color: #f2f4f6;
-  font-weight: 500;
-  color: #555;
-  width: 30px; 
-}
-
-.empty-cell {
-  background-color: #ffffff;
-  color: #333;
-}
-
-.timetable-wrapper {
+  box-sizing: border-box;
   overflow-x: auto;
-  padding: 16px;
 }
 
+/* 테이블 전체 */
 .timetable {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
   text-align: center;
-  table-layout: fixed;
+  background-color: #fff;
+  border: 1px solid #ddd;
 }
 
-.timetable th,
-.timetable td {
+/* 테이블 헤더 (요일) */
+.timetable th {
+  background-color: #f7f7f7;
+  font-weight: 500;
+  color: #666;
   border: 1px solid #ccc;
   padding: 8px;
+  font-size: 13px;
+  min-width: 100px; /* 👉 최소 폭은 유지하되, 자동으로 늘어나게 */
 }
 
+/* 시간 셀 (1교시, 2교시 등) */
 .time-cell {
-  font-weight: bold;
-  background-color: #f8f8f8;
-  width: 60px;
+  background-color: #f7f7f7;
+  width: 40px;  /* 👉 더 좁게 */
+  border: 1px solid #ccc;
+  color: #666;
+  text-align: center;
+  font-size: 12px;
 }
 
+/* 기본 셀 디자인 */
 .timetable-cell {
-  height: 40px;
-  white-space: nowrap;
+  height: 50px;  /* 👉 세로 폭도 살짝 줄임 */
+  border: 1px solid #ccc;
+  padding: 2px;
+  vertical-align: middle;
+  position: relative;
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+/* 강의가 있는 셀 (활성화 상태) */
+.timetable-cell.active {
+  color: #333;
+  font-weight: normal;
+  white-space: normal;
+  text-overflow: initial;
+}
+
+/* 블록 내부 내용 */
+.block-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  word-break: keep-all;
+  font-size: 11px;
+  line-height: 1.2;
+  padding: 1px;
+  box-sizing: border-box;
+}
+
+/* 과목명 */
+.lecture-title {
+  font-weight: bold;
+}
+
+/* 교수명 + 강의실 */
+.lecture-detail {
+  font-size: 11px;
+  color: #555;
+}
+
+/* 빈 셀 */
+.empty-cell {
+  background-color: #ffffff;
+  color: #333;
 }

@@ -47,7 +47,7 @@ function App() {
             localStorage.removeItem("accessToken");
             delete axios.defaults.headers.common["Authorization"];
         }
-        setIsAuthChecked(true); // 인증 체크 완료
+        setIsAuthChecked(true);
     }, []);
 
     const hideFooterRoutes = [
@@ -58,7 +58,6 @@ function App() {
     ];
     const shouldShowFooter = !hideFooterRoutes.includes(location.pathname);
 
-    // 인증 상태 확인 전이면 아무것도 렌더링하지 않음
     if (!isAuthChecked) return null;
 
     return (
@@ -78,14 +77,11 @@ function App() {
                     <Route
                         path="/login"
                         element={
-                            <LoginPage
-                                setIsAuthenticated={setIsAuthenticated}
-                            />
+                            <LoginPage setIsAuthenticated={setIsAuthenticated} />
                         }
                     />
                     <Route path="/login/register" element={<RegisterPage />} />
 
-                    {/* 인증이 필요한 경로들 */}
                     <Route
                         path="/main"
                         element={
@@ -95,6 +91,8 @@ function App() {
                         }
                     />
                     <Route path="/mypage" element={<MyPageV2 />}>
+                        {/* ✅ Navigate는 Route의 element 속성 안에서만 사용 가능 */}
+                        <Route index element={<Navigate to="activity" replace />} />
                         <Route path="activity" element={<MyActivity />} />
                         <Route path="account" element={<Account />} />
                     </Route>
@@ -122,7 +120,6 @@ function App() {
                             </PrivateRoute>
                         }
                     />
-
                     <Route
                         path="/write/:boardType"
                         element={
@@ -156,6 +153,9 @@ function App() {
                         }
                     />
 
+                    {/* ✅ ✅ ✅ 여기부터가 스터디 대시보드 관련 수정 부분 ✅ ✅ ✅ */}
+
+                    {/* 스터디 대시보드 메인 페이지 */}
                     <Route
                         path="/main/study-dashboard"
                         element={
@@ -181,6 +181,7 @@ function App() {
                             element={<LecturePostDetail />}
                         />
                     </Route>
+
                 </Routes>
             </div>
             {shouldShowFooter && <Footer />}

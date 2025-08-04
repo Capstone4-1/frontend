@@ -208,10 +208,8 @@
   cursor: pointer;
   font-size: 13px;
   align-self: center;
-  transition: background 0.2s ease-in-out;
 }
 
-/* 마우스 오버 효과=========*/
 .interactive-item {
   transition: transform 0.15s ease, font-size 0.15s ease;
   cursor: pointer;
