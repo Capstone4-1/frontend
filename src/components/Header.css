@@ -1,81 +1,94 @@
 .header {
-  display: flex;
-  border-bottom: 1px solid var(--base-border-color);
-  background-color: var(--base-point-color);
-  align-items: center;
-  align-content: center;
-  height: 60px;
-  width: 100%;
-  min-width: 300px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 300px;
+    height: 64px;
+    background-color: var(--base-point-color);
+    border-bottom: 1px solid var(--base-border-color);
 }
 
-.header .logo_btn {
-  background-image: url("/icons/logo.svg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  cursor: pointer;
-  min-height: 40px;
-  min-width: 90px;
-  margin-left: 15px;
-  text-decoration: none;
-  /* 기본 링크 스타일 제거 */
+.header-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 1280px;
 }
 
-.header .menu-btn{
-  display: flex;
-  margin-left: 15px;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+.header-inner {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
+.header .menu-btn {
+    display: flex;
+    margin-right: 16px;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.header .menu-btn:hover {
+    color: var(--point-text-color-blue);
+}
+
+.header .logo-btn {
+    flex: none;
+    display: flex;
+    align-items: center;
+    width: 70px;
+    height: 100%;
+}
+
+.header .logo-btn img {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.header .gnb {
+    display: flex;
+    gap: 25px;
+    margin-left: 48px;
+}
 
 .logout-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  width: 20px;
-  height: 20px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 13px
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
     /* 폰트 크기 조정 */
 }
 
-
-
-
 .logout-btn:hover {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
-
 .header-space {
-  flex-grow: 1;
-  height: 100%;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  margin-right: 25px;
-  gap: 60px;
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-right: 25px;
+    gap: 60px;
 }
 
 .util-box {
-  display: flex;
-  justify-content: end;
-  align-content: center;
-  gap: 20px;
+    display: flex;
+    justify-content: end;
+    align-content: center;
+    gap: 20px;
 }
-
-/* 클릭 시 X 아이콘 파란색 */
-.header .menu-btn:hover {
-  color: var(--point-text-color-blue)
-}
-
-
