@@ -272,7 +272,7 @@ const PostDetail = () => {
 
             <div className="comment-header-wrap">
                 <span className="comment-header">
-                    💬 댓글 {comments.length}
+                    💬 댓글 {comments.length}개
                 </span>
                 <div className="sort-controls">
                     <button
