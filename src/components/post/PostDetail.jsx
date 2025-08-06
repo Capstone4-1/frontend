@@ -392,6 +392,7 @@ const PostDetail = () => {
                                                     handleReplySubmit(c.id)
                                                 }
                                             />
+                                            <div className="reply-divider"></div>
                                         </div>
                                     ))}
                             </CommentBox>

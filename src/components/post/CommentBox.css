@@ -3,7 +3,6 @@
     gap: 12px;
     width: 100%;
     padding: 12px 0;
-    margin-bottom: 16px;
 }
 
 .my-comment {
@@ -118,4 +117,11 @@
 .CommentBox .chevron-icon {
     margin-left: 6px;
     margin-right: -6px;
+}
+
+
+.reply-divider {
+    height: 1px;
+    background-color: #ececec;
+    margin-right: 15px;
 }

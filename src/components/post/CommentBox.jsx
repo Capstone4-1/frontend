@@ -1,6 +1,7 @@
+import "./CommentBox.css";
+
 import ProfileTemplate from "../ProfileTemplate";
 import axiosInstance from "../utils/AxiosInstance";
-import "./CommentBox.css";
 import MenuButton from "./MenuButton";
 axiosInstance;
 import { ChevronDown, ChevronUp } from "lucide-react";
