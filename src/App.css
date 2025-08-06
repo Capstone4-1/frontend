@@ -1,5 +1,5 @@
 html {
-    font-size: 16px; /* 기본 폰트 사이즈 */
+    font-size: 100%;
 }
 
 :root {
@@ -22,7 +22,7 @@ html {
     --medium-screen-gap: 15px;
     --small-screen-gap: 8px;
 
-    /* 폰트 사이즈 */
+    /* 폰트 사이즈 - 모바일 */
     --font-size-2xs: 0.75rem; /* 12px */
     --font-size-xs: 0.813rem; /* 13px */
     --font-size-sm: 0.875rem; /* 14px */
@@ -71,13 +71,4 @@ html {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-}
-
-.footer {
-    width: 100%;
-    background-color: var(--base-blue-color);
-    max-height: 2em;
-    min-height: 5em;
-    text-align: center;
-    align-content: center;
 }
