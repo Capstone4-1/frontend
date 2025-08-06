@@ -270,7 +270,7 @@ const PostDetail = () => {
                 목록으로
             </button>
 
-            <div className="comment-header-line">
+            <div className="comment-header-wrap">
                 <span className="comment-header">
                     💬 댓글 {comments.length}
                 </span>
