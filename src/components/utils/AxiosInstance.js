@@ -1,46 +1,50 @@
+// src/api/AxiosInstance.js
 import axios from "axios";
 import refreshAccessToken from "./refreshAccessToken";
 
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL + '/api',
-    headers: {
-        "Content-Type": "application/json",
-    },
-        withCredentials: true
+  baseURL: import.meta.env.VITE_API_BASE_URL + "/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
 });
 
+// 요청 시 accessToken 추가
 axiosInstance.interceptors.request.use((config) => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
+// 응답 인터셉터 (토큰 만료 처리)
 axiosInstance.interceptors.response.use(
-    (response) => {
-        console.log(`응답 수신:👌${response.data.message}`, response.data);
-        return response;
-    },
-    async (error) => {
-        if (error.response?.status === 401 && error.response?.data?.error === "TOKEN_EXPIRED") {
-            try {
-                console.log("액세스 토큰 만료, 리프레시 시도");
-                await refreshAccessToken(); 
-                // 원래 요청 재시도
-                error.config.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`;
-                return axiosInstance.request(error.config);
-            } catch (refreshError) {
-                console.error("리프레시 토큰 만료 또는 실패", refreshError);
-                window.location.href = "/login";
-                return Promise.reject(refreshError); // 에러를 상위로 던져서 호출한 곳에서 처리하도록 합니다.
-            }
-        }
-        return Promise.reject(error);
+  (response) => response, // 정상 응답 그대로
+  async (error) => {
+    const originalRequest = error.config;
+
+    // 액세스 토큰 만료 에러인지 확인
+    const isExpired =
+      error.response?.status === 401 &&
+      error.response?.data?.error === "TOKEN_EXPIRED";
+
+    // 중복 재시도 방지 (_retry 플래그)
+    if (isExpired && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const newToken = await refreshAccessToken();
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        return axiosInstance(originalRequest); // 🔁 재요청
+      } catch (refreshError) {
+        // refreshAccessToken에서 처리됨
+        return Promise.reject(refreshError);
+      }
     }
+
+    return Promise.reject(error);
+  }
 );
 
 export default axiosInstance;
-
-
-

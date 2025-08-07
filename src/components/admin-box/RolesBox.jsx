@@ -94,7 +94,9 @@ const RolesBox = () => {
             </option>
           ))}
         </select>
-        <button type="submit">검색</button>
+        <button type="submit" className="primary-btn">
+          검색
+        </button>
       </form>
 
       <div className="role-control">
@@ -134,8 +136,18 @@ const RolesBox = () => {
                 <td>{u.email}</td>
                 <td>{u.roles?.join(", ")}</td>
                 <td>
-                  <button onClick={() => handleGrantRole(u.id)}>부여</button>
-                  <button onClick={() => handleRevokeRole(u.id)}>회수</button>
+                  <button
+                    className="btn grant-btn"
+                    onClick={() => handleGrantRole(u.id)}
+                  >
+                    부여
+                  </button>
+                  <button
+                    className="btn revoke-btn"
+                    onClick={() => handleRevokeRole(u.id)}
+                  >
+                    회수
+                  </button>
                 </td>
               </tr>
             ))}
@@ -143,7 +155,9 @@ const RolesBox = () => {
         </table>
       )}
 
-      {searched && users.length === 0 && <p>검색 결과 없음</p>}
+      {searched && users.length === 0 && (
+        <p className="no-result">검색 결과 없음</p>
+      )}
     </div>
   );
 };
