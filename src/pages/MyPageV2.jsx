@@ -15,7 +15,11 @@ const MyPageV2 = () => {
     const [isPasswordVerified, setIsPasswordVerified] = useState(false);
 
     if (!user) {
-        return <div className="mypage-loading">유저 정보를 불러오는 중입니다...</div>;
+        return (
+            <div className="mypage-loading">
+                유저 정보를 불러오는 중입니다...
+            </div>
+        );
     }
 
     const handleSecureNavigate = (route, focusSection = null) => {
@@ -34,7 +38,7 @@ const MyPageV2 = () => {
 
     return (
         <div className="Mypage">
-            <Header title="Mypage" />
+            <Header />
             <div className="out-layout">
                 <div className="container">
                     <aside>
@@ -48,8 +52,28 @@ const MyPageV2 = () => {
                                 <h3>내 활동</h3>
                                 <ul>
                                     <li>좋아요 한 게시물</li>
-                                    <li onClick={() => navigate("activity", { state: { focusSection: "comments" } })}>작성한 댓글</li>
-                                    <li onClick={() => navigate("activity", { state: { focusSection: "posts" } })}>작성한 글</li>
+                                    <li
+                                        onClick={() =>
+                                            navigate("activity", {
+                                                state: {
+                                                    focusSection: "comments",
+                                                },
+                                            })
+                                        }
+                                    >
+                                        작성한 댓글
+                                    </li>
+                                    <li
+                                        onClick={() =>
+                                            navigate("activity", {
+                                                state: {
+                                                    focusSection: "posts",
+                                                },
+                                            })
+                                        }
+                                    >
+                                        작성한 글
+                                    </li>
                                     <li>이용 제한 내역</li>
                                 </ul>
                             </div>
@@ -58,10 +82,28 @@ const MyPageV2 = () => {
                                 <h3>계정 및 보안</h3>
                                 <ul>
                                     {/* 개인정보 수정 클릭 시 account 컴포넌트로 가면서 focus info */}
-                                    <li onClick={() => handleSecureNavigate("account", "info")}>개인 정보 수정</li>
+                                    <li
+                                        onClick={() =>
+                                            handleSecureNavigate(
+                                                "account",
+                                                "info"
+                                            )
+                                        }
+                                    >
+                                        개인 정보 수정
+                                    </li>
                                     <li>커뮤니티 이용규칙</li>
                                     {/* 계정 클릭 시 account 컴포넌트로 가면서 focus security */}
-                                    <li onClick={() => handleSecureNavigate("account", "security")}>계정</li>
+                                    <li
+                                        onClick={() =>
+                                            handleSecureNavigate(
+                                                "account",
+                                                "security"
+                                            )
+                                        }
+                                    >
+                                        계정
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -83,8 +125,13 @@ const MyPageV2 = () => {
                         setIsPasswordModalOpen(false);
                         setIsPasswordVerified(true);
                         if (pendingRoute) {
-                            if (pendingRoute === "account" && pendingRouteFocus) {
-                                navigate(pendingRoute, { state: { focusSection: pendingRouteFocus } });
+                            if (
+                                pendingRoute === "account" &&
+                                pendingRouteFocus
+                            ) {
+                                navigate(pendingRoute, {
+                                    state: { focusSection: pendingRouteFocus },
+                                });
                             } else {
                                 navigate(pendingRoute);
                             }

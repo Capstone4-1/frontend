@@ -18,7 +18,7 @@ import {
     FcPaid,
 } from "react-icons/fc";
 
-function Header({ title }) {
+function Header() {
     const { user } = useContext(UserContext);
     const [notices, setNotices] = useState([]);
     const [newMailCount, setNewMailCount] = useState(0);
@@ -304,7 +304,6 @@ function Header({ title }) {
                             </div>
                         </div>
                     </div>
-                    {/* <h2 style={{ marginLeft: "10px" }}>{title}</h2> */}
                 </div>
                 <div className="header-inner">
                     <div className="header-space">

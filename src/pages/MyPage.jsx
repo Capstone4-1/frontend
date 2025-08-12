@@ -14,12 +14,13 @@ const MyPage = () => {
     const [nickname, setNickname] = useState("");
     const [nicknameError, setNicknameError] = useState("");
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-    const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
+    const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] =
+        useState(false);
     const [isEmailModalOpen, setIsEmailModalOpen] = useState(false); // ★
-    const [isConfirmingEmailChange, setIsConfirmingEmailChange] = useState(false);
+    const [isConfirmingEmailChange, setIsConfirmingEmailChange] =
+        useState(false);
     const { user, setUser } = useContext(UserContext);
     const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
-
 
     useEffect(() => {
         if (user) {
@@ -50,8 +51,13 @@ const MyPage = () => {
         const MAX_FILE_SIZE = 4 * 1024 * 1024;
         try {
             if (!file) {
-                const res = await axiosInstance.delete("/member/delete-profile-image");
-                setUser((prev) => ({ ...prev, profileImageUrl: res.data.imageUrl }));
+                const res = await axiosInstance.delete(
+                    "/member/delete-profile-image"
+                );
+                setUser((prev) => ({
+                    ...prev,
+                    profileImageUrl: res.data.imageUrl,
+                }));
                 alert("프로필 이미지가 삭제되었습니다!");
                 return;
             }
@@ -61,10 +67,17 @@ const MyPage = () => {
             }
             const formData = new FormData();
             formData.append("profileImage", file);
-            const res = await axiosInstance.post("/member/set-profile-image", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-            setUser((prev) => ({ ...prev, profileImageUrl: res.data.imageUrl }));
+            const res = await axiosInstance.post(
+                "/member/set-profile-image",
+                formData,
+                {
+                    headers: { "Content-Type": "multipart/form-data" },
+                }
+            );
+            setUser((prev) => ({
+                ...prev,
+                profileImageUrl: res.data.imageUrl,
+            }));
             alert("프로필 이미지가 저장되었습니다!");
         } catch (err) {
             console.error("프로필 이미지 업로드 실패:", err);
@@ -76,11 +89,14 @@ const MyPage = () => {
 
     return (
         <div className="MyPage">
-            <Header title="Mypage" />
+            <Header />
             <div className="page-container">
                 <aside className="profile-section">
                     <div className="proflie-img-box">
-                        <MyProfile profileImageUrl={user.profileImageUrl} onImageSelect={handleImageSelect} />
+                        <MyProfile
+                            profileImageUrl={user.profileImageUrl}
+                            onImageSelect={handleImageSelect}
+                        />
                     </div>
                     <div className="profile-info">
                         <label>닉네임: {nickname} </label>
@@ -97,33 +113,59 @@ const MyPage = () => {
                             }}
                         />
                         {nicknameError && (
-                            <small style={{ color: "red", marginTop: "4px", display: "block" }}>
+                            <small
+                                style={{
+                                    color: "red",
+                                    marginTop: "4px",
+                                    display: "block",
+                                }}
+                            >
                                 {nicknameError}
                             </small>
                         )}
-                        <button className="save-btn" onClick={async () => {
-                            const trimmed = nickname.trim();
-                            if (!isValidNickname(trimmed)) {
-                                setNicknameError("닉네임은 10자 이하, 공백/특수문자 불가입니다.");
-                                setNickname(user.nickname || "");
-                                return;
-                            }
-                            try {
-                                const res = await axiosInstance.post("/member/set-nickname", { nickname: trimmed });
-                                if (res.status === 200) {
-                                    setUser((prev) => ({ ...prev, nickname: trimmed }));
-                                    alert("닉네임이 저장되었습니다!");
+                        <button
+                            className="save-btn"
+                            onClick={async () => {
+                                const trimmed = nickname.trim();
+                                if (!isValidNickname(trimmed)) {
+                                    setNicknameError(
+                                        "닉네임은 10자 이하, 공백/특수문자 불가입니다."
+                                    );
+                                    setNickname(user.nickname || "");
+                                    return;
                                 }
-                            } catch (error) {
-                                setNickname(user.nickname || "");
-                                if (error.response?.status === 409) {
-                                    setNicknameError("이미 사용 중인 닉네임입니다.");
-                                } else {
-                                    console.error("닉네임 저장 실패:", error);
-                                    setNicknameError("닉네임 저장에 실패했습니다.");
+                                try {
+                                    const res = await axiosInstance.post(
+                                        "/member/set-nickname",
+                                        { nickname: trimmed }
+                                    );
+                                    if (res.status === 200) {
+                                        setUser((prev) => ({
+                                            ...prev,
+                                            nickname: trimmed,
+                                        }));
+                                        alert("닉네임이 저장되었습니다!");
+                                    }
+                                } catch (error) {
+                                    setNickname(user.nickname || "");
+                                    if (error.response?.status === 409) {
+                                        setNicknameError(
+                                            "이미 사용 중인 닉네임입니다."
+                                        );
+                                    } else {
+                                        console.error(
+                                            "닉네임 저장 실패:",
+                                            error
+                                        );
+                                        setNicknameError(
+                                            "닉네임 저장에 실패했습니다."
+                                        );
+                                    }
                                 }
-                            }
-                        }}>저장</button>
+                            }}
+                        >
+                            저장
+                        </button>
                         <br />
                         <label>자기소개: </label>
                         <textarea
@@ -132,8 +174,12 @@ const MyPage = () => {
                             maxLength={200}
                             onChange={(e) => setIntro(e.target.value)}
                         />
-                        <small style={{ color: "gray" }}>{intro.length}/200자</small>
-                        <button className="save-btn" onClick={handleSave}>저장</button>
+                        <small style={{ color: "gray" }}>
+                            {intro.length}/200자
+                        </small>
+                        <button className="save-btn" onClick={handleSave}>
+                            저장
+                        </button>
                     </div>
                 </aside>
 
@@ -141,9 +187,14 @@ const MyPage = () => {
                     <div className="section-card">
                         <h3>계정</h3>
                         <ul>
-                            <li>학번 <span>{user.username}</span></li>
+                            <li>
+                                학번 <span>{user.username}</span>
+                            </li>
                             <li>졸업생 전환</li>
-                            <li className="interactive-item" onClick={() => setIsPasswordModalOpen(true)}>
+                            <li
+                                className="interactive-item"
+                                onClick={() => setIsPasswordModalOpen(true)}
+                            >
                                 비밀번호 변경
                             </li>
                             <li

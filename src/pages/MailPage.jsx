@@ -50,9 +50,12 @@ const MailPage = () => {
 
         try {
             const params = beforeId ? { beforeId, size: 20 } : { size: 20 };
-            const response = await axiosInstance.get(`/mail/messages/${roomId}`, {
-                params,
-            });
+            const response = await axiosInstance.get(
+                `/mail/messages/${roomId}`,
+                {
+                    params,
+                }
+            );
 
             if (response.status === 200 && response.data.messages) {
                 const ordered = response.data.messages.reverse();
@@ -108,7 +111,7 @@ const MailPage = () => {
 
     return (
         <div className="MailPage">
-            <Header title="Chat-mail" />
+            <Header />
             <div className="layout">
                 <aside className="mail-side">
                     <MailSide

@@ -7,11 +7,11 @@ import { getBoardLabel } from "../components/utils/boardUtils";
 
 import "./WritePage.css";
 import {
-  FileImage,
-  Paperclip,
-  Link as LinkIcon,
-  AArrowUp,
-  AArrowDown,
+    FileImage,
+    Paperclip,
+    Link as LinkIcon,
+    AArrowUp,
+    AArrowDown,
 } from "lucide-react";
 
 const WritePage = () => {
@@ -58,47 +58,47 @@ const WritePage = () => {
     }
   }, [isEditMode, postId, selectedBoard]);
 
-  const applyStyle = (command) => {
-    document.execCommand(command, false, null);
-    editorRef.current.focus();
-  };
+    const applyStyle = (command) => {
+        document.execCommand(command, false, null);
+        editorRef.current.focus();
+    };
 
-  const insertHTML = (html) => {
-    editorRef.current.focus();
-    document.execCommand("insertHTML", false, html);
-  };
+    const insertHTML = (html) => {
+        editorRef.current.focus();
+        document.execCommand("insertHTML", false, html);
+    };
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-    try {
-      const res = await axiosInstance.get("/aws/S3/presign", {
-        params: { filename: file.name, contentType: file.type },
-      });
-      const { uploadUrl, fileUrl } = res.data;
+        try {
+            const res = await axiosInstance.get("/aws/S3/presign", {
+                params: { filename: file.name, contentType: file.type },
+            });
+            const { uploadUrl, fileUrl } = res.data;
 
-      await axios.put(uploadUrl, file, {
-        headers: {
-          "Content-Type": file.type,
-          Authorization: undefined,
-        },
-      });
+            await axios.put(uploadUrl, file, {
+                headers: {
+                    "Content-Type": file.type,
+                    Authorization: undefined,
+                },
+            });
 
-      const imgTag = `<img src="${fileUrl}" alt="${file.name}" style="max-width: 500px; width: 100%; height: auto; margin: 8px 0;" />`;
-      insertHTML(imgTag);
-    } catch (err) {
-      console.error("❌ 이미지 업로드 실패:", err);
-      alert("이미지 업로드 실패: 콘솔 로그를 확인하세요.");
-    }
-  };
+            const imgTag = `<img src="${fileUrl}" alt="${file.name}" style="max-width: 500px; width: 100%; height: auto; margin: 8px 0;" />`;
+            insertHTML(imgTag);
+        } catch (err) {
+            console.error("❌ 이미지 업로드 실패:", err);
+            alert("이미지 업로드 실패: 콘솔 로그를 확인하세요.");
+        }
+    };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const fileTag = `<a href="#" style="color: #3498db;">📎 ${file.name}</a>`;
-    insertHTML(fileTag);
-  };
+    const handleFileUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const fileTag = `<a href="#" style="color: #3498db;">📎 ${file.name}</a>`;
+        insertHTML(fileTag);
+    };
 
   const handleSubmit = async () => {
     const content = editorRef.current.innerHTML.trim();
@@ -107,10 +107,10 @@ const WritePage = () => {
       return;
     }
 
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = content;
-    const firstImg = tempDiv.querySelector("img");
-    const imageUrls = firstImg ? firstImg.src : null;
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = content;
+        const firstImg = tempDiv.querySelector("img");
+        const imageUrls = firstImg ? firstImg.src : null;
 
     try {
       if (isEditMode) {
@@ -174,34 +174,34 @@ const WritePage = () => {
     selection.addRange(newRange);
   };
 
-  const increaseFontSize = () => changeFontSize(1);
-  const decreaseFontSize = () => changeFontSize(-1);
+    const increaseFontSize = () => changeFontSize(1);
+    const decreaseFontSize = () => changeFontSize(-1);
 
-  const applyLink = () => {
-    const selection = window.getSelection();
-    if (!selection.rangeCount || selection.isCollapsed) {
-      alert("먼저 링크로 만들 텍스트를 드래그하세요.");
-      return;
-    }
-    const url = prompt("링크 주소를 입력하세요 (https:// 포함)");
-    if (!url || !/^https?:\/\//.test(url)) {
-      alert("올바른 링크 형식을 입력해 주세요 (https://...)");
-      return;
-    }
-    const range = selection.getRangeAt(0);
-    const link = document.createElement("a");
-    link.href = url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = selection.toString();
-    range.deleteContents();
-    range.insertNode(link);
-    editorRef.current.focus();
-  };
+    const applyLink = () => {
+        const selection = window.getSelection();
+        if (!selection.rangeCount || selection.isCollapsed) {
+            alert("먼저 링크로 만들 텍스트를 드래그하세요.");
+            return;
+        }
+        const url = prompt("링크 주소를 입력하세요 (https:// 포함)");
+        if (!url || !/^https?:\/\//.test(url)) {
+            alert("올바른 링크 형식을 입력해 주세요 (https://...)");
+            return;
+        }
+        const range = selection.getRangeAt(0);
+        const link = document.createElement("a");
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = selection.toString();
+        range.deleteContents();
+        range.insertNode(link);
+        editorRef.current.focus();
+    };
 
   return (
     <div className="WritePage">
-      <Header title="Community" />
+      <Header />
       <div className="write-layout">
         <div className="write-main">
           <h2 className="write-title">
