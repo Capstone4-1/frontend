@@ -1,7 +1,8 @@
+import "./MailBox.css"
+
 import { MessagesSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom"; // ← 추가
 import Reddot from "./Reddot";
-import "./MailBox.css"
 
 const MailBox = ({newMailCount}) => {
     const navigate = useNavigate(); // ← 훅 호출
@@ -12,7 +13,7 @@ const MailBox = ({newMailCount}) => {
 
     return (
         <div className="MailBox">
-            <button className="mail-btn" onClick={handleClick}>
+            <button className="mail-btn header-btn" onClick={handleClick}>
                 <MessagesSquare />
                 <Reddot count={newMailCount} />
             </button>

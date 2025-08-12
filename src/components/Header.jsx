@@ -1,4 +1,5 @@
 import "./Header.css";
+
 import { LogOut, Menu } from "lucide-react";
 import Bellbox from "./BellBox";
 import MailBox from "./MailBox";
@@ -306,30 +307,33 @@ function Header() {
                     </div>
                 </div>
                 <div className="header-inner">
-                    <div className="header-space">
-                        <div className="util-box">
-                            {user?.roles?.includes("ADMIN") && (
-                                <button onClick={goToAdminPage}>
-                                    관리자 페이지
-                                </button>
+                    <div className="header-wrap">
+                        <div className="btn-wrap">
+                            {!isMobile && (
+                                <MailBox newMailCount={newMailCount} />
                             )}
+                        </div>
+                        <div className="btn-wrap">
                             {!isMobile && (
                                 <Bellbox
                                     notices={notices}
                                     setNotices={setNotices}
                                 />
                             )}
-                            {!isMobile && (
-                                <MailBox newMailCount={newMailCount} />
-                            )}
                         </div>
-                        <button
+                        <div className="btn-wrap"></div>
+                        {/* <button
                             className="logout-btn"
                             title="로그아웃"
                             onClick={handleLogout}
                         >
                             <LogOut />
-                        </button>
+                        </button> */}
+                        {/* {user?.roles?.includes("ADMIN") && (
+                            <button onClick={goToAdminPage}>
+                                관리자 페이지
+                            </button>
+                        )} */}
                     </div>
                 </div>
                 <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />{" "}

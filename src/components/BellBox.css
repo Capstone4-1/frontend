@@ -1,25 +1,6 @@
 .BellBox {
-  font-size: 15px;
   position: relative;
   display: inline-block;
-}
-
-.bell-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  background-color: #f1f5f9;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.bell-btn:hover {
-  background-color: #e2e8f0;
 }
 
 .notice-dropdown {

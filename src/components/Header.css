@@ -167,6 +167,42 @@
 
 /* 헤더 우측 */
 
+.header .header-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    height: 100%;
+}
+
+.header .btn-wrap {
+    display: flex;
+    flex: none;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+
+.header-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    position: relative;
+    flex: none;
+    transition: background-color 0.2s ease;
+}
+
+.header-btn:hover {
+    background-color: var(--hover-gray-color);
+}
+
+.header-btn svg {
+    flex: none;
+    user-select: none;
+}
+
 .logout-btn {
     display: flex;
     align-items: center;
@@ -183,21 +219,4 @@
 
 .logout-btn:hover {
     opacity: 0.5;
-}
-
-.header-space {
-    flex-grow: 1;
-    height: 100%;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    margin-right: 25px;
-    gap: 60px;
-}
-
-.util-box {
-    display: flex;
-    justify-content: end;
-    align-content: center;
-    gap: 20px;
 }

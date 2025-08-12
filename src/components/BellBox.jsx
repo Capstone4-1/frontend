@@ -1,10 +1,11 @@
+import "./BellBox.css";
+
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, X, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import Reddot from "./Reddot";
-import "./BellBox.css";
 import axiosInstance from "./utils/AxiosInstance";
 
 const getNoticeIcon = (type) => {
@@ -59,15 +60,17 @@ const BellBox = ({ notices, setNotices }) => {
 
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (boxRef.current && !boxRef.current.contains(e.target)) setIsOpen(false);
+            if (boxRef.current && !boxRef.current.contains(e.target))
+                setIsOpen(false);
         };
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        return () =>
+            document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     return (
         <div className="BellBox" ref={boxRef}>
-            <button className="bell-btn" onClick={() => setIsOpen(!isOpen)}>
+            <button className="bell-btn header-btn" onClick={() => setIsOpen(!isOpen)}>
                 <Bell />
                 {notices.length > 0 && <Reddot count={notices.length} />}
             </button>
@@ -83,7 +86,10 @@ const BellBox = ({ notices, setNotices }) => {
                     >
                         {notices.length > 0 && (
                             <div className="notice-header">
-                                <button className="mark-all-btn" onClick={handleMarkAllAsRead}>
+                                <button
+                                    className="mark-all-btn"
+                                    onClick={handleMarkAllAsRead}
+                                >
                                     <Check className="check-icon" />
                                     모두 읽기
                                 </button>
@@ -94,18 +100,28 @@ const BellBox = ({ notices, setNotices }) => {
                             notices.map((notice) => (
                                 <div
                                     key={notice.id}
-                                    className={`notice-item ${notice.read ? "" : "unread"}`}
+                                    className={`notice-item ${
+                                        notice.read ? "" : "unread"
+                                    }`}
                                 >
                                     <div className="notice-main">
                                         <span
                                             className="notice-link"
-                                            onClick={() => handleNoticeClick(notice)}
+                                            onClick={() =>
+                                                handleNoticeClick(notice)
+                                            }
                                         >
-                                            {getNoticeIcon(notice.type)} {notice.content}
+                                            {getNoticeIcon(notice.type)}{" "}
+                                            {notice.content}
                                         </span>
                                         <span className="notice-time">
                                             {notice.createdAt
-                                                ? formatDistanceToNow(new Date(notice.createdAt), { addSuffix: true })
+                                                ? formatDistanceToNow(
+                                                      new Date(
+                                                          notice.createdAt
+                                                      ),
+                                                      { addSuffix: true }
+                                                  )
                                                 : "방금 전"}
                                         </span>
                                     </div>
@@ -118,7 +134,9 @@ const BellBox = ({ notices, setNotices }) => {
                                 </div>
                             ))
                         ) : (
-                            <div className="notice-empty">새로운 알림이 없습니다.</div>
+                            <div className="notice-empty">
+                                새로운 알림이 없습니다.
+                            </div>
                         )}
                     </motion.div>
                 )}
