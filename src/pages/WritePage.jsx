@@ -14,13 +14,14 @@ import {
   AArrowDown,
 } from "lucide-react";
 
-
 const WritePage = () => {
-  const { boardType } = useParams();
+  const { boardType, postId } = useParams();
+  const isEditMode = !!postId;
   const label = getBoardLabel(boardType);
   const navigate = useNavigate();
 
   const [selectedBoard, setSelectedBoard] = useState(null);
+  const [title, setTitle] = useState("");
   const editorRef = useRef(null);
   const imageInputRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -33,6 +34,29 @@ const WritePage = () => {
       });
     }
   }, [boardType]);
+
+  useEffect(() => {
+    if (isEditMode) {
+      axiosInstance
+        .get(`/post/${postId}`)
+        .then((res) => {
+          const postData = res.data.dto;
+          setTitle(postData.title);
+          if (editorRef.current) editorRef.current.innerHTML = postData.content;
+          // 게시판 타입이 다르면 변경도 고려 가능
+          if (postData.boardType && postData.boardType !== selectedBoard?.value) {
+            setSelectedBoard({
+              value: postData.boardType,
+              label: getBoardLabel(postData.boardType.toLowerCase()),
+            });
+          }
+        })
+        .catch((err) => {
+          console.error("게시글 불러오기 실패", err);
+          alert("게시글을 불러오는데 실패했습니다.");
+        });
+    }
+  }, [isEditMode, postId, selectedBoard]);
 
   const applyStyle = (command) => {
     document.execCommand(command, false, null);
@@ -76,15 +100,9 @@ const WritePage = () => {
     insertHTML(fileTag);
   };
 
-  const getFormData = () => {
-    const title = document.querySelector(".write-input").value.trim();
-    const content = editorRef.current.innerHTML.trim();
-    return { title, content };
-  };
-
   const handleSubmit = async () => {
-    const { title, content } = getFormData();
-    if (!selectedBoard || !title || !content) {
+    const content = editorRef.current.innerHTML.trim();
+    if (!selectedBoard || !title.trim() || !content) {
       alert("게시판, 제목, 내용을 모두 입력해 주세요.");
       return;
     }
@@ -95,18 +113,31 @@ const WritePage = () => {
     const imageUrls = firstImg ? firstImg.src : null;
 
     try {
-      const res = await axiosInstance.post("/post/post-up", {
-        boardType: selectedBoard.value,
-        title,
-        content,
-        imageUrls,
-      });
-
-      if (res.status === 200 || res.status === 201) {
-        alert("글이 등록되었습니다.");
-        navigate(`/main/community/${selectedBoard.value.toLowerCase()}`);
+      if (isEditMode) {
+        const res = await axiosInstance.put(`/post/post-up/${postId}`, {
+          boardType: selectedBoard.value,
+          title,
+          content,
+          imageUrls,
+        });
+        if (res.status === 200) {
+          navigate(`/main/community/${selectedBoard.value.toLowerCase()}`);
+        } else {
+          alert("수정 실패. 다시 시도해주세요.");
+        }
       } else {
-        alert("등록 실패. 다시 시도해주세요.");
+        const res = await axiosInstance.post("/post/post-up", {
+          boardType: selectedBoard.value,
+          title,
+          content,
+          imageUrls,
+        });
+        if (res.status === 200 || res.status === 201) {
+          alert("글이 등록되었습니다.");
+          navigate(`/main/community/${selectedBoard.value.toLowerCase()}`);
+        } else {
+          alert("등록 실패. 다시 시도해주세요.");
+        }
       }
     } catch (err) {
       alert("서버 오류가 발생했습니다.");
@@ -134,7 +165,8 @@ const WritePage = () => {
         wrapper = span;
       }
     }
-    const currentSize = parseFloat(window.getComputedStyle(wrapper).fontSize) || 16;
+    const currentSize =
+      parseFloat(window.getComputedStyle(wrapper).fontSize) || 16;
     wrapper.style.fontSize = `${Math.max(1, currentSize + delta)}px`;
     const newRange = document.createRange();
     newRange.selectNodeContents(wrapper);
@@ -172,46 +204,90 @@ const WritePage = () => {
       <Header title="Community" />
       <div className="write-layout">
         <div className="write-main">
-          <h2 className="write-title">[{selectedBoard?.label}] 게시글 작성</h2>
+          <h2 className="write-title">
+            [{selectedBoard?.label}] 게시글 {isEditMode ? "수정" : "작성"}
+          </h2>
           <div className="write-section">
             <div className="write-box">
               <input
                 type="text"
                 className="write-input"
                 placeholder="제목을 입력해 주세요."
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div className="editor-box flat">
               <div className="toolbar-row flat">
-                <button title="사진" className="toolbar-button" onClick={() => imageInputRef.current.click()}>
+                <button
+                  title="사진"
+                  className="toolbar-button"
+                  onClick={() => imageInputRef.current.click()}
+                >
                   <FileImage size={24} />
                   <span className="toolbar-label">사진</span>
                 </button>
-                <button title="파일" className="toolbar-button" onClick={() => fileInputRef.current.click()}>
+                <button
+                  title="파일"
+                  className="toolbar-button"
+                  onClick={() => fileInputRef.current.click()}
+                >
                   <Paperclip size={24} />
                   <span className="toolbar-label">파일</span>
                 </button>
-                <button title="링크" className="toolbar-button" onClick={applyLink}>
+                <button
+                  title="링크"
+                  className="toolbar-button"
+                  onClick={applyLink}
+                >
                   <LinkIcon size={24} />
                   <span className="toolbar-label">링크</span>
                 </button>
-                <input type="file" accept="image/*" ref={imageInputRef} style={{ display: "none" }} onChange={handleImageUpload} />
-                <input type="file" ref={fileInputRef} style={{ display: "none" }} onChange={handleFileUpload} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={imageInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleImageUpload}
+                />
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileUpload}
+                />
               </div>
               <hr className="divider" />
               <div className="toolbar-row flat">
-                <button title="굵게" onClick={() => applyStyle("bold")}><b>B</b></button>
-                <button title="기울임" onClick={() => applyStyle("italic")}><i>I</i></button>
-                <button title="밑줄" onClick={() => applyStyle("underline")}><u>U</u></button>
-                <button title="글자 키우기" onClick={increaseFontSize}><AArrowUp size={20} /></button>
-                <button title="글자 줄이기" onClick={decreaseFontSize}><AArrowDown size={20} /></button>
+                <button title="굵게" onClick={() => applyStyle("bold")}>
+                  <b>B</b>
+                </button>
+                <button title="기울임" onClick={() => applyStyle("italic")}>
+                  <i>I</i>
+                </button>
+                <button title="밑줄" onClick={() => applyStyle("underline")}>
+                  <u>U</u>
+                </button>
+                <button title="글자 키우기" onClick={increaseFontSize}>
+                  <AArrowUp size={20} />
+                </button>
+                <button title="글자 줄이기" onClick={decreaseFontSize}>
+                  <AArrowDown size={20} />
+                </button>
               </div>
               <hr className="divider" />
-              <div ref={editorRef} className="write-textarea editable" contentEditable={true} suppressContentEditableWarning={true}></div>
+              <div
+                ref={editorRef}
+                className="write-textarea editable"
+                contentEditable={true}
+                suppressContentEditableWarning={true}
+              ></div>
             </div>
           </div>
           <div className="write-actions">
-            <button className="submit-post" onClick={handleSubmit}>등록</button>
+            <button className="submit-post" onClick={handleSubmit}>
+              {isEditMode ? "수정 완료" : "등록"}
+            </button>
           </div>
         </div>
       </div>

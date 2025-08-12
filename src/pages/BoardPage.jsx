@@ -3,7 +3,6 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import NaviBar from "../components/NaviBar";
 import MarketBox from "../components/board-box/MarketBox";
-import LectureCategoryBox from "../components/board-box/LectureCategoryBox";
 import BasicBoardBox from "../components/board-box/BasicBoardBox";
 import PostDetail from "../components/post/PostDetail";
 import MarketUploadModal from "../components/board-box/MarketUploadModal";

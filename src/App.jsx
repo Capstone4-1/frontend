@@ -95,7 +95,7 @@ function App() {
                         {/* ✅ Navigate는 Route의 element 속성 안에서만 사용 가능 */}
                         <Route index element={<Navigate to="activity" replace />} />
                         <Route path="activity" element={<MyActivity />} />
-                        <Route path="account" element={<Account/>} />
+                        <Route path="account" element={<Account />} />
                     </Route>
                     <Route
                         path="/chat-mail"
@@ -129,6 +129,14 @@ function App() {
                             </PrivateRoute>
                         }
                     />
+
+                    <Route
+                        path="/write/:boardType/:postId"
+                        element={
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <WritePage />
+                            </PrivateRoute>
+                        } />
                     <Route
                         path="/admin"
                         element={
@@ -157,47 +165,47 @@ function App() {
                     {/* ✅ ✅ ✅ 여기부터가 스터디 대시보드 관련 수정 부분 ✅ ✅ ✅ */}
 
                     {/* 스터디 대시보드 메인 페이지 */}
-<Route
-    path="/main/study-dashboard"
-    element={
-        <PrivateRoute isAuthenticated={isAuthenticated}>
-            <StudyDashboardPage />
-        </PrivateRoute>
-    }
->
-    <Route
-        path="lectures"
-        element={<LectureCategoryBox />}
-    />
-</Route>
+                    <Route
+                        path="/main/study-dashboard"
+                        element={
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <StudyDashboardPage />
+                            </PrivateRoute>
+                        }
+                    >
+                        <Route
+                            path="lectures"
+                            element={<LectureCategoryBox />}
+                        />
+                    </Route>
 
 
-<Route
-    path="/main/study-dashboard/:lectureId"
-    element={
-        <PrivateRoute isAuthenticated={isAuthenticated}>
-            <LectureBoardPage />
-        </PrivateRoute>
-    }
-/>
+                    <Route
+                        path="/main/study-dashboard/:lectureId"
+                        element={
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <LectureBoardPage />
+                            </PrivateRoute>
+                        }
+                    />
 
-<Route
-    path="/main/study-dashboard/:lectureId/write"
-    element={
-        <PrivateRoute isAuthenticated={isAuthenticated}>
-            <LectureWritePage />
-        </PrivateRoute>
-    }
-/>
+                    <Route
+                        path="/main/study-dashboard/:lectureId/write"
+                        element={
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <LectureWritePage />
+                            </PrivateRoute>
+                        }
+                    />
 
-<Route
-    path="/main/study-dashboard/:lectureId/:postId"
-    element={
-        <PrivateRoute isAuthenticated={isAuthenticated}>
-            <LecturePostDetail />
-        </PrivateRoute>
-    }
-/>
+                    <Route
+                        path="/main/study-dashboard/:lectureId/:postId"
+                        element={
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <LecturePostDetail />
+                            </PrivateRoute>
+                        }
+                    />
 
                 </Routes>
             </div>

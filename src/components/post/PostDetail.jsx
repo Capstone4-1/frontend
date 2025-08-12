@@ -213,7 +213,7 @@ const PostDetail = () => {
                     <span>{likenum}</span>
                     {post.isAuthor && (
                         <MenuButton
-                            onEdit={() => { }}
+                            onEdit={() => navigate(`/write/${post.boardType.toLowerCase()}/${post.id}`)}
                             onDelete={handlePostDelete}
                         />
                     )}
