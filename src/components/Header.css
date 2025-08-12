@@ -30,7 +30,7 @@
 
 .header .menu-btn {
     display: flex;
-    margin-right: 16px;
+    margin-right: 14px;
     justify-content: center;
     align-items: center;
     background-color: transparent;
@@ -143,22 +143,10 @@
 .header .submenu-icon {
     width: 28px;
     height: 28px;
-    margin-right: 12px;
+    margin-right: 8px;
+    margin-left: 4px;
     border-radius: 8px;
     flex-shrink: 0;
-}
-
-.header .icon-blue {
-    background-color: #748ffc;
-}
-.header .icon-green {
-    background-color: #51cf66;
-}
-.header .icon-yellow {
-    background-color: #fcc419;
-}
-.header .icon-purple {
-    background-color: #b197fc;
 }
 
 .header .submenu-content {
