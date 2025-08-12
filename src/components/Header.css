@@ -182,6 +182,14 @@
     position: relative;
 }
 
+.header .more-gap {
+    margin-left: 4px;
+}
+
+.header .more-gap .camera-icon {
+    display: none;
+}
+
 .header-btn {
     display: flex;
     align-items: center;
@@ -201,6 +209,17 @@
 .header-btn svg {
     flex: none;
     user-select: none;
+}
+
+.header .profile {
+    background-size: cover;
+    background-position: 50%;
+    border: 1px solid rgba(18, 22, 25, .1);
+}
+
+.header .profile .profile-pic-container {
+    width: 100%;
+    height: 100%;
 }
 
 .logout-btn {

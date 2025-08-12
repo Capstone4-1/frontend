@@ -18,6 +18,7 @@ import {
     FcSms,
     FcPaid,
 } from "react-icons/fc";
+import MyProfile from "./Myprofile";
 
 function Header() {
     const { user } = useContext(UserContext);
@@ -321,7 +322,16 @@ function Header() {
                                 />
                             )}
                         </div>
-                        <div className="btn-wrap"></div>
+                        <div className="btn-wrap more-gap">
+                            <button
+                                aria-label="프로필"
+                                className="header-btn profile"
+                            >
+                                <MyProfile
+                                    profileImageUrl={user?.profileImageUrl}
+                                />
+                            </button>
+                        </div>
                         {/* <button
                             className="logout-btn"
                             title="로그아웃"
