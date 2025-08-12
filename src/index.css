@@ -9,7 +9,9 @@ body {
     font-size: var(--font-size-base);
 }
 
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;

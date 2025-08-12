@@ -339,12 +339,19 @@ function Header() {
                         >
                             <LogOut />
                         </button> */}
-                        {/* {user?.roles?.includes("ADMIN") && (
-                            <button onClick={goToAdminPage}>
-                                관리자 페이지
-                            </button>
-                        )} */}
                     </div>
+                    {user?.roles?.includes("ADMIN") && (
+                        <div className="header-wrap">
+                            <div className="btn-wrap">
+                                <button
+                                    className="admin-btn"
+                                    onClick={goToAdminPage}
+                                >
+                                    관리자
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
                 <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />{" "}
             </div>
