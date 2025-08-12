@@ -45,6 +45,17 @@ function Header() {
         }
     };
 
+    const profileMenuItems = [
+        {
+            label: "마이 페이지",
+            onClick: () => navigate("/mypage"),
+        },
+        {
+            label: "로그아웃",
+            onClick: handleLogout,
+        },
+    ];
+
     const goToAdminPage = () => navigate("/admin");
 
     const handleSearch = async () => {
@@ -331,14 +342,29 @@ function Header() {
                                     profileImageUrl={user?.profileImageUrl}
                                 />
                             </button>
+                            <div className="profile-menu-list-area">
+                                <ul className="profile-menu-list">
+                                    {profileMenuItems.map((item, index) => (
+                                        <li
+                                            key={index}
+                                            className={`profile-menu-item ${
+                                                index ===
+                                                profileMenuItems.length - 1
+                                                    ? "logout"
+                                                    : ""
+                                            }`}
+                                        >
+                                            <button
+                                                className="profile-menu-btn"
+                                                onClick={item.onClick}
+                                            >
+                                                {item.label}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
-                        {/* <button
-                            className="logout-btn"
-                            title="로그아웃"
-                            onClick={handleLogout}
-                        >
-                            <LogOut />
-                        </button> */}
                     </div>
                     {user?.roles?.includes("ADMIN") && (
                         <div className="header-wrap">
