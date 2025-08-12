@@ -83,6 +83,21 @@
     /* 링크에 호버 효과 추가 */
 }
 
+
+.RegisterForm .error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+
+
+.RegisterForm button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
 /* 반응형 */
 @media (max-width: 400px) {
     .RegisterForm {

@@ -1,6 +1,5 @@
 import RegisterForm from "../components/RegisterForm";
 import IntroBox from "../components/IntroBox";
-import "./AuthPage.css";
 const RegisterPage = () => {
     console.log("RegisterPage Loaded");
     console.log("logo path:", document.querySelector(".logo-img")?.src);

@@ -4,39 +4,34 @@ import { useState } from "react";
 
 const WithdrawSection = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
+  const [email, setEmail] = useState(""); // 테스트할 이메일 입력값
 
-  const handleWithdraw = async () => {
-    const confirm = window.confirm("정말 탈퇴하시겠습니까?");
-    if (!confirm) return;
-
-    setLoading(true);
+  const handleTestRequest = async () => {
     try {
-      const response = await axiosInstance.delete("/member");
-      setResult("✅ 탈퇴 성공: " + response.data);
-      localStorage.removeItem("token");
-      navigate("/login");
+      const response = await axiosInstance.post("/auth/email-check", {
+        email: email, // MailDto의 email 필드
+      });
+      alert(`서버 응답: ${response.data}`); // 인증 코드 or 메시지 표시
     } catch (error) {
-      console.error("탈퇴 오류:", error);
-      // 안전하게 에러 메시지 추출
-      const msg =
-        error.response && error.response.data
-          ? error.response.data
-          : "오류 발생";
-      setResult("❌ 탈퇴 실패: " + msg);
-    } finally {
-      setLoading(false);
+      console.error(error);
+      alert("요청 중 오류 발생");
     }
   };
 
   return (
     <div className="withdraw-section">
       <h2>회원 탈퇴</h2>
-      <button onClick={handleWithdraw} disabled={loading}>
-        {loading ? "처리 중..." : "탈퇴하기"}
-      </button>
-      {result && <p>{result}</p>}
+
+      <input
+        type="email"
+        placeholder="이메일 입력"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+
+      <div>
+        <button onClick={handleTestRequest}>테스트 요청</button>
+      </div>
     </div>
   );
 };
