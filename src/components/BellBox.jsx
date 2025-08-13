@@ -2,7 +2,7 @@ import "./BellBox.css";
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bell, X, Check } from "lucide-react";
+import { Bell, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import Reddot from "./Reddot";
@@ -91,61 +91,69 @@ const BellBox = ({ notices, setNotices }) => {
                     >
                         {notices.length > 0 && (
                             <div className="notification-header">
+                                <span className="notification-title">알림</span>
                                 <button
-                                    className="mark-all-btn"
+                                    className="read-all-btn"
                                     onClick={handleMarkAllAsRead}
                                 >
-                                    <Check className="check-icon" />
                                     모두 읽기
                                 </button>
                             </div>
                         )}
 
                         {notices.length > 0 ? (
-                            <div className="notification-list">
-                                {notices.map((notice) => (
-                                    <div
-                                        key={notice.id}
-                                        className={`notice-item ${
-                                            notice.read ? "" : "unread"
-                                        }`}
-                                    >
-                                        <div className="notice-main">
-                                            <span
-                                                className="notice-link"
-                                                onClick={() =>
-                                                    handleNoticeClick(notice)
-                                                }
+                            <div className="notification-area">
+                                <div className="notification-wrap">
+                                    <ul className="notification-list">
+                                        {notices.map((notice) => (
+                                            <li
+                                                key={notice.id}
+                                                className={`notification-item ${
+                                                    notice.read ? "" : "unread"
+                                                }`}
                                             >
-                                                {getNoticeIcon(notice.type)}{" "}
-                                                {notice.content}
-                                            </span>
-                                            <span className="notice-time">
-                                                {notice.createdAt
-                                                    ? formatDistanceToNow(
-                                                          new Date(
-                                                              notice.createdAt
-                                                          ),
-                                                          {
-                                                              addSuffix: true,
-                                                          }
-                                                      )
-                                                    : "방금 전"}
-                                            </span>
-                                        </div>
-                                        <button
-                                            className="delete-btn"
-                                            onClick={() =>
-                                                handleDelete(notice.id)
-                                            }
-                                        >
-                                            <X className="x" />
-                                        </button>
-                                    </div>
-                                ))}
+                                                <div className="notification-main">
+                                                    <p
+                                                        className="notification-content"
+                                                        onClick={() =>
+                                                            handleNoticeClick(
+                                                                notice
+                                                            )
+                                                        }
+                                                    >
+                                                        {getNoticeIcon(
+                                                            notice.type
+                                                        )}{" "}
+                                                        {notice.content}
+                                                    </p>
+                                                    <span className="notification-time">
+                                                        {notice.createdAt
+                                                            ? formatDistanceToNow(
+                                                                  new Date(
+                                                                      notice.createdAt
+                                                                  ),
+                                                                  {
+                                                                      addSuffix: true,
+                                                                  }
+                                                              )
+                                                            : "방금 전"}
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    className="notification-delete-btn"
+                                                    onClick={() =>
+                                                        handleDelete(notice.id)
+                                                    }
+                                                >
+                                                    <X />
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                         ) : (
-                            <div className="notice-empty">
+                            <div className="notification-empty">
                                 새로운 알림이 없습니다.
                             </div>
                         )}

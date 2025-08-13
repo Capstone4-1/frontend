@@ -366,7 +366,7 @@ function Header() {
                             </div>
                         </div>
                     </div>
-                    {/* {user?.roles?.includes("ADMIN") && (
+                    {user?.roles?.includes("ADMIN") && (
                         <div className="header-wrap">
                             <div className="btn-wrap">
                                 <button
@@ -377,7 +377,7 @@ function Header() {
                                 </button>
                             </div>
                         </div>
-                    )} */}
+                    )}
                 </div>
                 <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />{" "}
             </div>

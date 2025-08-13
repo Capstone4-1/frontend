@@ -25,6 +25,7 @@ html {
     --small-screen-gap: 8px;
 
     /* 폰트 사이즈 - 모바일 */
+    --font-size-3xs: 0.75rem; /* 12px */
     --font-size-2xs: 0.75rem; /* 12px */
     --font-size-xs: 0.813rem; /* 13px */
     --font-size-sm: 0.875rem; /* 14px */
@@ -40,6 +41,7 @@ html {
 /* 태블릿 크기 */
 @media (min-width: 768px) {
     :root {
+        --font-size-3xs: 0.75rem; /* 12px */
         --font-size-2xs: 0.75rem; /* 12px */
         --font-size-xs: 0.875rem; /* 14px */
         --font-size-sm: 1rem; /* 16px */
@@ -56,6 +58,7 @@ html {
 /* 데스크탑 크기 */
 @media (min-width: 1024px) {
     :root {
+        --font-size-3xs: 0.75rem; /* 12px */
         --font-size-2xs: 0.875rem; /* 14px */
         --font-size-xs: 1rem; /* 16px */
         --font-size-sm: 1.125rem; /* 18px */

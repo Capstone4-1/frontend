@@ -14,9 +14,7 @@
     background: white;
     border-radius: 12px;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
-    padding: 12px;
     z-index: 10;
-    gap: 10px;
 }
 
 .BellBox .notification-dropdown::before {
@@ -24,115 +22,128 @@
     position: absolute;
     top: -8px;
     right: 20px;
-    border-width: 0 8px 8px 8px; /* 아래쪽 삼각형 */
+    border-width: 0 8px 8px 8px;
     border-style: solid;
-    border-color: transparent transparent white transparent; /* 화살표 색 */
+    border-color: transparent transparent white transparent;
     width: 0;
     height: 0;
     z-index: 11;
 }
 
-.notification-header {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 6px;
-}
-
-.BellBox .notification-list {
-    overflow-y: auto;
-}
-
-.mark-all-btn {
-    background-color: #f3f4f6;
-    border: none;
-    border-radius: 6px;
-    font-size: 13px;
-    padding: 4px 8px;
-    cursor: pointer;
-    color: #374151;
+.BellBox .notification-header {
     display: flex;
     align-items: center;
-    gap: 4px;
-    transition: background 0.2s ease;
-}
-
-.mark-all-btn:hover {
-    background-color: #e5e7eb;
-}
-
-.notice-item {
-    display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    font-size: 14px;
-    background-color: #f9fafb;
-    border-radius: 8px;
-    padding: 10px;
-    gap: 8px;
-    transition: background-color 0.2s ease;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--light-border-color);
 }
 
-.notice-item.unread {
-    background-color: #e0f2fe; /* 강조 */
-    font-weight: bold;
-}
-
-.notice-main {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-.notice-link {
-    cursor: pointer;
-    color: #1d4ed8;
-    text-decoration: none;
+.BellBox .notification-title {
+    font-size: var(--font-size-xs);
     font-weight: 500;
+    line-height: 20px;
+    color: #44474b;
 }
 
-.notice-link:hover {
-    text-decoration: underline;
-}
-
-.notice-time {
-    font-size: 12px;
-    color: #888;
-    margin-top: 4px;
-}
-
-.delete-btn {
-    background: none;
-    border: none;
-    padding: 4px;
-    cursor: pointer;
-    color: #888;
+.BellBox .read-all-btn {
+    font-size: var(--font-size-3xs);
+    font-weight: 500;
+    color: #9fa4ab;
+    line-height: 14px;
     transition: color 0.2s ease;
 }
 
-.delete-btn:hover {
+.BellBox .read-all-btn:hover {
+    font-weight: 700;
+    color: #656a71;
+}
+
+.BellBox .notification-area {
+    overflow: hidden;
+    margin-right: 4px;
+}
+
+.BellBox .notification-wrap {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 260px;
+    margin-right: calc(4px - 17px);
+    padding-right: 0;
+}
+
+.BellBox .notification-list {
+    padding: 0 4px;
+    overflow: hidden;
+    border-radius: 0 0 22px 12px;
+}
+
+.BellBox .notification-item {
+    position: relative;
+    display: flex;
+    padding: 18px 40px 20px 20px;
+}
+
+.BellBox .notification-item + .notification-item {
+    border-top: 1px solid var(--light-border-color);
+}
+
+.BellBox .unread {
+    background-color: #f0f9ff;
+}
+
+.BellBox .notification-time {
+    position: relative;
+    display: inline-block;
+    font-size: var(--font-size-3xs);
+    font-weight: 500;
+    line-height: 14px;
+    color: #9fa4ab;
+    vertical-align: bottom;
+}
+
+.BellBox .notification-content {
+    font-size: var(--font-size-2xs);
+    font-weight: 500;
+    line-height: 22px;
+    color: #44474b;
+    white-space: pre-line;
+}
+
+.BellBox .notification-content:hover {
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.BellBox .notification-delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: #9fa4ab;
+    transition: color 0.2s ease;
+    padding: 3px;
+}
+
+.BellBox .notification-delete-btn:hover {
     color: #e11d48;
 }
 
-.x {
+.BellBox .notification-delete-btn svg {
     width: 16px;
     height: 16px;
 }
 
-.notice-empty {
+.BellBox .notification-empty {
+    display: flex;
+    justify-content: center;
     padding: 20px 0;
+    font-size: var(--font-size-2xs);
     text-align: center;
-    font-size: 14px;
+    font-weight: 500;
     color: #888;
-}
-
-@media (max-width: 500px) {
-    .notification-dropdown {
-        left: 50%;
-        width: 180px;
-        transform: translateX(-50%);
-    }
-
-    .notice-item {
-        font-size: 13px;
-    }
 }
