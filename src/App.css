@@ -39,11 +39,11 @@ html {
 }
 
 /* 태블릿 크기 */
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 1023px) {
     :root {
-        --font-size-3xs: 0.75rem; /* 12px */
-        --font-size-2xs: 0.75rem; /* 12px */
-        --font-size-xs: 0.875rem; /* 14px */
+        --font-size-3xs: 0.688rem; /* 11px */
+        --font-size-2xs: 0.813rem; /* 13px */
+        --font-size-xs: 0.938rem; /* 15px */
         --font-size-sm: 1rem; /* 16px */
         --font-size-base: 1.125rem; /* 18px */
         --font-size-lg: 1.25rem; /* 20px */

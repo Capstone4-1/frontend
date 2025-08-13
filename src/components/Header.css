@@ -56,7 +56,6 @@
 
 .header .gnb {
     display: flex;
-    gap: 25px;
     margin-left: 48px;
 }
 
@@ -156,11 +155,11 @@
 
 .header .submenu-title {
     font-weight: 600;
-    font-size: 14px;
+    font-size: var(--font-size-2xs);
 }
 
 .header .submenu-desc {
-    font-size: 12px;
+    font-size: var(--font-size-3xs);
     color: #868e96;
     margin-top: 2px;
 }
@@ -367,5 +366,64 @@
     .header .profile-menu-list-area {
         right: 0;
         left: auto;
+    }
+}
+
+@media (max-width: 1023px) {
+    .header-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .header .submenu-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .header .logo-btn img {
+        max-width: 60px;
+    }
+
+    .header .menu-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .header .gnb {
+        margin-left: 32px;
+    }
+
+    .header .gnb-title {
+        padding: 8px 10px;
+    }
+
+    .header .submenu-item {
+        padding: 10px 14px;
+    }
+
+    .header .tooltip {
+        min-width: 200px;
+    }
+
+    .header {
+        height: 56px;
+    }
+
+    .header .admin-btn {
+        padding: 5px 7px;
+    }
+
+    .header .Reddot {
+        top: 10px;
+        right: 10px;
+        padding: 4px;
+    }
+
+    .header .Reddot .content {
+        font-size: 7px;
+    }
+
+    .header .profile-menu-list {
+        width: 150px;
     }
 }
