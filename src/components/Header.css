@@ -236,7 +236,7 @@
     bottom: 7px;
     left: 0;
     transform: translateY(100%);
-    z-index: 100;
+    z-index: 110;
 }
 
 .header .more-gap:hover .profile-menu-list-area {

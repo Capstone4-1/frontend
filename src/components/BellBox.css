@@ -1,122 +1,122 @@
 .BellBox {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
-.notice-dropdown {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 45px;
-  right: 0;
-  max-height: 320px;
-  width: 260px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
-  padding: 12px;
-  z-index: 10;
-  overflow-y: auto;
-  gap: 10px;
+.BellBox .notification-dropdown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    max-height: 320px;
+    width: 260px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    z-index: 10;
+    overflow-y: auto;
+    gap: 10px;
 }
 
 .notice-header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 6px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 6px;
 }
 
 .mark-all-btn {
-  background-color: #f3f4f6;
-  border: none;
-  border-radius: 6px;
-  font-size: 13px;
-  padding: 4px 8px;
-  cursor: pointer;
-  color: #374151;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: background 0.2s ease;
+    background-color: #f3f4f6;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    padding: 4px 8px;
+    cursor: pointer;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 0.2s ease;
 }
 
 .mark-all-btn:hover {
-  background-color: #e5e7eb;
+    background-color: #e5e7eb;
 }
 
 .notice-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  font-size: 14px;
-  background-color: #f9fafb;
-  border-radius: 8px;
-  padding: 10px;
-  gap: 8px;
-  transition: background-color 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 14px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 10px;
+    gap: 8px;
+    transition: background-color 0.2s ease;
 }
 
 .notice-item.unread {
-  background-color: #e0f2fe; /* 강조 */
-  font-weight: bold;
+    background-color: #e0f2fe; /* 강조 */
+    font-weight: bold;
 }
 
 .notice-main {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .notice-link {
-  cursor: pointer;
-  color: #1d4ed8;
-  text-decoration: none;
-  font-weight: 500;
+    cursor: pointer;
+    color: #1d4ed8;
+    text-decoration: none;
+    font-weight: 500;
 }
 
 .notice-link:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .notice-time {
-  font-size: 12px;
-  color: #888;
-  margin-top: 4px;
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
 }
 
 .delete-btn {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  color: #888;
-  transition: color 0.2s ease;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s ease;
 }
 
 .delete-btn:hover {
-  color: #e11d48;
+    color: #e11d48;
 }
 
 .x {
-  width: 16px;
-  height: 16px;
+    width: 16px;
+    height: 16px;
 }
 
 .notice-empty {
-  padding: 20px 0;
-  text-align: center;
-  font-size: 14px;
-  color: #888;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #888;
 }
 
 @media (max-width: 500px) {
-  .notice-dropdown {
-    left: 50%;
-    width: 180px;
-    transform: translateX(-50%);
-  }
+    .notification-dropdown {
+        left: 50%;
+        width: 180px;
+        transform: translateX(-50%);
+    }
 
-  .notice-item {
-    font-size: 13px;
-  }
+    .notice-item {
+        font-size: 13px;
+    }
 }
