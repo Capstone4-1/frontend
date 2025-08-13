@@ -1,7 +1,7 @@
 .Reddot {
     background-color: var(--red-dot-color);
-    width: 16px !important;
-    height: 16px !important;
+    width: 16px;
+    height: 16px;
     position: absolute !important;
     display: flex;
     align-items: center;

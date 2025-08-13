@@ -1,15 +1,13 @@
-import "./Reddot.css"
-const Reddot = ({count})=>{
+import "./Reddot.css";
+
+const Reddot = ({ count }) => {
     if (count === 0) return null;
 
-    return(
+    return (
         <div className="Reddot">
-                <div className="content">
-                    {count}
-                </div>
+            <div className="content">{count}</div>
         </div>
-    )
+    );
+};
 
-}
-
-export default Reddot
+export default Reddot;

@@ -70,7 +70,12 @@ const BellBox = ({ notices, setNotices }) => {
 
     return (
         <div className="BellBox" ref={boxRef}>
-            <button className="bell-btn header-btn" onClick={() => setIsOpen(!isOpen)}>
+            <button
+                className={`bell-btn header-btn ${
+                    notices.length > 0 ? "header-shake" : ""
+                }`}
+                onClick={() => setIsOpen(!isOpen)}
+            >
                 <Bell />
                 {notices.length > 0 && <Reddot count={notices.length} />}
             </button>

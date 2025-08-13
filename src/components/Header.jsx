@@ -1,6 +1,6 @@
 import "./Header.css";
 
-import { LogOut, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import Bellbox from "./BellBox";
 import MailBox from "./MailBox";
 import { Link, useNavigate } from "react-router-dom";
