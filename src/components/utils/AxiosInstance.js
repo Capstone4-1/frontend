@@ -22,7 +22,7 @@ axiosInstance.interceptors.request.use((config) => {
 // 응답 인터셉터 (토큰 만료 처리 + 콘솔 로그)
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log("📥 [Axios Response]", {
+    console.log(`📥 [${response.data.message}}]`, {
       url: response.config?.url,
       method: response.config?.method,
       status: response.status,
