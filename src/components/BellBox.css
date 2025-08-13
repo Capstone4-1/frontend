@@ -16,14 +16,30 @@
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
     padding: 12px;
     z-index: 10;
-    overflow-y: auto;
     gap: 10px;
 }
 
-.notice-header {
+.BellBox .notification-dropdown::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    border-width: 0 8px 8px 8px; /* 아래쪽 삼각형 */
+    border-style: solid;
+    border-color: transparent transparent white transparent; /* 화살표 색 */
+    width: 0;
+    height: 0;
+    z-index: 11;
+}
+
+.notification-header {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 6px;
+}
+
+.BellBox .notification-list {
+    overflow-y: auto;
 }
 
 .mark-all-btn {

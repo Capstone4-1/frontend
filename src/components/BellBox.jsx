@@ -90,7 +90,7 @@ const BellBox = ({ notices, setNotices }) => {
                         transition={{ duration: 0.2 }}
                     >
                         {notices.length > 0 && (
-                            <div className="notice-header">
+                            <div className="notification-header">
                                 <button
                                     className="mark-all-btn"
                                     onClick={handleMarkAllAsRead}
@@ -102,42 +102,48 @@ const BellBox = ({ notices, setNotices }) => {
                         )}
 
                         {notices.length > 0 ? (
-                            notices.map((notice) => (
-                                <div
-                                    key={notice.id}
-                                    className={`notice-item ${
-                                        notice.read ? "" : "unread"
-                                    }`}
-                                >
-                                    <div className="notice-main">
-                                        <span
-                                            className="notice-link"
+                            <div className="notification-list">
+                                {notices.map((notice) => (
+                                    <div
+                                        key={notice.id}
+                                        className={`notice-item ${
+                                            notice.read ? "" : "unread"
+                                        }`}
+                                    >
+                                        <div className="notice-main">
+                                            <span
+                                                className="notice-link"
+                                                onClick={() =>
+                                                    handleNoticeClick(notice)
+                                                }
+                                            >
+                                                {getNoticeIcon(notice.type)}{" "}
+                                                {notice.content}
+                                            </span>
+                                            <span className="notice-time">
+                                                {notice.createdAt
+                                                    ? formatDistanceToNow(
+                                                          new Date(
+                                                              notice.createdAt
+                                                          ),
+                                                          {
+                                                              addSuffix: true,
+                                                          }
+                                                      )
+                                                    : "방금 전"}
+                                            </span>
+                                        </div>
+                                        <button
+                                            className="delete-btn"
                                             onClick={() =>
-                                                handleNoticeClick(notice)
+                                                handleDelete(notice.id)
                                             }
                                         >
-                                            {getNoticeIcon(notice.type)}{" "}
-                                            {notice.content}
-                                        </span>
-                                        <span className="notice-time">
-                                            {notice.createdAt
-                                                ? formatDistanceToNow(
-                                                      new Date(
-                                                          notice.createdAt
-                                                      ),
-                                                      { addSuffix: true }
-                                                  )
-                                                : "방금 전"}
-                                        </span>
+                                            <X className="x" />
+                                        </button>
                                     </div>
-                                    <button
-                                        className="delete-btn"
-                                        onClick={() => handleDelete(notice.id)}
-                                    >
-                                        <X className="x" />
-                                    </button>
-                                </div>
-                            ))
+                                ))}
+                            </div>
                         ) : (
                             <div className="notice-empty">
                                 새로운 알림이 없습니다.
