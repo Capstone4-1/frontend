@@ -28,35 +28,22 @@ const Dashboard = () => {
             </section>
           </div>
 
-
           
           <div className="div-area">
-
-
             <div className="left-half">
-              <section className="inner-container">
-                <MyPageCard />
-              </section>
-              <section className="inner-container">
-                <LectureRoomCard />
-              </section>
               <section className="inner-container">
                 <Friends />
               </section>
             </div>
-
             <div className="right-half">
               <section className="inner-container">
                 <BookMarketBoard title="장터" boardType="MARKET" />
               </section>
             </div>
           </div>
-
           <div className="daily-area">
-            <CalendarPanel date={selectedDate} onChange={setSelectedDate} />
             <DailyMenu selectedDate={selectedDate} /> 
           </div>
-
         </div>
         {/* <aside>
           <ul>

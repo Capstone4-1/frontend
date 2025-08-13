@@ -1,12 +1,13 @@
+// BellBox.jsx
 import "./BellBox.css";
-
+import { formatDistanceToNowStrict } from "date-fns";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { formatDistanceToNow } from "date-fns";
 import Reddot from "./Reddot";
 import axiosInstance from "./utils/AxiosInstance";
+import { ko } from "date-fns/locale";
 
 const getNoticeIcon = (type) => {
     switch (type) {
@@ -71,9 +72,7 @@ const BellBox = ({ notices, setNotices }) => {
     return (
         <div className="BellBox" ref={boxRef}>
             <button
-                className={`bell-btn header-btn ${
-                    notices.length > 0 ? "header-shake" : ""
-                }`}
+                className={`bell-btn header-btn ${notices.length > 0 ? "header-shake" : ""}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <Bell />
@@ -105,50 +104,35 @@ const BellBox = ({ notices, setNotices }) => {
                             <div className="notification-area">
                                 <div className="notification-wrap">
                                     <ul className="notification-list">
-                                        {notices.map((notice) => (
-                                            <li
-                                                key={notice.id}
-                                                className={`notification-item ${
-                                                    notice.read ? "" : "unread"
-                                                }`}
-                                            >
-                                                <div className="notification-main">
-                                                    <p
-                                                        className="notification-content"
-                                                        onClick={() =>
-                                                            handleNoticeClick(
-                                                                notice
-                                                            )
-                                                        }
-                                                    >
-                                                        {getNoticeIcon(
-                                                            notice.type
-                                                        )}{" "}
-                                                        {notice.content}
-                                                    </p>
-                                                    <span className="notification-time">
-                                                        {notice.createdAt
-                                                            ? formatDistanceToNow(
-                                                                  new Date(
-                                                                      notice.createdAt
-                                                                  ),
-                                                                  {
-                                                                      addSuffix: true,
-                                                                  }
-                                                              )
-                                                            : "방금 전"}
-                                                    </span>
-                                                </div>
-                                                <button
-                                                    className="notification-delete-btn"
-                                                    onClick={() =>
-                                                        handleDelete(notice.id)
-                                                    }
+                                        {notices
+                                            .slice() // 원본 배열 훼손 방지
+                                            .sort((a, b) => new Date(b.date) - new Date(a.date)) // 최신순 정렬
+                                            .map((notice) => (
+                                                <li
+                                                    key={notice.id}
+                                                    className={`notification-item ${notice.read ? "" : "unread"}`}
                                                 >
-                                                    <X />
-                                                </button>
-                                            </li>
-                                        ))}
+                                                    <div className="notification-main">
+                                                        <p
+                                                            className="notification-content"
+                                                            onClick={() => handleNoticeClick(notice)}
+                                                        >
+                                                            {getNoticeIcon(notice.type)} {notice.content}
+                                                        </p>
+                                                        <span className="notification-time">
+                                                            {notice.date
+                                                                ? formatDistanceToNowStrict(new Date(notice.date), { locale: ko }) + " 전"
+                                                                : "방금 전"}
+                                                        </span>
+                                                    </div>
+                                                    <button
+                                                        className="notification-delete-btn"
+                                                        onClick={() => handleDelete(notice.id)}
+                                                    >
+                                                        <X />
+                                                    </button>
+                                                </li>
+                                            ))}
                                     </ul>
                                 </div>
                             </div>

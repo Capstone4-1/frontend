@@ -10,7 +10,7 @@ const InfoBox = ({ boardTypes, title }) => {
   const [selectedBoard, setSelectedBoard] = useState("ALL");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const PAGE_SIZE = 5;
+  const PAGE_SIZE = 6;
 
   const handleMoreClick = () => {
     let boardToGo = selectedBoard;
@@ -94,9 +94,7 @@ const InfoBox = ({ boardTypes, title }) => {
             </div>
           </div>
 
-          <button className="go-to-board-btn" onClick={handleMoreClick}>
-            게시판 바로가기
-          </button>
+          
         </div>
 
         <div className="list-area">

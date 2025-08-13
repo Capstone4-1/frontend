@@ -143,10 +143,11 @@
 }
 
 .daily-area{
+    width: 400px;
     padding: 20px;
     background-color: white;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     border: 1px solid var(--base-border-color); /* ✅ 원하는 border 색상 */
     gap: 10%;
 }

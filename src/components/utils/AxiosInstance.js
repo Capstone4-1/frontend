@@ -19,9 +19,17 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// 응답 인터셉터 (토큰 만료 처리)
+// 응답 인터셉터 (토큰 만료 처리 + 콘솔 로그)
 axiosInstance.interceptors.response.use(
-  (response) => response, // 정상 응답 그대로
+  (response) => {
+    console.log("📥 [Axios Response]", {
+      url: response.config?.url,
+      method: response.config?.method,
+      status: response.status,
+      data: response.data,
+    });
+    return response; // 정상 응답 그대로 반환
+  },
   async (error) => {
     const originalRequest = error.config;
 
@@ -38,10 +46,16 @@ axiosInstance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return axiosInstance(originalRequest); // 🔁 재요청
       } catch (refreshError) {
-        // refreshAccessToken에서 처리됨
         return Promise.reject(refreshError);
       }
     }
+
+    console.error("❌ [Axios Error Response]", {
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      data: error.response?.data,
+    });
 
     return Promise.reject(error);
   }
