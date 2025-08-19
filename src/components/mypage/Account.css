@@ -1,6 +1,18 @@
 .Account {
   padding: 2rem;
-  
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Noto Sans KR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.Account > h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  border-left: 5px solid #2d8cff;
+  padding-left: 12px;
+  color: #333;
 }
 
 .account-nav {
@@ -14,27 +26,46 @@
   border: none;
   padding: 0.5rem 1rem;
   font-weight: bold;
-  color: #555;
+  color: #2d8cff;
   cursor: pointer;
   transition: color 0.3s;
 }
+
 .account-nav button:hover {
-  color: #000;
+  color: #1a6ed8;
 }
 
 .account-section {
-  margin-bottom: 3rem;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+  margin-bottom: 2.5rem;
+  transition: box-shadow 0.3s ease;
+  scroll-margin-top: 100px;
+  outline: none;
+}
+
+.account-section:hover,
+.account-section:focus {
+  box-shadow: 0 6px 14px rgb(0 0 0 / 0.15);
+  outline: none;
 }
 
 .delete-btn {
+  display: block;
+  margin: 0 auto;       /* 가운데 정렬 */
+  margin-top: 1rem;
   background: none;
   border: none;
-  color: red;
+  color: #ff4d4f;       /* 경고 강조 */
   font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
-  padding: 0.5rem 0;
+  padding: 0.5rem 1rem;
+  transition: color 0.2s;
 }
-.account-section {
-  scroll-margin-top: 100px; /* 헤더 안 가리도록 */
-  outline: none;
+
+.delete-btn:hover {
+  color: #d9363e;       /* hover 시 조금 더 진한 빨강 */
 }

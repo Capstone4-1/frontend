@@ -12,6 +12,7 @@
   padding: 20px 0;
 }
 
+
 .Mypage .container {
   display: flex;
   width: 70%;
@@ -22,7 +23,7 @@
 /* 사이드바 */
 .Mypage aside {
   position: sticky;
-  top: 110px; /* 원하는 고정 위치 */
+  top: 110px; 
   align-self: flex-start;
   display: flex;
   flex-direction: column;
@@ -30,15 +31,14 @@
   width: 30%;
   min-width: 350px;
   max-width: 500px;
-  /* max-height는 margin 포함하지 않게 padding으로 조절 */
-  max-height: calc(100vh - 100px); /* top 위치만 빼고 margin은 padding으로 대체 */
+  max-height: calc(100vh - 100px); 
   margin-top: 30px;
-  padding: 0 15px 30px 15px; /* 아래에 padding 추가 */
+  padding: 0 15px 30px 15px; 
   box-sizing: border-box;
 }
 
 /* 프로필 박스 */
-.Mypage .proflie-img-box {
+.Mypage .profile-img-box {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,7 +50,7 @@
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
 }
 
-.Mypage .proflie-img-box > div {
+.Mypage .profile-img-box > div {
   margin-top: 12px;
   font-weight: 600;
   font-size: 1.1rem;
@@ -122,3 +122,62 @@
   box-shadow: 0 4px 10px rgb(0 0 0 / 0.07);
   overflow-y: auto;
 }
+
+/* 💡 태블릿~모바일: 겹침 방지용 레이아웃 전환 */
+@media (max-width: 1024px) {
+  .Mypage .container {
+    flex-direction: column;  
+    width: 95%;
+    gap: 12px;
+    padding: 0 10px;
+  }
+
+  .Mypage aside {
+    position: static;        
+    top: auto;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    max-height: none;         
+    margin-top: 0;
+    padding: 10px;
+    z-index: 1;             
+  }
+
+  .Mypage .profile-img-box {
+    width: 100%;             
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .Mypage .menu-box {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .Mypage .menu-box h3 {
+    font-size: var(--font-size-lg, 1.25rem);
+  }
+
+  .Mypage .menu-box ul li {
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+
+  .Mypage .display-area {
+    position: relative;       
+    width: 100%;
+    margin: 12px 0 20px;
+    padding: 12px;
+    min-height: 340px;
+    overflow: auto;          
+    z-index: 0;             
+  }
+}
+
+/* 더 작은 모바일(<= 767px) 추가 미세 조정 */
+@media (max-width: 767px) {
+  .Mypage .menu-box h3 { font-size: var(--font-size-base, 1rem); }
+  .Mypage .menu-box ul li { font-size: var(--font-size-sm, 0.875rem); }
+  .Mypage .display-area { min-height: 300px; }
+}
+
