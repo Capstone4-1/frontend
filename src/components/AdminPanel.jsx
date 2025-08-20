@@ -12,7 +12,6 @@ const AdminPanel = ({ onSelect }) => {
       <button onClick={() => onSelect("통계")}>사이트 통계</button>
       <button onClick={() => onSelect("문의")}>문의 내역</button>
       <button onClick={() => onSelect("공지")}>공지사항</button>
-      <button onClick={() => onSelect("ACCEPT")}>권한 요청 승인</button>
 
     </div>
   );

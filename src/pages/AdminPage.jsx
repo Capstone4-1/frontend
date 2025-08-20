@@ -3,6 +3,8 @@ import AdminPanel from "../components/AdminPanel";
 import RolesBox from "../components/admin-box/RolesBox";
 import PostManageBox from "../components/admin-box/PostManageBox";
 import "./AdminPage.css";
+import StatsBox from "../components/admin-box/StatsBox";
+import AdminInquiries from "../components/admin-box/AdminInquiries";
 
 const AdminPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,13 +22,11 @@ const AdminPage = () => {
       case "POSTS":
         return <PostManageBox />;
       case "통계":
-        return <div>사이트 통계 보기</div>;
+        return <StatsBox/>;
       case "문의":
-        return <div>문의 내역 확인</div>;
+        return <AdminInquiries/>
       case "공지":
         return <div>공지사항 관리</div>;
-      case "ACCEPT":
-        return <div>권한요청 승인</div>;
       default:
         return <div>선택된 메뉴 없음</div>;
     }
