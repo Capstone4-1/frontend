@@ -1,9 +1,9 @@
 .header {
+    display: flex;
+    align-items: center;
     position: sticky;
     top: 0;
     z-index: 100;
-    display: flex;
-    align-items: center;
     justify-content: center;
     width: 100%;
     min-width: 300px;
@@ -425,5 +425,33 @@
 
     .header .profile-menu-list {
         width: 150px;
+    }
+}
+
+@media (max-width: 767px) {
+    .header {
+        background-color: var(--background-color);
+        border: 0;
+        transition: top 0.25s, background-color 0.25s;
+    }
+
+    .header.shadow {
+        box-shadow: rgb(231, 232, 234) 0px 1px 1px;
+    }
+
+    .header .header-container {
+        height: 56px;
+        padding: 0 12px 0 16px;
+    }
+
+    .header .mail-btn svg,
+    .header .bell-btn svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .header .mobile-menu-btn svg {
+        width: 26px;
+        height: 26px;
     }
 }
