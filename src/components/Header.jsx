@@ -5,9 +5,10 @@ import Bellbox from "./BellBox";
 import MailBox from "./MailBox";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "./utils/AxiosInstance";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "./utils/UserContext";
 import Sidebar from "./Sidebar";
+import MobileMenu from "./MobileMenu";
 import {
     FcAdvertising,
     FcGraduationCap,
@@ -26,6 +27,8 @@ function Header() {
     const [newMailCount, setNewMailCount] = useState(0);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const bodyScrollYRef = useRef(0);
     const [isScrolled, setIsScrolled] = useState(false);
     const navigate = useNavigate();
 
@@ -90,6 +93,9 @@ function Header() {
         };
 
         const computeScrolled = (event) => {
+            if (mobileMenuOpen) {
+                return;
+            }
             const windowScrolled =
                 window.scrollY > 0 ||
                 document.documentElement.scrollTop > 0 ||
@@ -120,7 +126,49 @@ function Header() {
                 capture: true,
             });
         };
-    }, []);
+    }, [mobileMenuOpen]);
+
+    // 모바일 메뉴 열림 시 배경 스크롤 완전 잠금 (iOS 포함)
+    useEffect(() => {
+        if (!mobileMenuOpen) return;
+
+        bodyScrollYRef.current =
+            window.scrollY || document.documentElement.scrollTop || 0;
+
+        const body = document.body;
+        const html = document.documentElement;
+
+        const prevBody = {
+            position: body.style.position,
+            top: body.style.top,
+            left: body.style.left,
+            right: body.style.right,
+            width: body.style.width,
+            overflow: body.style.overflow,
+        };
+        const prevHtml = {
+            overscrollBehavior: html.style.overscrollBehavior,
+        };
+
+        body.style.position = "fixed";
+        body.style.top = `-${bodyScrollYRef.current}px`;
+        body.style.left = "0";
+        body.style.right = "0";
+        body.style.width = "100%";
+        body.style.overflow = "hidden";
+        html.style.overscrollBehavior = "none";
+
+        return () => {
+            body.style.position = prevBody.position;
+            body.style.top = prevBody.top;
+            body.style.left = prevBody.left;
+            body.style.right = prevBody.right;
+            body.style.width = prevBody.width;
+            body.style.overflow = prevBody.overflow;
+            html.style.overscrollBehavior = prevHtml.overscrollBehavior;
+            window.scrollTo(0, bodyScrollYRef.current);
+        };
+    }, [mobileMenuOpen]);
 
     return (
         <div className={`header ${isScrolled ? "shadow" : ""}`}>
@@ -401,7 +449,11 @@ function Header() {
                         )}
                         {isMobile && (
                             <div className="btn-wrap">
-                                <button className="header-btn mobile-menu-btn">
+                                <button
+                                    className="header-btn mobile-menu-btn"
+                                    aria-label="모바일 메뉴 열기"
+                                    onClick={() => setMobileMenuOpen(true)}
+                                >
                                     {" "}
                                     <Menu />
                                 </button>
@@ -422,6 +474,13 @@ function Header() {
                     )} */}
                 </div>
                 <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />{" "}
+                <MobileMenu
+                    isOpen={mobileMenuOpen}
+                    onClose={() => setMobileMenuOpen(false)}
+                    user={user}
+                    onLogout={handleLogout}
+                    newMailCount={newMailCount}
+                />
             </div>
         </div>
     );
