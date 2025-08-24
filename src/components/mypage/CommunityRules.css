@@ -1,0 +1,68 @@
+.CommunityRules {
+  max-width: 760px;
+  margin: 24px auto 40px;
+  padding: 0 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #2a2e33;
+}
+
+.rules-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: #2d8cff;
+  position: relative;
+  padding-left: 12px;
+}
+.rules-title::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 4px;
+  width: 4px; height: 18px;
+  background: #2d8cff;
+  border-radius: 2px;
+}
+
+.rules-card {
+  background: #fff;
+  border: 1px solid #e9eef5;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(27, 44, 74, 0.06);
+  padding: 16px 18px;
+}
+
+.rule-section + .rule-section {
+  border-top: 1px dashed #eef2f7;
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.rule-section h4 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: #1f2a37;
+}
+
+.rule-section p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #425164;
+}
+
+.rule-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  color: #425164;
+}
+.rule-list li {
+  line-height: 1.6;
+  margin: 6px 0;
+}
+
+@media (max-width: 560px) {
+  .rules-card { padding: 14px; }
+  .rule-section h4 { font-size: 15px; }
+  .rule-list { padding-left: 16px; }
+}

@@ -53,19 +53,23 @@
 }
 
 .delete-btn {
-  display: block;
-  margin: 0 auto;       /* 가운데 정렬 */
-  margin-top: 1rem;
-  background: none;
+  display: block;         
+  width: fit-content;     
+  margin: 1rem auto 0;  
+  background: #ff4d4f;
   border: none;
-  color: #ff4d4f;       /* 경고 강조 */
-  font-weight: bold;
-  font-size: 1rem;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
-  padding: 0.5rem 1rem;
-  transition: color 0.2s;
+  padding: 0.4rem 1rem;
+  transition: background 0.25s ease;
 }
 
-.delete-btn:hover {
-  color: #d9363e;       /* hover 시 조금 더 진한 빨강 */
-}
+
+
+
+
+
+

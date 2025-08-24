@@ -1,4 +1,4 @@
-.MyFavorites {
+.MyScraps {
   max-width: 760px;
   margin: 28px auto 40px;
   font-family: 'Noto Sans KR', sans-serif;
@@ -7,7 +7,7 @@
 }
 
 /* 타이틀 */
-.MyFavorites > h2 {
+.MyScraps > h2 {
   font-size: 24px;
   font-weight: 700;
   margin: 0 0 14px;
@@ -15,7 +15,7 @@
   position: relative;
   padding-left: 12px;
 }
-.MyFavorites > h2::before {
+.MyScraps > h2::before {
   content: "";
   position: absolute;
   left: 0; top: 4px;
@@ -25,7 +25,7 @@
 }
 
 /* 카드 컨테이너 */
-.favorites-card {
+.scraps-card {
   background: #fff;
   border: 1px solid #e9eef5;
   border-radius: 14px;
@@ -33,35 +33,34 @@
   padding: 6px;
 }
 
-.favorites-empty {
+.scraps-empty {
   text-align: center;
   padding: 34px 12px 40px;
   color: #6b7a8c;
 }
 
-.favorites-empty .empty-title {
+.scraps-empty .empty-title {
   margin: 8px 0 4px;
-  font-size: 15px;  
+  font-size: 15px;
   font-weight: 600;
   color: #2a2e33;
 }
 
-.favorites-empty .empty-desc {
+.scraps-empty .empty-desc {
   margin: 0;
   font-size: 13px;
   color: #6b7a8c;
 }
 
-
 /* 리스트 */
-.favorites-list {
+.scraps-list {
   list-style: none;
   margin: 0;
   padding: 6px;
 }
 
 /* 아이템 */
-.favorite-item {
+.scrap-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -73,62 +72,39 @@
   outline: none;
 }
 
-.favorite-item + .favorite-item {
+.scrap-item + .scrap-item {
   margin-top: 6px;
 }
-.favorite-item::after {
+.scrap-item::after {
   content: "";
   position: absolute;
   left: 14px; right: 14px; bottom: -3px;
   height: 1px;
   background: #f1f4f8;
 }
-.favorite-item:last-child::after { display: none; }
+.scrap-item:last-child::after { display: none; }
 
-.favorite-item:focus {
+.scrap-item:focus {
   box-shadow: 0 0 0 3px rgba(45,140,255,0.24);
 }
 
-/* 썸네일 */
-.favorite-thumb {
-  width: 56px;
-  height: 56px;
-  border-radius: 10px;
-  background: #f3f6fb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid #e9eef5;
-  flex-shrink: 0;
-}
-.favorite-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.favorite-thumb.fallback .thumb-symbol {
-  font-size: 20px;
-  opacity: .7;
-}
-
 /* 내용 */
-.favorite-content {
+.scrap-content {
   flex: 1;
   min-width: 0;
 }
-.favorite-title {
+.scrap-title {
   margin: 0;
   font-size: 16px;
   line-height: 1.55;
   color: #1f2a37;
   display: -webkit-box;
-  -webkit-line-clamp: 2;     
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-word;
 }
-.favorite-excerpt {
+.scrap-excerpt {
   margin: 6px 0 0;
   font-size: 14px;
   line-height: 1.5;
@@ -140,27 +116,15 @@
   word-break: break-word;
 }
 
-.favorite-meta {
+.scrap-meta {
   display: inline-block;
   margin-top: 6px;
   font-size: 12px;
   color: #6b7a8c;
 }
-.meta-chip {
-  background: #eef5ff;
-  color: #2d8cff;
-  border: 1px solid #d7e7ff;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-weight: 600;
-  margin-right: 6px;
-}
-.meta-dot { color: #a8b5c6; }
-.meta-author { color: #425164; }
-.meta-date { color: #8a98a8; }
-.meta-stats { margin-left: 6px; white-space: nowrap; }
 
-.unfavorite-btn {
+/* 버튼 */
+.unscrap-btn {
   border: 1px solid #e2eaf5;
   background: #ffffff;
   color: #365c9a;
@@ -173,28 +137,29 @@
   margin-left: 8px;
   flex-shrink: 0;
 }
-.unfavorite-btn:hover {
+.unscrap-btn:hover {
   background: #f3f8ff;
   border-color: #cfe1ff;
   box-shadow: 0 3px 10px rgba(45,140,255,0.12);
   transform: translateY(-1px);
 }
-.unfavorite-btn:active { transform: translateY(0); }
+.unscrap-btn:active { transform: translateY(0); }
 
-/* > */
-.favorite-chevron {
+/* > 화살표 */
+.scrap-chevron {
   font-size: 22px;
   color: #9ab9e7;
   transition: transform .15s ease, color .2s ease;
   margin-left: 6px;
 }
-.favorite-item:hover {
+
+.scrap-item:hover {
   background: #f3f8ff;
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(45,140,255,0.12);
 }
-.favorite-item:hover .favorite-title { color: #165fbf; }
-.favorite-item:hover .favorite-chevron {
+.scrap-item:hover .scrap-title { color: #165fbf; }
+.scrap-item:hover .scrap-chevron {
   color: #2d8cff;
   transform: translateX(2px);
 }

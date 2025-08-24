@@ -9,17 +9,23 @@
 .myinfo-form-container h2 {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 32px;
-  color: #333;
-  border-left: 5px solid #2d8cff; /* 하늘색 포인트 컬러 */
+  margin: 0 0 14px;
+  color: #2d8cff;
+  position: relative;
   padding-left: 12px;
 }
 
-.myinfo-form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.myinfo-form-container h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 4px;
+  height: 20px;
+  background: #2d8cff;
+  border-radius: 2px;
 }
+
 
 .myinfo-item {
   display: flex;

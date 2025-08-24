@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "./MyFavorites.css";
+import "./MyScraps.css";
 import axiosInstance from "../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 
-const MyFavorites = ({
+const MyScraps = ({
   onItemClick = () => {},
-  onUnfavorite = () => {},
+  onUnscrap = () => {},
   page = 0,
   pageSize = 10,
 }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errMsg, setErrMsg] = useState("");
-  const [unlikingId, setUnlikingId] = useState(null);
+  const [unscrapingId, setUnscrapingId] = useState(null);
   const navigate = useNavigate();
 
   const normalizePost = (raw) => ({
@@ -27,23 +27,23 @@ const MyFavorites = ({
 
   // 목록 조회
   useEffect(() => {
-    const fetchFavorites = async () => {
+    const fetchScraps = async () => {
       try {
         setLoading(true);
         setErrMsg("");
-        const res = await axiosInstance.get("/post/my-favorites", {
+        const res = await axiosInstance.get("/post/my-scraps", {
           params: { page, pageSize },
         });
         const list = (res?.data?.posts || []).map(normalizePost);
         setItems(list);
       } catch (error) {
-        console.error("좋아요한 게시물 불러오기 실패:", error);
-        setErrMsg("좋아요한 게시물을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.");
+        console.error("스크랩한 게시물 불러오기 실패:", error);
+        setErrMsg("스크랩한 게시물을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.");
       } finally {
         setLoading(false);
       }
     };
-    fetchFavorites();
+    fetchScraps();
   }, [page, pageSize]);
 
   // 게시물 이동
@@ -54,48 +54,48 @@ const MyFavorites = ({
     }
     const bt = String(p.board).toLowerCase();
     const url = `/main/community/${encodeURIComponent(bt)}/post/${encodeURIComponent(p.id)}`;
-    navigate(url, { state: { from: "my-favorites" } });
+    navigate(url, { state: { from: "my-scraps" } });
     onItemClick(p);
   };
 
-  // 좋아요 취소
-  const handleUnlike = async (e, p) => {
+  // 스크랩 해제
+  const handleUnscrap = async (e, p) => {
     e.stopPropagation();
-    if (!p.id || unlikingId) return;
+    if (!p.id || unscrapingId) return;
 
     try {
-      setUnlikingId(p.id);
-      await axiosInstance.post(`/post/${p.id}/unlike`);
+      setUnscrapingId(p.id);
+      await axiosInstance.post(`/post/${p.id}/unscrap`);
       setItems((prev) => prev.filter((it) => it.id !== p.id));
-      onUnfavorite(p.id);
+      onUnscrap(p.id);
     } catch (err) {
-      console.error("좋아요 취소 실패:", err);
-      alert("좋아요를 취소하지 못했어요. 잠시 후 다시 시도해 주세요.");
+      console.error("스크랩 해제 실패:", err);
+      alert("스크랩을 해제하지 못했어요. 잠시 후 다시 시도해 주세요.");
     } finally {
-      setUnlikingId(null);
+      setUnscrapingId(null);
     }
   };
 
   return (
-    <div className="MyFavorites">
-      <h2>좋아요 한 게시물</h2>
+    <div className="MyScraps">
+      <h2>스크랩 한 게시물</h2>
 
-      <div className="favorites-card">
+      <div className="scraps-card">
         {loading ? (
           <div className="empty-state">불러오는 중...</div>
         ) : errMsg ? (
-          <div className="empty-state favorites-error">{errMsg}</div>
+          <div className="empty-state scraps-error">{errMsg}</div>
         ) : items.length === 0 ? (
-          <div className="favorites-empty">
-            <p className="empty-title">좋아요한 게시물이 없습니다.</p>
-            <p className="empty-desc">마음에 드는 글에 ♥를 눌러 보관해 보세요.</p>
+          <div className="scraps-empty">
+            <p className="empty-title">스크랩한 게시물이 없습니다.</p>
+            <p className="empty-desc">나중에 다시 보고 싶은 글을 스크랩해 보세요.</p>
           </div>
         ) : (
-          <ul className="favorites-list">
+          <ul className="scraps-list">
             {items.map((p) => (
               <li
                 key={p.id}
-                className="favorite-item"
+                className="scrap-item"
                 role="button"
                 tabIndex={0}
                 onClick={() => goPost(p)}
@@ -108,12 +108,10 @@ const MyFavorites = ({
                 aria-label={`게시물로 이동: ${p.title}`}
                 title="게시물로 이동"
               >
-                <div className="favorite-content">
-                  <p className="favorite-title">{p.title}</p>
-                  {p.excerpt && (
-                    <p className="favorite-excerpt">{p.excerpt}</p>
-                  )}
-                  <span className="favorite-meta">
+                <div className="scrap-content">
+                  <p className="scrap-title">{p.title}</p>
+                  {p.excerpt && <p className="scrap-excerpt">{p.excerpt}</p>}
+                  <span className="scrap-meta">
                     @{p.author}
                     {p.createdAt && ` • ${new Date(p.createdAt).toLocaleDateString()}`}
                     {typeof p.likeCount === "number" && ` • ♥ ${p.likeCount}`}
@@ -122,16 +120,16 @@ const MyFavorites = ({
                 </div>
 
                 <button
-                  className="unfavorite-btn"
-                  title="좋아요 취소"
-                  aria-label="좋아요 취소"
-                  onClick={(e) => handleUnlike(e, p)}
-                  disabled={unlikingId === p.id}
+                  className="unscrap-btn"
+                  title="스크랩 해제"
+                  aria-label="스크랩 해제"
+                  onClick={(e) => handleUnscrap(e, p)}
+                  disabled={unscrapingId === p.id}
                 >
-                  {unlikingId === p.id ? "취소 중..." : "취소"}
+                  {unscrapingId === p.id ? "해제 중..." : "해제"}
                 </button>
 
-                <span className="favorite-chevron">›</span>
+                <span className="scrap-chevron">›</span>
               </li>
             ))}
           </ul>
@@ -141,4 +139,4 @@ const MyFavorites = ({
   );
 };
 
-export default MyFavorites;
+export default MyScraps;

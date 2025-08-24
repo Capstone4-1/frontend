@@ -4,12 +4,14 @@ import "./MyActivity.css";
 import MyComments from "./MyComments";
 import MyPosts from "./MyPosts";
 import MyFavorites from "./MyFavorites";
+import MyScraps from "./MyScraps";
 import { useLocation } from "react-router-dom";
 
 const MyActivity = () => {
   const commentsRef = useRef(null);
   const postsRef = useRef(null);
-  const favoritesRef = useRef(null); 
+  const favoritesRef = useRef(null);
+  const scrapsRef = useRef(null);
 
   const location = useLocation();
 
@@ -17,44 +19,72 @@ const MyActivity = () => {
     const focusSection = location.state?.focusSection;
     if (!focusSection) return;
 
-    let scrollTarget = null;
-    if (focusSection === "comments") scrollTarget = commentsRef.current;
-    else if (focusSection === "posts") scrollTarget = postsRef.current;
-    else if (focusSection === "favorites") scrollTarget = favoritesRef.current; 
+    const refMap = {
+      comments: commentsRef,
+      posts: postsRef,
+      favorites: favoritesRef,
+      scraps: scrapsRef,
+    };
 
-    if (scrollTarget) {
-      scrollTarget.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => {
-        scrollTarget?.focus();
-      }, 400);
-    }
+    const target = refMap[focusSection]?.current;
+    if (!target) return;
+
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    target.scrollIntoView({
+      behavior: prefersReduced ? "auto" : "smooth",
+      block: "start",
+    });
+
+    const timer = setTimeout(() => target?.focus?.(), prefersReduced ? 0 : 300);
+    return () => clearTimeout(timer);
   }, [location]);
 
   return (
     <div className="MyActivity">
       <h2>나의 활동</h2>
 
-      <section ref={commentsRef} tabIndex={-1} className="activity-section">
+      <section
+        ref={commentsRef}
+        id="comments"
+        tabIndex={-1}
+        className="activity-section"
+        aria-label="작성한 댓글 섹션"
+      >
         <MyComments />
       </section>
 
-      <section ref={postsRef} tabIndex={-1} className="activity-section">
+      <section
+        ref={postsRef}
+        id="posts"
+        tabIndex={-1}
+        className="activity-section"
+        aria-label="작성한 글 섹션"
+      >
         <MyPosts />
       </section>
 
-      <section ref={favoritesRef} tabIndex={-1} className="activity-section">
+      <section
+        ref={favoritesRef}
+        id="favorites"
+        tabIndex={-1}
+        className="activity-section"
+        aria-label="좋아요 한 게시물 섹션"
+      >
         <MyFavorites />
-        </section>
-
-
-      <section className="activity-section">
-        <h3>기타 활동 1</h3>
-        <p>임의의 추가 활동 내용입니다.</p>
       </section>
 
-      <section className="activity-section">
-        <h3>기타 활동 2</h3>
-        <p>임의의 추가 활동 내용입니다.</p>
+      <section
+        ref={scrapsRef}
+        id="scraps"
+        tabIndex={-1}
+        className="activity-section"
+        aria-label="스크랩 한 게시물 섹션"
+      >
+        <MyScraps />
       </section>
     </div>
   );

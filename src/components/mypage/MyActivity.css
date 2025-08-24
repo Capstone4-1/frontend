@@ -21,7 +21,7 @@
   padding: 2rem;
   box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
   margin-bottom: 2.5rem;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.2s ease; 
   outline: none;
 }
 
@@ -43,3 +43,9 @@
   color: #333;
   line-height: 1.5;
 }
+
+.activity-section {
+  scroll-margin-top: 122px; 
+}
+
+

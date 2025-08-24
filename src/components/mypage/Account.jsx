@@ -1,19 +1,28 @@
+// 계정 및 보안
 import { useEffect, useRef } from "react";
 import "./Account.css";
 import MyInfo from "./MyInfo";
+import CommunityRules from "./CommunityRules";
 import { useLocation } from "react-router-dom";
 
 const Account = () => {
   const infoRef = useRef(null);
+  const rulesRef = useRef(null);
+  const deleteRef = useRef(null);
   const location = useLocation();
 
   useEffect(() => {
     const focusSection = location.state?.focusSection;
-    if (focusSection === "info" && infoRef.current) {
-      infoRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => {
-        infoRef.current?.focus();
-      }, 400);
+
+    const target =
+      focusSection === "info" ? infoRef.current :
+      focusSection === "rules" ? rulesRef.current :
+      focusSection === "delete" ? deleteRef.current :
+      null;
+
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => target?.focus?.(), 400);
     }
   }, [location]);
 
@@ -29,14 +38,24 @@ const Account = () => {
         <MyInfo />
       </section>
 
-      {/* 계정 관리 박스 제거하고 그냥 버튼만 */}
+      <section
+        tabIndex={-1}
+        ref={rulesRef}
+        className="account-section"
+        aria-label="커뮤니티 이용규칙"
+      >
+        <CommunityRules />
+      </section>
+
       <button
+        ref={deleteRef}
+        tabIndex={-1}
         className="delete-btn"
         onClick={() => {
           if (window.confirm("정말 회원 탈퇴 하시겠습니까? 이 작업은 되돌릴 수 없습니다.")) {
-            // 탈퇴 처리
           }
         }}
+        aria-label="회원 탈퇴"
       >
         회원 탈퇴
       </button>
