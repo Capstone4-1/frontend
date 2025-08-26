@@ -8,12 +8,13 @@ const formatPrice = (price) => {
 };
 
 const BookMarketBoard = ({ boardType, title }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
     const [fade, setFade] = useState(true);
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
 
-    const PAGE_SIZE = 10;
+    const VISIBLE_COUNT = 4;
+    const PAGE_SIZE = 12;
 
     const fetchPosts = async () => {
         try {
@@ -39,19 +40,25 @@ const BookMarketBoard = ({ boardType, title }) => {
         }
     }, [boardType]);
 
-    useEffect(() => {
+    const totalPages = Math.max(1, Math.ceil(posts.length / VISIBLE_COUNT));
+
+    const handlePrev = () => {
         if (posts.length === 0) return;
+        setFade(false);
+        setTimeout(() => {
+            setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
+            setFade(true);
+        }, 150);
+    };
 
-        const intervalId = setInterval(() => {
-            setFade(false);
-            setTimeout(() => {
-                setCurrentIndex((prev) => (prev + 1) % posts.length);
-                setFade(true);
-            }, 300);
-        }, 8000);
-
-        return () => clearInterval(intervalId);
-    }, [posts]);
+    const handleNext = () => {
+        if (posts.length === 0) return;
+        setFade(false);
+        setTimeout(() => {
+            setCurrentPage((prev) => (prev + 1) % totalPages);
+            setFade(true);
+        }, 150);
+    };
 
     if (loading) {
         return (
@@ -71,90 +78,59 @@ const BookMarketBoard = ({ boardType, title }) => {
         );
     }
 
-    const currentPost = posts[currentIndex];
+    const startIndex = currentPage * VISIBLE_COUNT;
+    const visiblePosts = posts.slice(startIndex, startIndex + VISIBLE_COUNT);
 
     return (
         <section className="BookMarketBoard">
-            <Link
-                to={`/main/community/${boardType.toLowerCase()}`}
-                className="more-link"
-            >
-                {/* <h4 className="title">{title}</h4> */}
-            </Link>
-
-            <div
-                className={`info-container single ${
-                    fade ? "fade-in" : "fade-out"
-                }`}
-            >
-                <Link
-                    className="post-link"
-                    to={`/main/community/${currentPost.boardType.toLowerCase()}/post/${
-                        currentPost.id
-                    }`}
-                >
-                    <div key={currentPost.id} className="book-post">
-                        <img
-                            src={
-                                currentPost.thumbNailUrl ||
-                                "/icons/no-img-text.png"
-                            }
-                            alt="책 이미지"
-                            style={{
-                                width: 200,
-                                height: 250,
-                                objectFit: "cover",
-                                borderRadius: 8,
-                            }}
-                        />
-                        <div className="post-info">
-                            <h4>{currentPost.title}</h4>
-                            <p className="price">
-                                {formatPrice(currentPost.price)}
-                            </p>
-                            <div className="meta-info">
+            <div className={`grid-viewport ${fade ? "fade-in" : "fade-out"}`}>
+                {visiblePosts.map((post) => (
+                    <Link
+                        key={post.id}
+                        className="book-card"
+                        to={`/main/community/${post.boardType.toLowerCase()}/post/${
+                            post.id
+                        }`}
+                    >
+                        <span className="thumb">
+                            <img
+                                src={
+                                    post.thumbNailUrl ||
+                                    "/icons/no-img-text.png"
+                                }
+                                alt={post.title}
+                            />
+                        </span>
+                        <span className="info">
+                            <span className="title">{post.title}</span>
+                            <span className="price">
+                                {formatPrice(post.price)}
+                            </span>
+                            <span className="meta">
                                 <span className="writer">
-                                    {currentPost.writerNickname}
+                                    {post.writerNickname}
                                 </span>
                                 <span className="date">
-                                    {currentPost.createdDate?.slice(0, 10)}
+                                    {post.createdDate?.slice(0, 10)}
                                 </span>
                                 <span className="comments">
-                                    댓글: {currentPost.commentCount}
+                                    댓글: {post.commentCount}
                                 </span>
-                            </div>
-                        </div>
-                    </div>
-                </Link>
-            </div>
-
-            <div className="nav-button-group">
+                            </span>
+                        </span>
+                    </Link>
+                ))}
                 <button
-                    className="mini-button"
-                    onClick={() => {
-                        setFade(false);
-                        setTimeout(() => {
-                            setCurrentIndex(
-                                (prev) =>
-                                    (prev - 1 + posts.length) % posts.length
-                            );
-                            setFade(true);
-                        }, 300);
-                    }}
+                    className="nav-arrow prev"
+                    onClick={handlePrev}
+                    aria-label="이전"
                 >
                     ◀
                 </button>
                 <button
-                    className="mini-button"
-                    onClick={() => {
-                        setFade(false);
-                        setTimeout(() => {
-                            setCurrentIndex(
-                                (prev) => (prev + 1) % posts.length
-                            );
-                            setFade(true);
-                        }, 300);
-                    }}
+                    className="nav-arrow next"
+                    onClick={handleNext}
+                    aria-label="다음"
                 >
                     ▶
                 </button>

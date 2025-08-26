@@ -4,7 +4,7 @@
     box-sizing: border-box;
     border-radius: 6px;
     padding: 15px;
-    width: 400px;
+    width: 100%;
     position: relative;
     z-index: 0; /* 낮은 값 */
 }
@@ -26,41 +26,52 @@
     padding-bottom: 6px;
 }
 
-.info-container.single {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 40px;
+.grid-viewport {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
     width: 100%;
     overflow: hidden;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     opacity: 1;
 }
 
-.info-container.fade-in {
+.grid-viewport.fade-in {
     opacity: 1;
 }
 
-.info-container.fade-out {
+.grid-viewport.fade-out {
     opacity: 0;
 }
 
-.book-post {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
-}
-
-.post-info {
+.book-card {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    max-width: 100%;
+    gap: 10px;
+    align-items: flex-start;
+    text-decoration: none;
+    border: 1px solid var(--base-border-color);
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+    position: relative;
 }
 
-.post-info h4 {
+.book-card .thumb img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.book-card .info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.book-card .info .title {
     margin: 0;
     font-size: 1rem;
     font-weight: bold;
@@ -70,13 +81,13 @@
     text-overflow: ellipsis;
 }
 
-.price {
+.book-card .info .price {
     font-weight: bold;
     color: #2a9d8f;
     font-size: 0.95rem;
 }
 
-.meta-info {
+.book-card .info .meta {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -85,52 +96,51 @@
     margin-top: 6px;
 }
 
-.meta-info .writer {
+.book-card .info .meta .writer {
     font-weight: bold;
 }
 
-.meta-info .date {
+.book-card .info .meta .date {
     color: #888;
 }
 
-.meta-info .comment {
+.book-card .info .meta .comment {
     color: #999;
 }
 
-.nav-button-group {
-    align-content: center;
-    display: flex;
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    display: none;
+    align-items: center;
     justify-content: center;
-    margin-top: 10px;
-    gap: 10px;
-}
-
-.mini-button {
-    background-color: transparent;
-    border: 1px solid #ccc;
-    color: #333;
-    padding: 4px 7px;
-    font-size: 1rem;
-    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    z-index: 2;
 }
 
-.mini-button:hover {
-    background-color: #ddd;
-    transform: scale(1.1);
+.BookMarketBoard:hover .nav-arrow {
+    display: flex;
+}
+.nav-arrow.prev {
+    left: 6px;
+}
+.nav-arrow.next {
+    right: 6px;
 }
 
-.BookMarketBoard img {
-    border-radius: 8px;
-    max-width: 200px;
-    height: auto;
-    object-fit: cover;
-}
-
-@media (max-width: 760px) {
+@media (max-width: 767px) {
     .BookMarketBoard {
         max-width: none;
         width: 100%;
+    }
+    .grid-viewport {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
