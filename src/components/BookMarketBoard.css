@@ -1,9 +1,4 @@
 .BookMarketBoard {
-    border: 1px solid var(--base-border-color);
-    display: block;
-    box-sizing: border-box;
-    border-radius: 6px;
-    padding: 15px;
     width: 100%;
     position: relative;
     z-index: 0; /* 낮은 값 */
