@@ -2,7 +2,6 @@
     height: 100%;
     min-width: 10px;
     padding: 20px;
-    padding-left: 50px;
     display: flex;
     margin-top: 20px;
 }
@@ -23,7 +22,7 @@
     min-width: 10px;
     flex-direction: column;
     align-content: center;
-    gap: 40px;
+    gap: 2.5rem;
 }
 
 .title-container {
@@ -37,17 +36,7 @@
     display: flex;
     gap: 30px;
     width: 100%;
-    height: auto
-}
-
-/* ✅ 각 영역 절반 너비 */
-.Dashboard .left-half,
-.Dashboard .right-half {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    height: 100%;
+    height: auto;
 }
 
 .Dashboard h3 {
@@ -98,27 +87,26 @@
     height: auto;
 }
 
-
 .Dashboard aside {
     padding-left: 0;
     margin-left: 0;
 }
 
 .Dashboard aside ul {
-  position: relative;
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
+    position: relative;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
 }
 .Dashboard aside ul::before {
-  content: "";
-  position: absolute;
-  top: 10px; /* ✅ 위에서 10px 떨어진 지점부터 시작 */
-  bottom: 0;
-  left: 0;
-  width: 0;
-  border-left: 1px solid var(--base-border-color); /* ✅ 원하는 border 색상 */
-  z-index: 0;
+    content: "";
+    position: absolute;
+    top: 10px; /* ✅ 위에서 10px 떨어진 지점부터 시작 */
+    bottom: 0;
+    left: 0;
+    width: 0;
+    border-left: 1px solid var(--base-border-color); /* ✅ 원하는 border 색상 */
+    z-index: 0;
 }
 
 .Dashboard aside li {
@@ -142,7 +130,6 @@
     line-height: 1;
 }
 
-
 /* ✅ InfoBox 반반 균등 */
 .Dashboard .info-area {
     display: flex;
@@ -151,10 +138,10 @@
 }
 
 .Dashboard .info-area .inner-container {
-    flex: 1;                 /* 균등 분배 */
+    flex: 1; /* 균등 분배 */
     display: flex;
     flex-direction: column;
-    min-width: 0;            /* ellipsis 동작 위해 필요 */
+    min-width: 0; /* ellipsis 동작 위해 필요 */
 }
 
 /* ✅ 긴 제목 자동 줄임 (...) 처리 */
@@ -165,9 +152,45 @@
     white-space: nowrap;
 }
 
+.Dashboard .marketplace {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.Dashboard .header-area {
+    position: relative;
+}
+
+.Dashboard .title {
+    margin-left: var(--spacing-4);
+    font-weight: bold;
+    font-size: var(--font-size-base);
+    line-height: 1.625;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.Dashboard .marketplace .title {
+    margin-bottom: var(--spacing-2);
+}
+
+.Dashboard .title svg {
+    width: var(--spacing-4);
+    margin-right: 8px;
+    color: #333;
+}
+
+.Dashboard .content-area {
+    background: #fff;
+    box-shadow: var(--board-shadow-color);
+    border-radius: 1.5rem;
+    padding: var(--spacing-3) var(--spacing-4);
+}
 
 /* ✅ 급식 영역 */
-.daily-area{
+.daily-area {
     width: 400px;
     padding: 20px;
     background-color: white;
@@ -190,7 +213,6 @@
 
     .Dashboard .main-container {
         width: 100%;
-        gap: var(--medium-screen-gap);
     }
 
     .Dashboard .rightside-container {
@@ -202,7 +224,8 @@
     }
 }
 
-@media (max-width: 760px) {
+/* 모바일 화면 */
+@media (max-width: 767px) {
     .Dashboard .info-area {
         flex-direction: column;
         gap: 20px;
@@ -217,7 +240,13 @@
         max-width: 100%;
     }
 
-    .Dashboard .div-area{
+    .Dashboard .div-area {
         flex-direction: column;
+    }
+
+    .Dashboard .title svg {
+        width: 18px;
+        margin-right: 6px;
+        margin-top: 1px;
     }
 }

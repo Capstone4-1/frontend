@@ -7,6 +7,8 @@ body {
     overflow-x: hidden; /*지우지마마*/
     font-family: Pretendard, "Noto Sans KR", sans-serif;
     font-size: var(--font-size-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 *,

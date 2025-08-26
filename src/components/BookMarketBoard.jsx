@@ -18,9 +18,12 @@ const BookMarketBoard = ({ boardType, title }) => {
     const fetchPosts = async () => {
         try {
             setLoading(true);
-            const response = await axiosInstance.get(`/post/${boardType}/summary`, {
-                params: { pageSize: PAGE_SIZE },
-            });
+            const response = await axiosInstance.get(
+                `/post/${boardType}/summary`,
+                {
+                    params: { pageSize: PAGE_SIZE },
+                }
+            );
             setPosts(response.data?.Posts || []);
         } catch (error) {
             console.error("마켓 게시글 요약 가져오기 실패:", error);
@@ -72,18 +75,30 @@ const BookMarketBoard = ({ boardType, title }) => {
 
     return (
         <section className="BookMarketBoard">
-            <Link to={`/main/community/${boardType.toLowerCase()}`} className="more-link">
-                <h4 className="title">{title}</h4>
+            <Link
+                to={`/main/community/${boardType.toLowerCase()}`}
+                className="more-link"
+            >
+                {/* <h4 className="title">{title}</h4> */}
             </Link>
 
-            <div className={`info-container single ${fade ? "fade-in" : "fade-out"}`}>
+            <div
+                className={`info-container single ${
+                    fade ? "fade-in" : "fade-out"
+                }`}
+            >
                 <Link
                     className="post-link"
-                    to={`/main/community/${currentPost.boardType.toLowerCase()}/post/${currentPost.id}`}
+                    to={`/main/community/${currentPost.boardType.toLowerCase()}/post/${
+                        currentPost.id
+                    }`}
                 >
                     <div key={currentPost.id} className="book-post">
                         <img
-                            src={currentPost.thumbNailUrl || "/icons/no-img-text.png"}
+                            src={
+                                currentPost.thumbNailUrl ||
+                                "/icons/no-img-text.png"
+                            }
                             alt="책 이미지"
                             style={{
                                 width: 200,
@@ -94,11 +109,19 @@ const BookMarketBoard = ({ boardType, title }) => {
                         />
                         <div className="post-info">
                             <h4>{currentPost.title}</h4>
-                            <p className="price">{formatPrice(currentPost.price)}</p>
+                            <p className="price">
+                                {formatPrice(currentPost.price)}
+                            </p>
                             <div className="meta-info">
-                                <span className="writer">{currentPost.writerNickname}</span>
-                                <span className="date">{currentPost.createdDate?.slice(0, 10)}</span>
-                                <span className="comments">댓글: {currentPost.commentCount}</span>
+                                <span className="writer">
+                                    {currentPost.writerNickname}
+                                </span>
+                                <span className="date">
+                                    {currentPost.createdDate?.slice(0, 10)}
+                                </span>
+                                <span className="comments">
+                                    댓글: {currentPost.commentCount}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -111,7 +134,10 @@ const BookMarketBoard = ({ boardType, title }) => {
                     onClick={() => {
                         setFade(false);
                         setTimeout(() => {
-                            setCurrentIndex((prev) => (prev - 1 + posts.length) % posts.length);
+                            setCurrentIndex(
+                                (prev) =>
+                                    (prev - 1 + posts.length) % posts.length
+                            );
                             setFade(true);
                         }, 300);
                     }}
@@ -123,7 +149,9 @@ const BookMarketBoard = ({ boardType, title }) => {
                     onClick={() => {
                         setFade(false);
                         setTimeout(() => {
-                            setCurrentIndex((prev) => (prev + 1) % posts.length);
+                            setCurrentIndex(
+                                (prev) => (prev + 1) % posts.length
+                            );
                             setFade(true);
                         }, 300);
                     }}
