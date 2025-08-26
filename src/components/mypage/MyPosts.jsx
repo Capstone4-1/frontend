@@ -136,23 +136,7 @@ const MyPosts = () => {
 
       </div>
 
-<div className="pager-bottom">
-  <span
-    className={`pager-arrow ${!canPrev ? "disabled" : ""}`}
-    onClick={() => canPrev && fetchMyPosts(page - 1)}
-  >
-    {"<"}
-  </span>
-  <span className="pager-indicator">
-    {page + 1} / {totalPages}
-  </span>
-  <span
-    className={`pager-arrow ${!canNext ? "disabled" : ""}`}
-    onClick={() => canNext && fetchMyPosts(page + 1)}
-  >
-    {">"}
-  </span>
-</div>
+
 
     </div>
   );
