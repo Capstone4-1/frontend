@@ -434,11 +434,9 @@ function Header() {
                                                         ? "logout"
                                                         : ""
                                                 }`}
+                                                onClick={item.onClick}
                                             >
-                                                <button
-                                                    className="profile-menu-btn"
-                                                    onClick={item.onClick}
-                                                >
+                                                <button className="profile-menu-btn">
                                                     {item.label}
                                                 </button>
                                             </li>
