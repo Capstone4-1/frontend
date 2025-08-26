@@ -20,6 +20,7 @@ import {
     FcPaid,
 } from "react-icons/fc";
 import MyProfile from "./Myprofile";
+import { last } from "lodash";
 
 function Header() {
     const { user } = useContext(UserContext);
@@ -53,6 +54,9 @@ function Header() {
         {
             label: "마이 페이지",
             onClick: () => navigate("/mypage"),
+        },
+        {
+            label: "친구",
         },
         {
             label: "로그아웃",
