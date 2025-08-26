@@ -114,6 +114,9 @@ function MobileMenu({ isOpen, onClose, user, onLogout, newMailCount }) {
                     >
                         메일함{newMailCount > 0 ? ` (${newMailCount})` : ""}
                     </Link>
+                    <Link className="m-gnb-item" onClick={onClose}>
+                        친구
+                    </Link>
                 </div>
 
                 {user && (
