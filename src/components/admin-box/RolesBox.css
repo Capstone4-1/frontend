@@ -1,131 +1,183 @@
+/* RolesBox.css */
 .RolesBox {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 32px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  padding: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  color: #222;
 }
 
 .RolesBox h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  color: #1f2937;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.filter-form {
+.RolesBox .filter-form {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.filter-form input,
-.filter-form select {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
-  flex: 1 1 150px;
-}
-
-.primary-btn {
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.primary-btn:hover {
-  background-color: #1d4ed8;
-}
-
-.role-control {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-.role-control label {
-  font-weight: 600;
-  color: #374151;
-}
-
-.role-control select {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
+.RolesBox .filter-form input,
+.RolesBox .filter-form select {
+  padding: 8px;
   font-size: 14px;
-}
-
-/* 테이블 스타일 */
-.user-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  font-size: 14px;
-}
-
-.user-table thead {
-  background-color: #f3f4f6;
-}
-
-.user-table th,
-.user-table td {
-  text-align: left;
-  padding: 12px 14px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.user-table tr:hover {
-  background-color: #f9fafb;
-}
-
-/* PostManageBox 삭제 버튼 스타일 그대로 가져옴 */
-.btn {
-  padding: 4px 10px;
-  background-color: transparent;
-  border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 12px;
-  color: #555;
+  border: 1px solid #ccc;
+  flex: 1;
+}
+
+.RolesBox .filter-form .primary-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background-color: #fff;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  min-width: auto;
-  box-shadow: none;
-  user-select: none;
-  margin-right: 8px;
-  text-align: center;
 }
 
-.btn:hover {
-  border-color: #ff4d4f;
-  color: #ff4d4f;
-  background-color: rgba(255, 77, 79, 0.1);
+.RolesBox .filter-form .primary-btn:hover {
+  background-color: #f0f0f0;
+  border-color: #222;
 }
 
-/* 부여 버튼, 회수 버튼 모두 삭제 버튼 스타일 그대로 적용 */
-/* 필요하다면 색상 구분 추가 가능 (지금은 모두 동일) */
-.grant-btn {
-  /* 따로 스타일 없음 */
+.RolesBox .role-control {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.revoke-btn {
-  /* 따로 스타일 없음 */
+.RolesBox .user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
 }
 
-.grant-btn:hover {
-  border-color: #2563eb;
-  color: #2563eb;
-  background-color: rgba(37, 99, 235, 0.1);
-}
-
-.no-result {
-  color: #6b7280;
-  margin-top: 12px;
+.RolesBox .user-table th,
+.RolesBox .user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
   font-size: 14px;
+}
+
+.RolesBox .user-table th {
+  background-color: #f8f9fa;
+}
+
+.RolesBox .btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+  transition: all 0.2s ease-in-out;
+}
+
+.RolesBox .grant-btn {
+  color: #28a745;
+  border-color: #28a745;
+  background-color: transparent;
+}
+
+.RolesBox .grant-btn:hover {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.RolesBox .revoke-btn {
+  color: #dc3545;
+  border-color: #dc3545;
+  background-color: transparent;
+}
+
+.RolesBox .revoke-btn:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.RolesBox .no-result {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Permission Requests */
+.RolesBox .permission-requests {
+  margin-top: 40px;
+}
+
+.RolesBox .request-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.RolesBox .request-list li {
+  background-color: #f8f9fa;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.RolesBox .request-header {
+  padding: 12px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #e9ecef;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.RolesBox .request-header:hover {
+  background-color: #dee2e6;
+}
+
+.RolesBox .request-detail-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.RolesBox .request-detail-wrapper.open {
+  max-height: 500px; /* 충분히 큰 값 */
+}
+
+.RolesBox .request-detail {
+  padding: 12px 16px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.RolesBox .approve-btn,
+.RolesBox .cancel-btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-right: 5px;
+}
+
+.RolesBox .approve-btn {
+  color: #28a745;
+  border-color: #28a745;
+  background-color: transparent;
+}
+
+.RolesBox .approve-btn:hover {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.RolesBox .cancel-btn {
+  color: #dc3545;
+  border-color: #dc3545;
+  background-color: transparent;
+}
+
+.RolesBox .cancel-btn:hover {
+  background-color: rgba(220, 53, 69, 0.1);
 }

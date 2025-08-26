@@ -9,6 +9,7 @@ const PAGE_SIZE = 5;
 const MyPosts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true); // 최초 로딩
+
   const [errMsg, setErrMsg] = useState("");
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -18,6 +19,7 @@ const MyPosts = () => {
   const fetchMyPosts = async (pageArg = 0, isInitial = false) => {
     try {
       if (isInitial) setLoading(true); // 최초 렌더링일 때만 로딩 표시
+
       setErrMsg("");
       const res = await axiosInstance.get("/post/my-posts", {
         params: { page: pageArg, pageSize: PAGE_SIZE },
@@ -43,6 +45,7 @@ const MyPosts = () => {
 
   useEffect(() => {
     fetchMyPosts(0, true); // 최초 마운트 시에만 로딩 ON
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -130,7 +133,27 @@ const MyPosts = () => {
         >
           {">"}
         </button>
+
       </div>
+
+<div className="pager-bottom">
+  <span
+    className={`pager-arrow ${!canPrev ? "disabled" : ""}`}
+    onClick={() => canPrev && fetchMyPosts(page - 1)}
+  >
+    {"<"}
+  </span>
+  <span className="pager-indicator">
+    {page + 1} / {totalPages}
+  </span>
+  <span
+    className={`pager-arrow ${!canNext ? "disabled" : ""}`}
+    onClick={() => canNext && fetchMyPosts(page + 1)}
+  >
+    {">"}
+  </span>
+</div>
+
     </div>
   );
 };

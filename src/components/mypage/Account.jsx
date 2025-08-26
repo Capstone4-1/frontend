@@ -1,4 +1,4 @@
-// 계정 및 보안
+
 import { useEffect, useRef } from "react";
 import "./Account.css";
 import MyInfo from "./MyInfo";
@@ -23,6 +23,7 @@ const Account = () => {
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
       setTimeout(() => target?.focus?.(), 400);
+
     }
   }, [location]);
 
@@ -56,6 +57,7 @@ const Account = () => {
           }
         }}
         aria-label="회원 탈퇴"
+
       >
         회원 탈퇴
       </button>

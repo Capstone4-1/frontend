@@ -68,8 +68,6 @@
 }
 
 
-
-
-
-
-
+.delete-btn:hover {
+  color: #d9363e;       /* hover 시 조금 더 진한 빨강 */
+}

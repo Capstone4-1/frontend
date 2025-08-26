@@ -147,3 +147,17 @@
     font-weight: 500;
     color: #888;
 }
+
+@media (max-width: 1023px) {
+    .BellBox .notification-dropdown {
+        width: 240px;
+        max-height: 280px;
+    }
+    .BellBox .notification-item {
+        padding: 16px 36px 18px 18px;
+    }
+    .BellBox .notification-delete-btn {
+        width: 18px;
+        height: 18px;
+    }
+}

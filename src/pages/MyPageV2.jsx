@@ -70,6 +70,7 @@ const MyPageV2 = () => {
               <div>{user.nickname}</div>
             </div>
 
+
             <div className="menu-box">
               <div>
                 <h3>내 활동</h3>
@@ -82,6 +83,7 @@ const MyPageV2 = () => {
                       onKeyActivate(e, () =>
                         handleSecureNavigate("activity", "comments")
                       )
+
                     }
                   >
                     작성한 댓글
@@ -95,6 +97,7 @@ const MyPageV2 = () => {
                       onKeyActivate(e, () =>
                         handleSecureNavigate("activity", "posts")
                       )
+
                     }
                   >
                     작성한 글
@@ -108,6 +111,7 @@ const MyPageV2 = () => {
                       onKeyActivate(e, () =>
                         handleSecureNavigate("activity", "favorites")
                       )
+
                     }
                   >
                     좋아요 한 게시물
@@ -125,6 +129,7 @@ const MyPageV2 = () => {
                   >
                     스크랩 한 게시물
                   </li>
+            
                 </ul>
               </div>
 
@@ -173,6 +178,7 @@ const MyPageV2 = () => {
   회원탈퇴
 </li>
 
+
                 </ul>
               </div>
             </div>
@@ -196,6 +202,7 @@ const MyPageV2 = () => {
             if (pendingRoute) {
               if (pendingRouteFocus) {
                 navigate(pendingRoute, { state: { focusSection: pendingRouteFocus } });
+
               } else {
                 navigate(pendingRoute);
               }

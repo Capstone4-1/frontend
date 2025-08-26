@@ -142,6 +142,31 @@
     line-height: 1;
 }
 
+
+/* ✅ InfoBox 반반 균등 */
+.Dashboard .info-area {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.Dashboard .info-area .inner-container {
+    flex: 1;                 /* 균등 분배 */
+    display: flex;
+    flex-direction: column;
+    min-width: 0;            /* ellipsis 동작 위해 필요 */
+}
+
+/* ✅ 긴 제목 자동 줄임 (...) 처리 */
+.Dashboard .info-area .inner-container h3,
+.Dashboard .info-area .inner-container .board-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ✅ 급식 영역 */
 .daily-area{
     width: 400px;
     padding: 20px;
@@ -151,6 +176,7 @@
     border: 1px solid var(--base-border-color); /* ✅ 원하는 border 색상 */
     gap: 10%;
 }
+
 @media (max-width: 1180px) {
     .Dashboard {
         padding-left: 20px;

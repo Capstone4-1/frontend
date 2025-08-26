@@ -1,8 +1,12 @@
+import { useSearchParams } from "react-router-dom";
 import RegisterForm from "../components/RegisterForm";
 import IntroBox from "../components/IntroBox";
+import ResetPasswordForm from "../components/ResetPasswordForm";
+
 const RegisterPage = () => {
-    console.log("RegisterPage Loaded");
-    console.log("logo path:", document.querySelector(".logo-img")?.src);
+    const [searchParams] = useSearchParams();
+    const mode = searchParams.get("mode") || "register"; // 기본은 회원가입
+
     return (
         <div className="auth-page">
             <div className="left-side">
@@ -15,7 +19,7 @@ const RegisterPage = () => {
                         src="/icons/logo.svg"
                         alt="logo_img"
                     />
-                    <RegisterForm />
+                    {mode === "register" ? <RegisterForm /> : <ResetPasswordForm />}
                 </div>
             </div>
         </div>

@@ -47,12 +47,14 @@ const MyComments = () => {
 
   useEffect(() => {
     fetchComments(0, true); // ✅ 처음엔 로딩 표시
+
   }, []);
 
   const handleClick = (c) => {
     const postId = c?.postId;
     const boardType = c?.boardType;
     if (!postId || !boardType) {
+      console.warn("필수 값 누락:", { postId, boardType, comment: c });
       alert("이 댓글의 게시판/게시물 정보를 찾을 수 없어요.");
       return;
     }
@@ -60,6 +62,7 @@ const MyComments = () => {
     const url = `/main/community/${encodeURIComponent(bt)}/post/${encodeURIComponent(
       postId
     )}?commentId=${encodeURIComponent(c.id)}`;
+
     navigate(url, { state: { from: "my-comments", highlightCommentId: c.id } });
   };
 
@@ -79,6 +82,7 @@ const MyComments = () => {
 
       <div className="comments-card">
         {initialLoading ? (
+
           <div className="empty-state">불러오는 중...</div>
         ) : errMsg ? (
           <div className="empty-state">{errMsg}</div>
@@ -143,6 +147,7 @@ const MyComments = () => {
               </button>
             </div>
           </>
+
         )}
       </div>
     </div>

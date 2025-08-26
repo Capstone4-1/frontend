@@ -15,12 +15,9 @@ const refreshAccessToken = async () => {
     const response = await rawAxios.post("/auth/refresh", {
       refreshToken: localStorage.getItem("refreshToken"),
     });
-
     const { accessToken, refreshToken } = response.data;
-
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
-
     console.log("✅ Access Token 리프레시 성공");
 
     return accessToken;

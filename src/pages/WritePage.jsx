@@ -133,7 +133,6 @@ const WritePage = () => {
           imageUrls,
         });
         if (res.status === 200 || res.status === 201) {
-          alert("글이 등록되었습니다.");
           navigate(`/main/community/${selectedBoard.value.toLowerCase()}`);
         } else {
           alert("등록 실패. 다시 시도해주세요.");

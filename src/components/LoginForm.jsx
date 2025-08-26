@@ -84,15 +84,14 @@ const LoginForm = ({ setIsAuthenticated }) => {
                 <button type="submit">로그인</button>
             </form>
             <div className="link-container">
-                <Link className="link-button" to={"/login/register"}>
+                <Link className="link-button" to={"/login/register?mode=register"}>
                     회원가입
                 </Link>
                 <div className="delim">|</div>
-                <Link className="link-button" to={"/login/register"}>
-                   비밀번호 찾기
+                <Link className="link-button" to={"/login/register?mode=reset"}>
+                    비밀번호 찾기
                 </Link>
             </div>
-
             <div></div>
         </div>
     );

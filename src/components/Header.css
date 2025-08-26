@@ -1,9 +1,9 @@
 .header {
+    display: flex;
+    align-items: center;
     position: sticky;
     top: 0;
     z-index: 100;
-    display: flex;
-    align-items: center;
     justify-content: center;
     width: 100%;
     min-width: 300px;
@@ -56,7 +56,6 @@
 
 .header .gnb {
     display: flex;
-    gap: 25px;
     margin-left: 48px;
 }
 
@@ -156,11 +155,11 @@
 
 .header .submenu-title {
     font-weight: 600;
-    font-size: 14px;
+    font-size: var(--font-size-2xs);
 }
 
 .header .submenu-desc {
-    font-size: 12px;
+    font-size: var(--font-size-3xs);
     color: #868e96;
     margin-top: 2px;
 }
@@ -355,9 +354,104 @@
     }
 }
 
+@media (max-width: 1312px) {
+    .header-container {
+        max-width: 1280px;
+        width: 100%;
+        padding: 0 16px;
+    }
+}
+
 @media (max-width: 1279px) {
     .header .profile-menu-list-area {
         right: 0;
         left: auto;
+    }
+}
+
+@media (max-width: 1023px) {
+    .header-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .header .submenu-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .header .logo-btn img {
+        max-width: 60px;
+    }
+
+    .header .menu-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .header .gnb {
+        margin-left: 32px;
+    }
+
+    .header .gnb-title {
+        padding: 8px 10px;
+    }
+
+    .header .submenu-item {
+        padding: 10px 14px;
+    }
+
+    .header .tooltip {
+        min-width: 200px;
+    }
+
+    .header {
+        height: 56px;
+    }
+
+    .header .admin-btn {
+        padding: 5px 7px;
+    }
+
+    .header .Reddot {
+        top: 10px;
+        right: 10px;
+        padding: 4px;
+    }
+
+    .header .Reddot .content {
+        font-size: 7px;
+    }
+
+    .header .profile-menu-list {
+        width: 150px;
+    }
+}
+
+@media (max-width: 767px) {
+    .header {
+        background-color: var(--background-color);
+        border: 0;
+        transition: top 0.25s, background-color 0.25s;
+    }
+
+    .header.shadow {
+        box-shadow: rgb(231, 232, 234) 0px 1px 1px;
+    }
+
+    .header .header-container {
+        height: 56px;
+        padding: 0 12px 0 16px;
+    }
+
+    .header .mail-btn svg,
+    .header .bell-btn svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .header .mobile-menu-btn svg {
+        width: 26px;
+        height: 26px;
     }
 }

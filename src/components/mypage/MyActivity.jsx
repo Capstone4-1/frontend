@@ -5,6 +5,7 @@ import MyComments from "./MyComments";
 import MyPosts from "./MyPosts";
 import MyFavorites from "./MyFavorites";
 import MyScraps from "./MyScraps";
+
 import { useLocation } from "react-router-dom";
 
 const MyActivity = () => {
@@ -12,6 +13,7 @@ const MyActivity = () => {
   const postsRef = useRef(null);
   const favoritesRef = useRef(null);
   const scrapsRef = useRef(null);
+
 
   const location = useLocation();
 
@@ -41,6 +43,7 @@ const MyActivity = () => {
 
     const timer = setTimeout(() => target?.focus?.(), prefersReduced ? 0 : 300);
     return () => clearTimeout(timer);
+
   }, [location]);
 
   return (
@@ -85,6 +88,7 @@ const MyActivity = () => {
         aria-label="스크랩 한 게시물 섹션"
       >
         <MyScraps />
+
       </section>
     </div>
   );

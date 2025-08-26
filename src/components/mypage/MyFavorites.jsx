@@ -15,6 +15,7 @@ const MyFavorites = ({
   const [unlikingId, setUnlikingId] = useState(null);
   const navigate = useNavigate();
 
+
   const normalizePost = (raw) => ({
     id: raw?.postId ?? raw?.id,
     title: raw?.title ?? "(제목 없음)",
@@ -90,6 +91,7 @@ const MyFavorites = ({
             <p className="empty-title">좋아요한 게시물이 없습니다.</p>
             <p className="empty-desc">마음에 드는 글에 ♥를 눌러 보관해 보세요.</p>
           </div>
+
         ) : (
           <ul className="favorites-list">
             {items.map((p) => (

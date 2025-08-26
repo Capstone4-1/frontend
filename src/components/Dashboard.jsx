@@ -1,12 +1,9 @@
 import "./Dashboard.css";
 import BookMarketBoard from "./BookMarketBoard";
 import InfoBox from "./InfoBox";
-import LectureRoomCard from "./cards-widget/LectureRoomCard";
-import MyPageCard from "./cards-widget/MyPageCard";
 import QuickLinks from "./QuickLinks";
 import Friends from "./Friends";
 import DailyMenu from "./DailyMenu";
-import CalendarPanel from "./CalendarPanel";
 import { useState } from "react";
 const Dashboard = () => {
 
@@ -27,7 +24,6 @@ const Dashboard = () => {
               />
             </section>
           </div>
-
           
           <div className="div-area">
             <div className="left-half">
