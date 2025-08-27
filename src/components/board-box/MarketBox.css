@@ -1,15 +1,14 @@
 .MarketBox {
   display: flex;
   flex-direction: column;
-  padding: 0 8px;
 }
 
 /* 헤더 */
-.market-header {
+.MarketBox .market-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-3);
 }
 
 /* 등록 버튼 */
