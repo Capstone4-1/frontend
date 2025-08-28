@@ -127,33 +127,36 @@ const ResetPasswordForm = () => {
     };
 
     return (
-        <div className="reset-password-form">
+        <div className="reset-pw-box">
             {/* Step 1: 아이디 입력 */}
             {step === 1 && (
                 <form onSubmit={handleSubmitUsername}>
-                    <h2>비밀번호 찾기</h2>
-                    <p>가입하신 아이디를 입력해주세요.</p>
+                    <h2 className="title">비밀번호를 잊으셨나요?</h2>
+                    <p className="caption">
+                        학번/교번을 입력하시면,
+                        <br />
+                        인증코드를 보내드려요.
+                    </p>
 
-                    <input
-                        type="text"
-                        placeholder="아이디"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
+                    <div className="input-field">
+                        <label htmlFor="username">학번/교번</label>
+                        <input
+                            className="input-focus"
+                            type="text"
+                            id="username"
+                            value={username}
+                            placeholder="ex ) 20251234"
+                            maxLength="255"
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                    <button type="submit" disabled={loading}>
-                        {loading ? "확인 중..." : "다음"}
+                    <button type="submit" disabled={loading  || !username}>
+                        {loading ? "확인 중..." : "인증코드 보내기"}
                     </button>
 
                     {message && <p className="reset-message">{message}</p>}
-                    <button
-                        type="button"
-                        className="login-button"
-                        onClick={handleGoLogin}
-                    >
-                        로그인 화면으로 이동
-                    </button>
                 </form>
             )}
 

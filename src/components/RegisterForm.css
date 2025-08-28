@@ -33,7 +33,7 @@
     border-radius: 6px;
     font-size: 20px;
     color: #333;
-    background-color: #f9f9f9;
+    background-color: var(--background-color);
     transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
