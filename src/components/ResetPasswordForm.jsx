@@ -12,6 +12,7 @@ const ResetPasswordForm = () => {
     const [code, setCode] = useState(""); // 사용자 입력 코드
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState(false); // 에러 여부
 
     const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const ResetPasswordForm = () => {
     const handleSubmitUsername = async (e) => {
         e.preventDefault();
         if (!username) {
-            setMessage("아이디를 입력해주세요.");
+            setMessage("학번/교번을 입력해주세요.");
             return;
         }
         setLoading(true);
@@ -34,8 +35,10 @@ const ResetPasswordForm = () => {
                 setStep(2); // 인증코드 입력 단계로 이동
             } else {
                 setMessage(
-                    response.data?.message || "등록된 아이디가 없습니다.",
+                    response.data?.message ||
+                        "일치하는 회원정보가 없습니다. 다시 입력해주세요.",
                 );
+                setError(true);
             }
         } catch (error) {
             setMessage(
@@ -43,6 +46,7 @@ const ResetPasswordForm = () => {
                     "아이디 확인 중 오류가 발생했습니다.",
             );
             console.error(error);
+            setError(true);
         } finally {
             setLoading(false);
         }
@@ -141,22 +145,24 @@ const ResetPasswordForm = () => {
                     <div className="input-field">
                         <label htmlFor="username">학번/교번</label>
                         <input
-                            className="input-focus"
+                            className={`input-focus ${error ? "input-error" : ""}`}
                             type="text"
                             id="username"
                             value={username}
                             placeholder="ex ) 20251234"
                             maxLength="255"
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={(e) => {
+                                setUsername(e.target.value);
+                                if (error) setError(false);
+                            }}
                             required
                         />
+                        {error && message && <p className="error-message">{message}</p>}
                     </div>
 
-                    <button type="submit" disabled={loading  || !username}>
+                    <button type="submit" disabled={loading || !username}>
                         {loading ? "확인 중..." : "인증코드 보내기"}
                     </button>
-
-                    {message && <p className="reset-message">{message}</p>}
                 </form>
             )}
 
