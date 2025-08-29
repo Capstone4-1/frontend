@@ -3,6 +3,7 @@ import Timer from "./Timer";
 import axiosInstance from "./utils/AxiosInstance";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const ResetPasswordForm = () => {
     const [username, setUsername] = useState("");
@@ -37,7 +38,10 @@ const ResetPasswordForm = () => {
             });
             if (response.data?.success) {
                 setEmail(response.data.email); // 서버에서 받은 email 저장
-                setMessage("가입된 회원으로 인증코드를 보냈습니다.");
+                // alert(`${response.data.email}로 인증코드를 발송했습니다.`);
+                toast.success(
+                    `${response.data.email}로 인증코드를 발송했습니다.`,
+                );
                 setStep(2); // 인증코드 입력 단계로 이동
             } else {
                 setMessage(
