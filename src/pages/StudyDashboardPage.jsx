@@ -20,7 +20,6 @@ const StudyDashboardPage = () => {
 
     return (
         <div className="StudyDashboardPage">
-            <Header />
             <div className="DashboardLayout">
                 <div className="TimetableSection">
                     <Timetable onCreditChange={handleCreditChange} />

@@ -19,9 +19,9 @@ export const ROLE_TITLES = [
 ];
 
 export const ROLE_TITLES_MAP = {
-  STUDENT: "학생",
-  PROFESSOR: "교수",
-  MANAGER: "조교",
-  SYSTEM: "시스템",
-  ADMIN: "관리자",
+  STUDENT: "#학생",
+  PROFESSOR: "#교수",
+  MANAGER: "#조교",
+  SYSTEM: "#시스템",
+  ADMIN: "#관리자",
 };

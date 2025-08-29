@@ -53,7 +53,6 @@ const MyPageV2 = () => {
 
   return (
     <div className="Mypage">
-      <Header />
       <div className="out-layout">
         <div className="container">
           <aside>

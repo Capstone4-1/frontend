@@ -424,7 +424,7 @@ function Header() {
                                     className="header-btn profile"
                                 >
                                     <MyProfile
-                                        profileImageUrl={user?.profileImageUrl}
+                                        profileImageUrl={user?.profileThumbnails}
                                     />
                                 </button>
                                 <div className="profile-menu-list-area">

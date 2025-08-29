@@ -89,7 +89,6 @@ const MyPage = () => {
 
     return (
         <div className="MyPage">
-            <Header />
             <div className="page-container">
                 <aside className="profile-section">
                     <div className="proflie-img-box">

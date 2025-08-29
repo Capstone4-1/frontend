@@ -48,10 +48,6 @@ const BoardPage = () => {
 
     return (
         <div className="BoardPage">
-            <div className="header-with-button">
-                <Header />
-            </div>
-
             <div className="layout-container">
                 <div className="content-container">
                     <div className="board-container">
