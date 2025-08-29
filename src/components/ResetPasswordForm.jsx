@@ -38,7 +38,6 @@ const ResetPasswordForm = () => {
             });
             if (response.data?.success) {
                 setEmail(response.data.email); // 서버에서 받은 email 저장
-                // alert(`${response.data.email}로 인증코드를 발송했습니다.`);
                 toast.success(
                     `${response.data.email}로 인증코드를 발송했습니다.`,
                 );
@@ -88,7 +87,7 @@ const ResetPasswordForm = () => {
                 error.response?.data?.message ||
                     "인증코드 확인 중 오류가 발생했습니다.",
             );
-            console.error(error);
+            setError(true);
         } finally {
             setLoading(false);
         }
@@ -160,7 +159,7 @@ const ResetPasswordForm = () => {
                             id="username"
                             value={username}
                             placeholder="ex ) 20251234"
-                            maxLength="255"
+                            maxLength={255}
                             onChange={(e) => {
                                 setUsername(e.target.value);
                                 if (error) setError(false);
@@ -181,27 +180,42 @@ const ResetPasswordForm = () => {
             {/* Step 2: 인증코드 확인 */}
             {step === 2 && (
                 <form onSubmit={handleSubmitCode}>
-                    <h2>인증코드 확인</h2>
-                    <p>발송된 인증코드를 입력해주세요.</p>
+                    <h2 className="title">인증코드 확인</h2>
+                    <p className="caption">발송된 인증코드를 입력해주세요.</p>
 
-                    <input
-                        type="text"
-                        placeholder="인증코드"
-                        value={code}
-                        onChange={(e) => setCode(e.target.value)}
-                        required
-                    />
-                    <Timer duration={180} triggerReset={timerKey} />
+                    <div className="input-field">
+                        <label htmlFor="code">인증코드</label>
+                        <input
+                            className={`input-focus ${error ? "input-error" : ""}`}
+                            type="text"
+                            id="code"
+                            value={code}
+                            placeholder="인증코드 입력"
+                            maxLength={6}
+                            onChange={(e) => {
+                                setCode(e.target.value);
+                                if (error) setError(false);
+                            }}
+                            required
+                        />
+                        {error && message && (
+                            <p className="error-message">{message}</p>
+                        )}
+                        <div className="timer-resend-container">
+                            <Timer duration={300} triggerReset={timerKey} />
+                            <button
+                                type="button"
+                                className="resend-btn"
+                                onClick={handleSubmitUsername}
+                                disabled={loading}
+                            >
+                                {loading ? "요청 중..." : "인증코드 재전송"}
+                            </button>
+                        </div>
+                    </div>
 
-                    <button type="submit">확인</button>
-
-                    {message && <p className="reset-message">{message}</p>}
-                    <button
-                        type="button"
-                        className="login-button"
-                        onClick={handleGoLogin}
-                    >
-                        로그인 화면으로 이동
+                    <button type="submit" disabled={!code}>
+                        확인
                     </button>
                 </form>
             )}

@@ -1,6 +1,5 @@
 .timer {
-    margin-top: 2px;
-    padding-left: var(--spacing-2-5);
+    padding-left: var(--spacing-1-5);
     color: #7b90a6;
     font-size: var(--font-size-3xs);
 }

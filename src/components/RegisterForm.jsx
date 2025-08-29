@@ -204,7 +204,7 @@ const RegisterForm = () => {
                     />
                     {codeError && <p className="error-message">{codeError}</p>}
 
-                    <Timer duration={180} triggerReset={timerKey} />
+                    <Timer duration={300} triggerReset={timerKey} />
 
                     <div className="button-group">
                         <button onClick={handleVerify} disabled={loading}>
