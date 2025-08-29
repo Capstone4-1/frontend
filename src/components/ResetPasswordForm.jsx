@@ -1,4 +1,5 @@
 import "./ResetPasswordForm.css";
+import Timer from "./Timer";
 import axiosInstance from "./utils/AxiosInstance";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +14,13 @@ const ResetPasswordForm = () => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState(false); // 에러 여부
+    const [timerKey, setTimerKey] = useState(0);
 
     const navigate = useNavigate();
+
+    const startTimer = () => {
+        setTimerKey((prev) => prev + 1);
+    };
 
     // Step 1: 아이디 제출
     const handleSubmitUsername = async (e) => {
@@ -157,7 +163,9 @@ const ResetPasswordForm = () => {
                             }}
                             required
                         />
-                        {error && message && <p className="error-message">{message}</p>}
+                        {error && message && (
+                            <p className="error-message">{message}</p>
+                        )}
                     </div>
 
                     <button type="submit" disabled={loading || !username}>
@@ -179,6 +187,7 @@ const ResetPasswordForm = () => {
                         onChange={(e) => setCode(e.target.value)}
                         required
                     />
+                    <Timer duration={180} triggerReset={timerKey} />
 
                     <button type="submit">확인</button>
 
