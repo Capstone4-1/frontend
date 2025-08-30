@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import Header from "../components/Header";
-import NaviBar from "../components/NaviBar";
 import MarketBox from "../components/board-box/MarketBox";
 import BasicBoardBox from "../components/board-box/BasicBoardBox";
 import PostDetail from "../components/post/PostDetail";
@@ -18,7 +16,8 @@ const BoardPage = () => {
     const renderBoard = () => {
         switch (boardType) {
             case "free":
-            case "notice_c":
+            case "notice_univ":
+            case "notice_dept":
             case "notice":
             case "secret":
             case "review":

@@ -17,7 +17,7 @@ const Dashboard = () => {
                     <div className="div-area info-area">
                         <section className="inner-container">
                             <InfoBox
-                                boardTypes={["NOTICE", "NOTICE_C"]}
+                                boardTypes={["NOTICE", "NOTICE_UNIV", "NOTICE_DEPT"]}
                                 title="공지사항"
                             />
                         </section>
