@@ -1,14 +1,23 @@
-// Mypage - 내가 쓴 댓글 
+// Mypage - 내가 쓴 댓글
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyComments.css";
 import axiosInstance from "../utils/AxiosInstance";
+import { getBoardLabel } from "../utils/boardUtils";
 
-const PAGE_SIZE = 5; // ✅ 한 페이지 5개
+const PAGE_SIZE = 5; 
+
+// YYYY. M. D
+const formatDotDate = (value) => {
+  if (!value) return "";
+  const d = new Date(value);
+  if (Number.isNaN(d)) return "";
+  return `${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}`;
+};
 
 const MyComments = () => {
   const [comments, setComments] = useState([]);
-  const [initialLoading, setInitialLoading] = useState(true); // ✅ 첫 진입 로딩
+  const [initialLoading, setInitialLoading] = useState(true);
   const [errMsg, setErrMsg] = useState("");
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -46,8 +55,7 @@ const MyComments = () => {
   };
 
   useEffect(() => {
-    fetchComments(0, true); // ✅ 처음엔 로딩 표시
-
+    fetchComments(0, true);
   }, []);
 
   const handleClick = (c) => {
@@ -82,73 +90,70 @@ const MyComments = () => {
 
       <div className="comments-card">
         {initialLoading ? (
-
           <div className="empty-state">불러오는 중...</div>
         ) : errMsg ? (
           <div className="empty-state">{errMsg}</div>
         ) : comments.length === 0 ? (
           <div className="empty-state">아직 작성한 댓글이 없어요.</div>
         ) : (
-          <>
-            <ul className="comments-list">
-              {comments.map((c) => (
-                <li
-                  key={c.id}
-                  className="comment-item"
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => handleClick(c)}
-                  onKeyDown={(e) => onKey(e, c)}
-                  aria-label={`게시물로 이동: ${c?.content?.slice(0, 30) || ""}`}
-                  title="게시물로 이동"
-                >
-                  <div className="comment-content">
-                    <p className="comment-text">{c.content}</p>
+          <ul className="comments-list">
+            {comments.map((c) => (
+              <li
+                key={c.id}
+                className="comment-item"
+                role="button"
+                tabIndex={0}
+                onClick={() => handleClick(c)}
+                onKeyDown={(e) => onKey(e, c)}
+                aria-label={`게시물로 이동: ${c?.content?.slice(0, 30) || ""}`}
+                title="게시물로 이동"
+              >
+                <div className="comment-content">
+                  <p className="comment-text">{c.content}</p>
+                  {(c.createdDate || c.boardType || c.writerNickname || c.targetNickname) && (
                     <span className="comment-meta">
                       {c.writerNickname && `@${c.writerNickname}`}
                       {c.targetNickname && ` → @${c.targetNickname}`}
-                      {c.createdDate ? ` • ${new Date(c.createdDate).toLocaleDateString()}` : ""}
-                      {typeof c.likeCount === "number" ? `` : ""}
-                      {c.boardType ? ` • ${c.boardType}` : ""}
+                      {c.createdDate ? ` • ${formatDotDate(c.createdDate)}` : ""}
+                      {c.boardType ? ` • ${getBoardLabel(c.boardType)}` : ""}
                     </span>
-                  </div>
-                  <span className="comment-chevron">›</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="pager-bottom">
-              <button
-                type="button"
-                className={`pager-arrow ${!canPrev ? "disabled" : ""}`}
-                disabled={!canPrev}
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (canPrev) fetchComments(page - 1);
-                }}
-              >
-                {"<"}
-              </button>
-
-              <span className="pager-indicator">
-                {page + 1} / {totalPages}
-              </span>
-
-              <button
-                type="button"
-                className={`pager-arrow ${!canNext ? "disabled" : ""}`}
-                disabled={!canNext}
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (canNext) fetchComments(page + 1);
-                }}
-              >
-                {">"}
-              </button>
-            </div>
-          </>
-
+                  )}
+                </div>
+                <span className="comment-chevron">›</span>
+              </li>
+            ))}
+          </ul>
         )}
+      </div>
+      
+      <div className="pager-bottom">
+        <button
+          type="button"
+          className={`pager-arrow ${!canPrev ? "disabled" : ""}`}
+          disabled={!canPrev}
+          onClick={(e) => {
+            e.preventDefault();
+            if (canPrev) fetchComments(page - 1);
+          }}
+        >
+          {"<"}
+        </button>
+
+        <span className="pager-indicator">
+          {page + 1} / {totalPages}
+        </span>
+
+        <button
+          type="button"
+          className={`pager-arrow ${!canNext ? "disabled" : ""}`}
+          disabled={!canNext}
+          onClick={(e) => {
+            e.preventDefault();
+            if (canNext) fetchComments(page + 1);
+          }}
+        >
+          {">"}
+        </button>
       </div>
     </div>
   );

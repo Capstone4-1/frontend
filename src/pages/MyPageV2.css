@@ -12,7 +12,6 @@
   padding: 20px 0;
 }
 
-
 .Mypage .container {
   display: flex;
   width: 70%;
@@ -23,7 +22,7 @@
 /* 사이드바 */
 .Mypage aside {
   position: sticky;
-  top: 110px; 
+  top: 110px;
   align-self: flex-start;
   display: flex;
   flex-direction: column;
@@ -31,9 +30,9 @@
   width: 30%;
   min-width: 350px;
   max-width: 500px;
-  max-height: calc(100vh - 100px); 
+  max-height: calc(100vh - 100px);
   margin-top: 30px;
-  padding: 0 15px 30px 15px; 
+  padding: 0 15px 30px 15px;
   box-sizing: border-box;
 }
 
@@ -55,6 +54,17 @@
   font-weight: 600;
   font-size: 1.1rem;
   color: #222;
+}
+
+/* 자기소개 */
+.Mypage .profile-img-box .intro-text {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #777;
+  line-height: 1.6;
+  text-align: center;
+  padding: 0 8px;
+  max-width: 100%;
 }
 
 /* 메뉴 박스 */
@@ -126,26 +136,26 @@
 /* 💡 태블릿~모바일: 겹침 방지용 레이아웃 전환 */
 @media (max-width: 1024px) {
   .Mypage .container {
-    flex-direction: column;  
+    flex-direction: column;
     width: 95%;
     gap: 12px;
     padding: 0 10px;
   }
 
   .Mypage aside {
-    position: static;        
+    position: static;
     top: auto;
     width: 100%;
     min-width: 0;
     max-width: none;
-    max-height: none;         
+    max-height: none;
     margin-top: 0;
     padding: 10px;
-    z-index: 1;             
+    z-index: 1;
   }
 
   .Mypage .profile-img-box {
-    width: 100%;             
+    width: 100%;
     justify-content: center;
     margin-bottom: 12px;
   }
@@ -164,20 +174,27 @@
   }
 
   .Mypage .display-area {
-    position: relative;       
+    position: relative;
     width: 100%;
     margin: 12px 0 20px;
     padding: 12px;
     min-height: 340px;
-    overflow: auto;          
-    z-index: 0;             
+    overflow: auto;
+    z-index: 0;
   }
 }
 
 /* 더 작은 모바일(<= 767px) 추가 미세 조정 */
 @media (max-width: 767px) {
-  .Mypage .menu-box h3 { font-size: var(--font-size-base, 1rem); }
-  .Mypage .menu-box ul li { font-size: var(--font-size-sm, 0.875rem); }
-  .Mypage .display-area { min-height: 300px; }
-}
+  .Mypage .menu-box h3 {
+    font-size: var(--font-size-base, 1rem);
+  }
 
+  .Mypage .menu-box ul li {
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+
+  .Mypage .display-area {
+    min-height: 300px;
+  }
+}

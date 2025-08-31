@@ -68,6 +68,10 @@ const MyPageV2 = () => {
             <div className="profile-img-box">
               <MyProfile profileImageUrl={user.profileImageUrl} />
               <div>{user.nickname}</div>
+              <div className="intro-text">
+      {user.intro ?? user.introduction ?? "아직 자기소개가 없습니다."}
+    </div>
+
             </div>
 
 
@@ -151,7 +155,7 @@ const MyPageV2 = () => {
                   </li>
 
                   {/* 커뮤니티 이용규칙: account/rules 포커스 (비번 확인 포함) */}
-                  <li
+                  {/* <li
                     role="button"
                     tabIndex={0}
                     onClick={() => handleSecureNavigate("account", "rules")}
@@ -162,7 +166,7 @@ const MyPageV2 = () => {
                     }
                   >
                     커뮤니티 이용규칙
-                  </li>
+                  </li> */}
 
                   <li
   role="button"
