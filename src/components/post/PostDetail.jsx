@@ -1,13 +1,15 @@
+import { likePost, unlikePost } from "../../api/posts/like";
+import ProfileTemplate from "../ProfileTemplate";
+import axiosInstance from "../utils/AxiosInstance";
+import CommentBox from "./CommentBox";
+import MenuButton from "./MenuButton";
+import "./PostDetail.css";
+import { Heart, Check, List } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axiosInstance from "../utils/AxiosInstance";
-import "./PostDetail.css";
-import CommentBox from "./CommentBox";
-import ProfileTemplate from "../ProfileTemplate";
-import MenuButton from "./MenuButton";
-import { Heart, Check } from "lucide-react";
-import { likePost, unlikePost } from "../../api/posts/like"; // 좋아요 API 함수
+// 좋아요 API 함수
 import { toast } from "sonner";
+
 const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
@@ -89,12 +91,12 @@ const PostDetail = () => {
             prev.map((c) =>
                 c.id === commentId
                     ? {
-                        ...c,
-                        liked: !c.liked,
-                        likes: (c.likes || 0) + (c.liked ? -1 : 1),
-                    }
-                    : c
-            )
+                          ...c,
+                          liked: !c.liked,
+                          likes: (c.likes || 0) + (c.liked ? -1 : 1),
+                      }
+                    : c,
+            ),
         );
     };
 
@@ -120,54 +122,64 @@ const PostDetail = () => {
     };
 
     const handleCommentSubmit = async () => {
-    const now = Date.now();
-    if (!newComment.trim() || isSubmitting || now - lastSubmitTime.current < 1000) return;
+        const now = Date.now();
+        if (
+            !newComment.trim() ||
+            isSubmitting ||
+            now - lastSubmitTime.current < 1000
+        )
+            return;
 
-    setIsSubmitting(true);
-    lastSubmitTime.current = now;
+        setIsSubmitting(true);
+        lastSubmitTime.current = now;
 
-    try {
-        await axiosInstance.post(`/post/${postId}/comments`, {
-            content: newComment,
-            targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`,
-        });
-        setNewComment("");
-        await fetchComments();
-    } catch (err) {
-        const message = err.response?.data?.message || "댓글 등록에 실패했습니다.";
-        toast.error(message); // sonner 토스트
-    } finally {
-        setIsSubmitting(false);
-    }
-};
+        try {
+            await axiosInstance.post(`/post/${postId}/comments`, {
+                content: newComment,
+                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`,
+            });
+            setNewComment("");
+            await fetchComments();
+        } catch (err) {
+            const message =
+                err.response?.data?.message || "댓글 등록에 실패했습니다.";
+            toast.error(message); // sonner 토스트
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const handleReplySubmit = async (parentId) => {
-    const now = Date.now();
-    if (!replyContent.trim() || isSubmitting || now - lastSubmitTime.current < 1000)
-        return;
+        const now = Date.now();
+        if (
+            !replyContent.trim() ||
+            isSubmitting ||
+            now - lastSubmitTime.current < 1000
+        )
+            return;
 
-    setIsSubmitting(true);
-    lastSubmitTime.current = now;
+        setIsSubmitting(true);
+        lastSubmitTime.current = now;
 
-    try {
-        await axiosInstance.post(`/post/${postId}/comments`, {
-            content: replyContent,
-            parentId,
-            targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`,
-        });
-        setReplyContent("");
-        setReplyingTo(null);
-        await fetchReplies(parentId);
-    } catch (err) {
-        console.error("❌ 답글 등록 실패:", err);
-        // 서버에서 오는 메시지를 토스트로 표시
-        const message = err.response?.data?.message || "답글 등록에 실패했습니다.";
-        toast.error(message);
-    } finally {
-        setIsSubmitting(false);
-    }
-};
-
+        try {
+            await axiosInstance.post(`/post/${postId}/comments`, {
+                content: replyContent,
+                parentId,
+                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`,
+            });
+            setReplyContent("");
+            setReplyingTo(null);
+            await fetchReplies(parentId);
+        } catch (err) {
+            console.error("❌ 답글 등록 실패:", err);
+            // 서버에서 오는 메시지를 토스트로 표시
+            const message =
+                err.response?.data?.message || "답글 등록에 실패했습니다.";
+            toast.error(message);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const handleLikeBtnClick = async () => {
         try {
@@ -190,204 +202,252 @@ const PostDetail = () => {
         return <div className="PostDetail">게시글을 찾을 수 없습니다.</div>;
 
     return (
-        <div className="PostDetail">
-            <div className="post-title-with-like">
-                <h2 className="post-title">{post.title}</h2>
-                <div className="like-container">
-                    <button
-                        className={`like-toggle-button${liked ? " liked" : ""}`}
-                        onClick={handleLikeBtnClick}
-                    >
-                        <Heart
-                            color={liked ? "#e74c3c" : "#aaa"}
-                            fill={liked ? "#e74c3c" : "none"}
-                        />
-                    </button>
-                    <span>{likenum}</span>
-                    {post.isAuthor && (
-                        <MenuButton
-                            onEdit={() => navigate(`/write/${post.boardType.toLowerCase()}/${post.id}`)}
-                            onDelete={handlePostDelete}
+        <div className="PostDetailPage">
+            <div className="PostDetail">
+                <div className="post-title-with-like">
+                    <h2 className="post-title">{post.title}</h2>
+                    <div className="like-container">
+                        <button
+                            className={`like-toggle-button${liked ? " liked" : ""}`}
+                            onClick={handleLikeBtnClick}
+                        >
+                            <Heart
+                                color={liked ? "#e74c3c" : "#aaa"}
+                                fill={liked ? "#e74c3c" : "none"}
+                            />
+                        </button>
+                        <span>{likenum}</span>
+                        {post.isAuthor && (
+                            <MenuButton
+                                onEdit={() =>
+                                    navigate(
+                                        `/write/${post.boardType.toLowerCase()}/${post.id}`,
+                                    )
+                                }
+                                onDelete={handlePostDelete}
+                            />
+                        )}
+                    </div>
+                </div>
+
+                <div className="post-meta">
+                    {post.boardType === "SECRET" ? (
+                        <div className="anonymous-writer">익명</div>
+                    ) : (
+                        <ProfileTemplate
+                            profileImageUrl={post.writerProfileThumbnails}
+                            name={post.writerNickname}
+                            id={post.writerId}
                         />
                     )}
+                    {post.createdDate?.slice(0, 10)} | 조회 {post.viewCount}
                 </div>
-            </div>
 
-            <div className="post-meta">
-                {post.boardType === "SECRET" ? (
-                    <div className="anonymous-writer">익명</div>
+                {post.boardType === "MARKET" ? (
+                    <div className="market-horizontal-layout">
+                        <div className="market-image-box">
+                            <img
+                                src={post.imageUrls || "/icons/no-img-text.png"}
+                                alt="상품 이미지"
+                                className="market-main-image"
+                            />
+                        </div>
+                        <div className="market-info-box">
+                            <h3 className="market-title">{post.title}</h3>
+                            <p className="market-price">
+                                {post.price != null
+                                    ? `${post.price.toLocaleString()}원`
+                                    : "가격 미정"}
+                            </p>
+                            <div
+                                className="market-description"
+                                dangerouslySetInnerHTML={{
+                                    __html: post.content,
+                                }}
+                            ></div>
+                        </div>
+                    </div>
                 ) : (
-                    <ProfileTemplate
-                        profileImageUrl={post.writerProfileThumbnails}
-                        name={post.writerNickname}
-                        id={post.writerId}
-                    />
+                    <>
+                        {post.image_urls && (
+                            <img
+                                src={post.image_urls}
+                                alt="썸네일"
+                                className="post-image"
+                            />
+                        )}
+                        <section className="post-content-box">
+                            <div
+                                className="post-content"
+                                dangerouslySetInnerHTML={{
+                                    __html: post.content,
+                                }}
+                            ></div>
+                        </section>
+                    </>
                 )}
-                {post.createdDate?.slice(0, 10)} | 조회 {post.viewCount}
-            </div>
 
-            {post.boardType === "MARKET" ? (
-                <div className="market-horizontal-layout">
-                    <div className="market-image-box">
-                        <img
-                            src={post.imageUrls || "/icons/no-img-text.png"}
-                            alt="상품 이미지"
-                            className="market-main-image"
-                        />
-                    </div>
-                    <div className="market-info-box">
-                        <h3 className="market-title">{post.title}</h3>
-                        <p className="market-price">
-                            {post.price != null
-                                ? `${post.price.toLocaleString()}원`
-                                : "가격 미정"}
-                        </p>
-                        <div
-                            className="market-description"
-                            dangerouslySetInnerHTML={{ __html: post.content }}
-                        ></div>
+                <div className="comment-header-wrap">
+                    <span className="comment-header">
+                        💬 댓글 {comments.length}개
+                    </span>
+                    <div className="sort-controls">
+                        <button
+                            className={`sort-button ${
+                                sortOrder === "oldest" ? "active" : ""
+                            }`}
+                            onClick={() => {
+                                setSortOrder("oldest");
+                                setComments(sortComments(comments, "oldest"));
+                            }}
+                        >
+                            {" "}
+                            <Check />
+                            등록순
+                        </button>
+                        <button
+                            className={`sort-button ${
+                                sortOrder === "newest" ? "active" : ""
+                            }`}
+                            onClick={() => {
+                                setSortOrder("newest");
+                                setComments(sortComments(comments, "newest"));
+                            }}
+                        >
+                            {" "}
+                            <Check />
+                            최신순
+                        </button>
                     </div>
                 </div>
-            ) : (
-                <>
-                    {post.image_urls && (
-                        <img
-                            src={post.image_urls}
-                            alt="썸네일"
-                            className="post-image"
-                        />
-                    )}
-                    <section className="post-content-box">
-                        <div
-                            className="post-content"
-                            dangerouslySetInnerHTML={{ __html: post.content }}
-                        ></div>
-                    </section>
-                </>
-            )}
+
+                <div className="comment-form">
+                    <input
+                        type="text"
+                        placeholder="댓글을 입력하세요"
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleCommentSubmit();
+                            }
+                        }}
+                    />
+                    <button
+                        onClick={handleCommentSubmit}
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? "작성 중..." : "작성"}
+                    </button>
+                </div>
+
+                <ul className="comment-list">
+                    {comments
+                        .filter((c) => !c.parentId)
+                        .map((c) => (
+                            <li key={c.id} className="comment-item">
+                                <CommentBox
+                                    isNestedReply={false}
+                                    comment={c}
+                                    boardType={post.boardType}
+                                    handleCommentLike={handleCommentLike}
+                                    onDeleteSuccess={(deletedId) => {
+                                        setComments((prev) =>
+                                            prev.filter(
+                                                (c) => c.id !== deletedId,
+                                            ),
+                                        );
+                                    }}
+                                    onReplyClick={() =>
+                                        handleReplyClick(
+                                            c.id,
+                                            c.writerNickname,
+                                            false,
+                                        )
+                                    }
+                                    isReplying={replyingTo === c.id}
+                                    replyContent={replyContent}
+                                    setReplyContent={setReplyContent}
+                                    onSubmitReply={() =>
+                                        handleReplySubmit(c.id)
+                                    }
+                                    onToggleReplies={() => toggleReplies(c.id)}
+                                    showReplies={expandedReplies[c.id]}
+                                >
+                                    {expandedReplies[c.id] &&
+                                        (childComments[c.id] || []).map(
+                                            (reply) => (
+                                                <div
+                                                    key={reply.id}
+                                                    className="nested-reply"
+                                                >
+                                                    <CommentBox
+                                                        isNestedReply={true}
+                                                        comment={reply}
+                                                        boardType={
+                                                            post.boardType
+                                                        }
+                                                        handleCommentLike={
+                                                            handleCommentLike
+                                                        }
+                                                        onDeleteSuccess={(
+                                                            deletedId,
+                                                        ) => {
+                                                            setChildComments(
+                                                                (prev) => ({
+                                                                    ...prev,
+                                                                    [c.id]: prev[
+                                                                        c.id
+                                                                    ].filter(
+                                                                        (r) =>
+                                                                            r.id !==
+                                                                            deletedId,
+                                                                    ),
+                                                                }),
+                                                            );
+                                                        }}
+                                                        onReplyClick={() =>
+                                                            handleReplyClick(
+                                                                reply.id,
+                                                                reply.writerNickname,
+                                                                true,
+                                                            )
+                                                        }
+                                                        isReplying={
+                                                            replyingTo ===
+                                                            reply.id
+                                                        }
+                                                        replyContent={
+                                                            replyContent
+                                                        }
+                                                        setReplyContent={
+                                                            setReplyContent
+                                                        }
+                                                        onSubmitReply={() =>
+                                                            handleReplySubmit(
+                                                                c.id,
+                                                            )
+                                                        }
+                                                    />
+                                                    <div className="reply-divider"></div>
+                                                </div>
+                                            ),
+                                        )}
+                                </CommentBox>
+                            </li>
+                        ))}
+                </ul>
+            </div>
             <button
-                className="back-to-list-button"
+                className="back-to-list-btn"
                 onClick={() =>
                     navigate(`/main/community/${post.boardType.toLowerCase()}`)
                 }
-            >
-                목록으로
+            ><List />
+                게시판 목록으로 돌아가기
             </button>
-
-            <div className="comment-header-wrap">
-                <span className="comment-header">
-                    💬 댓글 {comments.length}개
-                </span>
-                <div className="sort-controls">
-                    <button
-                        className={`sort-button ${sortOrder === "oldest" ? "active" : ""
-                            }`}
-                        onClick={() => {
-                            setSortOrder("oldest");
-                            setComments(sortComments(comments, "oldest"));
-                        }}
-                    >
-                        {" "}
-                        <Check />
-                        등록순
-                    </button>
-                    <button
-                        className={`sort-button ${sortOrder === "newest" ? "active" : ""
-                            }`}
-                        onClick={() => {
-                            setSortOrder("newest");
-                            setComments(sortComments(comments, "newest"));
-                        }}
-                    >
-                        {" "}
-                        <Check />
-                        최신순
-                    </button>
-                </div>
-            </div>
-
-            <div className="comment-form">
-                <input
-                    type="text"
-                    placeholder="댓글을 입력하세요"
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleCommentSubmit();
-                        }
-                    }}
-                />
-                <button onClick={handleCommentSubmit} disabled={isSubmitting}>
-                    {isSubmitting ? "작성 중..." : "작성"}
-                </button>
-            </div>
-
-            <ul className="comment-list">
-                {comments
-                    .filter((c) => !c.parentId)
-                    .map((c) => (
-                        <li key={c.id} className="comment-item">
-                            <CommentBox
-                                isNestedReply={false}
-                                comment={c}
-                                boardType={post.boardType}
-                                handleCommentLike={handleCommentLike}
-                                onDeleteSuccess={(deletedId) => {
-                                    setComments((prev) =>
-                                        prev.filter((c) => c.id !== deletedId)
-                                    );
-                                }}
-                                onReplyClick={() =>
-                                    handleReplyClick(c.id, c.writerNickname, false)
-                                }
-                                isReplying={replyingTo === c.id}
-                                replyContent={replyContent}
-                                setReplyContent={setReplyContent}
-                                onSubmitReply={() => handleReplySubmit(c.id)}
-                                onToggleReplies={() => toggleReplies(c.id)}
-                                showReplies={expandedReplies[c.id]}
-                            >
-                                {expandedReplies[c.id] &&
-                                    (childComments[c.id] || []).map((reply) => (
-                                        <div
-                                            key={reply.id}
-                                            className="nested-reply"
-                                        >
-                                            <CommentBox
-                                                isNestedReply={true}
-                                                comment={reply}
-                                                boardType={post.boardType}
-                                                handleCommentLike={handleCommentLike}
-                                                onDeleteSuccess={(deletedId) => {
-                                                    setChildComments((prev) => ({
-                                                        ...prev,
-                                                        [c.id]: prev[c.id].filter(
-                                                            (r) => r.id !== deletedId
-                                                        ),
-                                                    }));
-                                                }}
-                                                onReplyClick={() =>
-                                                    handleReplyClick(
-                                                        reply.id,
-                                                        reply.writerNickname,
-                                                        true
-                                                    )
-                                                }
-                                                isReplying={replyingTo === reply.id}
-                                                replyContent={replyContent}
-                                                setReplyContent={setReplyContent}
-                                                onSubmitReply={() => handleReplySubmit(c.id)}
-                                            />
-                                            <div className="reply-divider"></div>
-                                        </div>
-                                    ))}
-                            </CommentBox>
-                        </li>
-                    ))}
-            </ul>
         </div>
     );
 };
