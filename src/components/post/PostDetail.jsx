@@ -4,7 +4,7 @@ import axiosInstance from "../utils/AxiosInstance";
 import CommentBox from "./CommentBox";
 import MenuButton from "./MenuButton";
 import "./PostDetail.css";
-import { Heart, Check, List } from "lucide-react";
+import { Heart, Check, List, Bookmark } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 // 좋아요 API 함수
@@ -13,8 +13,12 @@ import { toast } from "sonner";
 const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
+
     const [liked, setLiked] = useState(false); // 좋아요 여부
     const [likenum, setLikenum] = useState(0); // 좋아요 수
+    const [scrapped, setScrapped] = useState(false); // 스크랩 여부
+    const [scrapnum, setScrapnum] = useState(0); // 스크랩 수
+
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [replyingTo, setReplyingTo] = useState(null);
@@ -39,6 +43,8 @@ const PostDetail = () => {
             setPost(postData);
             setLikenum(postData.likeCount || 0);
             setLiked(postData.isLike || false);
+            setScrapnum(postData.scrapCount || 0);
+            setScrapped(postData.isScrap || false);
         } catch (err) {
             console.error("❌ 게시글 상세 불러오기 실패:", err);
         }
@@ -198,6 +204,24 @@ const PostDetail = () => {
         }
     };
 
+    // 스크랩 버튼 클릭 핸들러
+    const handleScrapBtnClick = async () => {
+        try {
+            if (!scrapped) {
+                const res = await axiosInstance.post(`/post/${postId}/scrap`);
+                setScrapped(true);
+                setScrapnum(res.data.currentCount || scrapnum + 1);
+            } else {
+                const res = await axiosInstance.delete(`/post/${postId}/scrap`);
+                setScrapped(false);
+                setScrapnum(res.data.currentCount || scrapnum - 1);
+            }
+        } catch (err) {
+            console.error("❌ 스크랩 토글 실패:", err);
+            toast.error("스크랩 처리 중 오류가 발생했습니다.");
+        }
+    };
+
     if (!post)
         return <div className="PostDetail">게시글을 찾을 수 없습니다.</div>;
 
@@ -217,6 +241,19 @@ const PostDetail = () => {
                             />
                         </button>
                         <span>{likenum}</span>
+
+                        {/* 스크랩 버튼 */}
+                        <button
+                            className={`scrap-toggle-button${scrapped ? " scrapped" : ""}`}
+                            onClick={handleScrapBtnClick}
+                        >
+                            <Bookmark
+                                color={scrapped ? "#3399ff" : "#aaa"}
+                                fill={scrapped ? "#3399ff" : "none"}
+                            />
+                        </button>
+                        <span>{scrapnum}</span>
+
                         {post.isAuthor && (
                             <MenuButton
                                 onEdit={() =>
@@ -445,7 +482,8 @@ const PostDetail = () => {
                 onClick={() =>
                     navigate(`/main/community/${post.boardType.toLowerCase()}`)
                 }
-            ><List />
+            >
+                <List />
                 게시판 목록으로 돌아가기
             </button>
         </div>
