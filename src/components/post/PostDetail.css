@@ -289,7 +289,7 @@
     margin-right: 8px;
 }
 
-.scrap-toggle-button {
+.PostDetailPage .scrap-btn {
     background: none;
     border: none;
     cursor: pointer;
@@ -299,13 +299,19 @@
     transition: transform 0.15s ease;
 }
 
-.scrap-toggle-button:hover {
-    transform: scale(1.1);
-    opacity: 0.85;
+.PostDetailPage .scrap-btn.scrapped {
+    color: #3399ff;
 }
 
-.scrap-toggle-button.scrapped {
-    color: #3399ff;
+.PostDetailPage .scrap-btn span {
+    color: #949494;
+    font-size: var(--font-size-3xs);
+}
+
+.PostDetailPage .scrap-btn svg {
+    width: var(--spacing-3);
+    height: var(--spacing-3);
+    margin-right: 2px;
 }
 
 .like-container span {
@@ -324,5 +330,9 @@
     .PostDetail .sort-button svg {
         width: 20px;
         height: 20px;
+    }
+
+    .PostDetailPage .scrap-btn span {
+        display: none;
     }
 }

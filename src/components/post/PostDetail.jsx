@@ -17,7 +17,6 @@ const PostDetail = () => {
     const [liked, setLiked] = useState(false); // 좋아요 여부
     const [likenum, setLikenum] = useState(0); // 좋아요 수
     const [scrapped, setScrapped] = useState(false); // 스크랩 여부
-    const [scrapnum, setScrapnum] = useState(0); // 스크랩 수
 
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
@@ -43,7 +42,6 @@ const PostDetail = () => {
             setPost(postData);
             setLikenum(postData.likeCount || 0);
             setLiked(postData.isLike || false);
-            setScrapnum(postData.scrapCount || 0);
             setScrapped(postData.isScrap || false);
         } catch (err) {
             console.error("❌ 게시글 상세 불러오기 실패:", err);
@@ -210,11 +208,9 @@ const PostDetail = () => {
             if (!scrapped) {
                 const res = await axiosInstance.post(`/post/${postId}/scrap`);
                 setScrapped(true);
-                setScrapnum(res.data.currentCount || scrapnum + 1);
             } else {
                 const res = await axiosInstance.delete(`/post/${postId}/scrap`);
                 setScrapped(false);
-                setScrapnum(res.data.currentCount || scrapnum - 1);
             }
         } catch (err) {
             console.error("❌ 스크랩 토글 실패:", err);
@@ -244,15 +240,15 @@ const PostDetail = () => {
 
                         {/* 스크랩 버튼 */}
                         <button
-                            className={`scrap-toggle-button${scrapped ? " scrapped" : ""}`}
+                            className={`scrap-btn${scrapped ? " scrapped" : ""}`}
                             onClick={handleScrapBtnClick}
                         >
                             <Bookmark
                                 color={scrapped ? "#3399ff" : "#aaa"}
                                 fill={scrapped ? "#3399ff" : "none"}
                             />
+                            <span>스크랩</span>
                         </button>
-                        <span>{scrapnum}</span>
 
                         {post.isAuthor && (
                             <MenuButton
