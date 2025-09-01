@@ -190,6 +190,13 @@ const ResetPasswordForm = () => {
                     <button type="submit" disabled={loading || !username}>
                         {loading ? "확인 중..." : "인증코드 보내기"}
                     </button>
+                    <button
+                        type="button"
+                        className="go-login-btn"
+                        onClick={handleGoLogin}
+                    >
+                        로그인 페이지로 돌아가기
+                    </button>
                 </form>
             )}
 
@@ -234,6 +241,13 @@ const ResetPasswordForm = () => {
 
                     <button type="submit" disabled={!code}>
                         확인
+                    </button>
+                    <button
+                        type="button"
+                        className="go-login-btn"
+                        onClick={handleGoLogin}
+                    >
+                        로그인 페이지로 돌아가기
                     </button>
                 </form>
             )}
@@ -281,6 +295,13 @@ const ResetPasswordForm = () => {
                         disabled={!newPassword || !confirmPassword}
                     >
                         비밀번호 재설정
+                    </button>
+                    <button
+                        type="button"
+                        className="go-login-btn"
+                        onClick={handleGoLogin}
+                    >
+                        로그인 페이지로 돌아가기
                     </button>
                 </form>
             )}
