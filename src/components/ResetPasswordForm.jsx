@@ -7,9 +7,10 @@ import { toast } from "sonner";
 
 const ResetPasswordForm = () => {
     const [username, setUsername] = useState("");
-    const [step, setStep] = useState(1); // 1=아이디, 2=코드, 3=비밀번호 재설정, 4=완료
+    const [step, setStep] = useState(1); // 1=아이디, 2=코드, 3=비밀번호 재설정
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [resendLoading, setResendLoading] = useState(false); // 인증코드 재전송 로딩
     const [email, setEmail] = useState("");
     const [code, setCode] = useState(""); // 사용자 입력 코드
     const [newPassword, setNewPassword] = useState("");
@@ -61,6 +62,25 @@ const ResetPasswordForm = () => {
         }
     };
 
+    // 인증코드 재전송
+    const handleResendCode = async () => {
+        if (!username) return;
+
+        setResendLoading(true);
+        try {
+            const response = await axiosInstance.post("/member/verify-id", {
+                username,
+            });
+            toast.success(`${response.data.email}로 인증코드를 발송했습니다.`);
+            startTimer();
+        } catch (err) {
+            console.error(err);
+            toast.error("인증코드 재전송 중 오류가 발생했습니다.");
+        } finally {
+            setResendLoading(false);
+        }
+    };
+
     // Step 2: 인증코드 제출
     const handleSubmitCode = async (e) => {
         e.preventDefault();
@@ -78,9 +98,7 @@ const ResetPasswordForm = () => {
                 code,
             });
 
-            setMessage(
-                "✅ 인증에 성공했습니다. 새로운 비밀번호를 설정해주세요.",
-            );
+            toast.success("인증이 완료되었습니다.");
             setStep(3); // 다음 단계로 이동
         } catch (error) {
             setMessage(
@@ -102,6 +120,7 @@ const ResetPasswordForm = () => {
             return;
         }
         if (newPassword !== confirmPassword) {
+            setError(true);
             setMessage("비밀번호가 일치하지 않습니다.");
             return;
         }
@@ -118,11 +137,8 @@ const ResetPasswordForm = () => {
                 },
             );
 
-            setMessage(
-                response.data?.message ||
-                    "비밀번호가 성공적으로 재설정되었습니다.",
-            );
-            setStep(4); // 완료 단계로 이동
+            toast.success("비밀번호가 재설정되었습니다.");
+            navigate("/login");
         } catch (error) {
             setMessage(
                 error.response?.data?.message ||
@@ -206,10 +222,12 @@ const ResetPasswordForm = () => {
                             <button
                                 type="button"
                                 className="resend-btn"
-                                onClick={handleSubmitUsername}
-                                disabled={loading}
+                                onClick={handleResendCode}
+                                disabled={resendLoading}
                             >
-                                {loading ? "요청 중..." : "인증코드 재전송"}
+                                {resendLoading
+                                    ? "요청 중..."
+                                    : "인증코드 재전송"}
                             </button>
                         </div>
                     </div>
@@ -223,51 +241,48 @@ const ResetPasswordForm = () => {
             {/* Step 3: 새 비밀번호 설정 */}
             {step === 3 && (
                 <form onSubmit={handleSubmitNewPassword}>
-                    <h2>새 비밀번호 설정</h2>
-                    <p>새로운 비밀번호를 입력해주세요.</p>
+                    <h2 className="title">새 비밀번호 설정</h2>
+                    <p className="caption">
+                        안전한 새 비밀번호를 입력해주세요.
+                    </p>
 
-                    <input
-                        type="password"
-                        placeholder="새 비밀번호"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        required
-                    />
+                    <div className="input-field">
+                        <label htmlFor="pw">새 비밀번호</label>
+                        <input
+                            className="input-focus"
+                            type="password"
+                            id="pw"
+                            value={newPassword}
+                            placeholder="새 비밀번호"
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                        />
 
-                    <input
-                        type="password"
-                        placeholder="비밀번호 확인"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
+                        <label htmlFor="pw-confirm">비밀번호 확인</label>
+                        <input
+                            className={`input-focus ${error ? "input-error" : ""}`}
+                            type="password"
+                            id="pw-confirm"
+                            value={confirmPassword}
+                            placeholder="비밀번호 확인"
+                            onChange={(e) => {
+                                setConfirmPassword(e.target.value);
+                                if (error) setError(false);
+                            }}
+                            required
+                        />
+                        {error && message && (
+                            <p className="error-message">{message}</p>
+                        )}
+                    </div>
 
-                    <button type="submit">비밀번호 변경</button>
-
-                    {message && <p className="reset-message">{message}</p>}
                     <button
-                        type="button"
-                        className="login-button"
-                        onClick={handleGoLogin}
+                        type="submit"
+                        disabled={!newPassword || !confirmPassword}
                     >
-                        로그인 화면으로 이동
+                        비밀번호 재설정
                     </button>
                 </form>
-            )}
-
-            {/* Step 4: 완료 */}
-            {step === 4 && (
-                <div className="reset-complete">
-                    <h2>완료</h2>
-                    <p>{message}</p>
-                    <button
-                        type="button"
-                        className="login-button"
-                        onClick={handleGoLogin}
-                    >
-                        로그인 화면으로 이동
-                    </button>
-                </div>
             )}
         </div>
     );
