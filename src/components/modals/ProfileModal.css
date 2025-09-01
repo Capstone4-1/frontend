@@ -1,0 +1,170 @@
+.ProfileModal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.ProfileModal__content {
+    background: #fff;
+    border-radius: 12px;
+    width: 420px;
+    max-width: 90%;
+    max-height: 85%;
+    overflow-y: auto;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    animation: slideUp 0.2s ease-in-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.ProfileModal__header {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.ProfileModal__profile-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.ProfileModal__name-block h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ProfileModal__username {
+    font-size: 14px;
+    color: #888;
+}
+
+.ProfileModal .role-icon {
+    font-size: 18px;
+}
+
+.ProfileModal__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.ProfileModal .user-roles {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.ProfileModal .role-badge {
+    font-size: 13px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    color: white;
+}
+
+/* 칭호별 색상 */
+.ProfileModal .role-student { background-color: #3498db; }   /* 학생 - 파랑 */
+.ProfileModal .role-professor { background-color: #2ecc71; } /* 교수 - 초록 */
+.ProfileModal .role-manager { background-color: #f1c40f; color: black; } /* 매니저 - 노랑 */
+.ProfileModal .role-system { background-color: #9b59b6; }    /* 시스템 - 보라 */
+.ProfileModal .role-admin { background-color: #e74c3c; }     /* 관리자 - 빨강 */
+
+.ProfileModal .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.ProfileModal .action-button,
+.ProfileModal .remove-friend-button {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.ProfileModal .action-button {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.ProfileModal .action-button:hover {
+    background-color: #357abd;
+}
+
+.ProfileModal .remove-friend-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.ProfileModal .remove-friend-button:hover {
+    background-color: #d32f2f;
+}
+
+.ProfileModal .friend-message {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ProfileModal .friend-message.error {
+    color: #d32f2f;
+}
+
+.ProfileModal .friend-message.success {
+    color: #388e3c;
+}
+
+.ProfileModal__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.ProfileModal__footer button {
+    background: none;
+    border: none;
+    color: #4a90e2;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.ProfileModal__footer button:hover {
+    background-color: rgba(74, 144, 226, 0.1);
+}

@@ -94,6 +94,11 @@
     text-decoration: none;
 }
 
+.m-gnb-item:hover {
+    background: #f5f7f9;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
 .m-gnb-actions {
     margin-top: auto;
     padding: 16px;

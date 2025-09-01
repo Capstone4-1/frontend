@@ -200,7 +200,6 @@ const WritePage = () => {
 
   return (
     <div className="WritePage">
-      <Header />
       <div className="write-layout">
         <div className="write-main">
           <h2 className="write-title">

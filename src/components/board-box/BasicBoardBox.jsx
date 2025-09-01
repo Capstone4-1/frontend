@@ -68,12 +68,12 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
   const handleToggleFavorite = async () => {
     try {
       if (marked) {
-        await axiosInstance.delete("/post/favorites", {
+        await axiosInstance.delete("/board/favorites", {
           params: { boardType },
         });
         setMarked(false);
       } else {
-        await axiosInstance.post("/post/favorites", {
+        await axiosInstance.post("/board/favorites", {
           boardType,
         });
         setMarked(true);

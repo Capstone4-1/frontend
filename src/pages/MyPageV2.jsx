@@ -18,27 +18,19 @@ const MyPageV2 = () => {
   // 비밀번호 확인이 필요한 라우트만 여기에 등록
   const secureRoutes = new Set(["account"]);
 
-  if (!user) {
-    return (
-      <div className="mypage-loading">
-        유저 정보를 불러오는 중입니다...
-      </div>
-    );
-  }
-
   // 모든 포커스/이동을 이 함수 하나로 처리
   const handleSecureNavigate = useCallback(
     (route, focusSection = null) => {
       const requiresPassword = secureRoutes.has(route);
 
-      // 비번 확인이 필요 없는 라우트(예: activity)는 즉시 이동
       if (!requiresPassword) {
+        // 비번 확인 필요 없음
         if (focusSection) navigate(route, { state: { focusSection } });
         else navigate(route);
         return;
       }
 
-      // 비번 확인이 필요한 라우트
+      // 비번 확인 필요
       if (isPasswordVerified) {
         if (focusSection) navigate(route, { state: { focusSection } });
         else navigate(route);
@@ -61,7 +53,6 @@ const MyPageV2 = () => {
 
   return (
     <div className="Mypage">
-      <Header />
       <div className="out-layout">
         <div className="container">
           <aside>
@@ -186,6 +177,7 @@ const MyPageV2 = () => {
                 </ul>
               </div>
             </div>
+
           </aside>
 
           <section className="display-area">
@@ -205,8 +197,9 @@ const MyPageV2 = () => {
             setIsPasswordVerified(true);
             if (pendingRoute) {
               if (pendingRouteFocus) {
-                navigate(pendingRoute, { state: { focusSection: pendingRouteFocus } });
-
+                navigate(pendingRoute, {
+                  state: { focusSection: pendingRouteFocus },
+                });
               } else {
                 navigate(pendingRoute);
               }

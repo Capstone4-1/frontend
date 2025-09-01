@@ -7,6 +7,8 @@ body {
     overflow-x: hidden; /*지우지마마*/
     font-family: Pretendard, "Noto Sans KR", sans-serif;
     font-size: var(--font-size-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 *,
@@ -32,4 +34,8 @@ body {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+}
+
+button:disabled {
+    cursor: default;
 }

@@ -73,7 +73,7 @@ const InfoBox = ({ boardTypes, title }) => {
         <div className="top">
           <div className="left-group">
             <div className="title-area">
-              <h1>{title}</h1>
+              <h1 className="title">{title}</h1>
             </div>
             <div className="filter-area">
               <button

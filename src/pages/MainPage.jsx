@@ -6,7 +6,6 @@ const MainPage = () => {
 
   return (
     <div className="MainPage">
-      <Header  />
       <div className="Panel-Dashboard-Container">
         <div className="Dashboard-container">
           <Dashboard />

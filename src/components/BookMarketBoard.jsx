@@ -1,5 +1,5 @@
 import "./BookMarketBoard.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axiosInstance from "./utils/AxiosInstance";
 
@@ -8,19 +8,26 @@ const formatPrice = (price) => {
 };
 
 const BookMarketBoard = ({ boardType, title }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [fade, setFade] = useState(true);
+    const [isHovered, setIsHovered] = useState(false);
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
 
-    const PAGE_SIZE = 10;
+    const [currentIndex, setCurrentIndex] = useState(1);
+    const [isAnimating, setIsAnimating] = useState(true);
+    const [isSnapping, setIsSnapping] = useState(false);
 
-    const fetchPosts = async () => {
+    const VISIBLE_COUNT = 4;
+    const PAGE_SIZE = 12;
+
+    const fetchPosts = useCallback(async () => {
         try {
             setLoading(true);
-            const response = await axiosInstance.get(`/post/${boardType}/summary`, {
-                params: { pageSize: PAGE_SIZE },
-            });
+            const response = await axiosInstance.get(
+                `/post/${boardType}/summary`,
+                {
+                    params: { pageSize: PAGE_SIZE },
+                }
+            );
             setPosts(response.data?.Posts || []);
         } catch (error) {
             console.error("마켓 게시글 요약 가져오기 실패:", error);
@@ -28,27 +35,83 @@ const BookMarketBoard = ({ boardType, title }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [boardType]);
 
     useEffect(() => {
         if (boardType) {
             fetchPosts();
         }
-    }, [boardType]);
+    }, [boardType, fetchPosts]);
 
-    useEffect(() => {
+    const totalPages = Math.max(1, Math.ceil(posts.length / VISIBLE_COUNT));
+
+    const handlePrev = () => {
         if (posts.length === 0) return;
+        if (isSnapping) return;
+        if (!isAnimating) return;
+        setIsAnimating(true);
+        setCurrentIndex((prev) => prev - 1);
+    };
+
+    const handleNext = () => {
+        if (posts.length === 0) return;
+        if (isSnapping) return;
+        if (!isAnimating) return;
+        setIsAnimating(true);
+        setCurrentIndex((prev) => prev + 1);
+    };
+
+    // 자동 롤링 (호버 시 일시정지, 스냅 중 일시정지)
+    useEffect(() => {
+        if (loading) return;
+        if (posts.length === 0) return;
+        if (totalPages <= 1) return;
+        if (isHovered) return;
+        if (isSnapping) return;
+        if (!isAnimating) return;
 
         const intervalId = setInterval(() => {
-            setFade(false);
-            setTimeout(() => {
-                setCurrentIndex((prev) => (prev + 1) % posts.length);
-                setFade(true);
-            }, 300);
-        }, 8000);
-
+            handleNext();
+        }, 5000);
         return () => clearInterval(intervalId);
-    }, [posts]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, posts.length, totalPages, isHovered, isSnapping, isAnimating]);
+
+    // 데이터/페이지 변경 시 인덱스 초기화 (무한 루프용)
+    useEffect(() => {
+        if (totalPages > 0) {
+            setIsAnimating(false);
+            setCurrentIndex(1);
+            const id = requestAnimationFrame(() => setIsAnimating(true));
+            return () => cancelAnimationFrame(id);
+        }
+    }, [totalPages]);
+
+    const handleTransitionEnd = () => {
+        if (currentIndex === 0) {
+            // 마지막에서 첫 페이지로 점프
+            setIsSnapping(true);
+            setIsAnimating(false);
+            setCurrentIndex(totalPages);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setIsAnimating(true);
+                    setIsSnapping(false);
+                });
+            });
+        } else if (currentIndex === totalPages + 1) {
+            // 첫 페이지에서 마지막으로 점프
+            setIsSnapping(true);
+            setIsAnimating(false);
+            setCurrentIndex(1);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setIsAnimating(true);
+                    setIsSnapping(false);
+                });
+            });
+        }
+    };
 
     if (loading) {
         return (
@@ -68,65 +131,98 @@ const BookMarketBoard = ({ boardType, title }) => {
         );
     }
 
-    const currentPost = posts[currentIndex];
+    // 페이지 배열 생성
+    const pages = Array.from({ length: totalPages }, (_, pageIndex) =>
+        posts.slice(
+            pageIndex * VISIBLE_COUNT,
+            pageIndex * VISIBLE_COUNT + VISIBLE_COUNT
+        )
+    );
+
+    // 무한 루프용 확장 페이지 (앞뒤 클론)
+    const extendedPages =
+        pages.length > 0 ? [pages[pages.length - 1], ...pages, pages[0]] : [];
 
     return (
         <section className="BookMarketBoard">
-            <Link to={`/main/community/${boardType.toLowerCase()}`} className="more-link">
-                <h4 className="title">{title}</h4>
-            </Link>
-
-            <div className={`info-container single ${fade ? "fade-in" : "fade-out"}`}>
-                <Link
-                    className="post-link"
-                    to={`/main/community/${currentPost.boardType.toLowerCase()}/post/${currentPost.id}`}
-                >
-                    <div key={currentPost.id} className="book-post">
-                        <img
-                            src={currentPost.thumbNailUrl || "/icons/no-img-text.png"}
-                            alt="책 이미지"
-                            style={{
-                                width: 200,
-                                height: 250,
-                                objectFit: "cover",
-                                borderRadius: 8,
-                            }}
-                        />
-                        <div className="post-info">
-                            <h4>{currentPost.title}</h4>
-                            <p className="price">{formatPrice(currentPost.price)}</p>
-                            <div className="meta-info">
-                                <span className="writer">{currentPost.writerNickname}</span>
-                                <span className="date">{currentPost.createdDate?.slice(0, 10)}</span>
-                                <span className="comments">댓글: {currentPost.commentCount}</span>
-                            </div>
-                        </div>
-                    </div>
-                </Link>
-            </div>
-
-            <div className="nav-button-group">
-                <button
-                    className="mini-button"
-                    onClick={() => {
-                        setFade(false);
-                        setTimeout(() => {
-                            setCurrentIndex((prev) => (prev - 1 + posts.length) % posts.length);
-                            setFade(true);
-                        }, 300);
+            <div
+                className="slider-viewport"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
+                <div
+                    className="slider-track"
+                    style={{
+                        transform: `translateX(-${
+                            (currentIndex * 100) / (extendedPages.length || 1)
+                        }%)`,
+                        transition: isAnimating
+                            ? "transform 0.4s ease"
+                            : "none",
+                        width: `${(extendedPages.length || 1) * 100}%`,
                     }}
+                    onTransitionEnd={handleTransitionEnd}
+                >
+                    {extendedPages.map((pagePosts, idx) => (
+                        <div
+                            className="slider-page"
+                            key={idx}
+                            style={{
+                                width: `${100 / (extendedPages.length || 1)}%`,
+                            }}
+                        >
+                            {pagePosts.map((post) => (
+                                <Link
+                                    key={post.id}
+                                    className="book-card"
+                                    to={`/main/community/${post.boardType.toLowerCase()}/post/${
+                                        post.id
+                                    }`}
+                                >
+                                    <span className="thumb">
+                                        <img
+                                            src={
+                                                post.thumbNailUrl ||
+                                                "/icons/no-img-text.png"
+                                            }
+                                            alt={post.title}
+                                        />
+                                    </span>
+                                    <span className="info">
+                                        <span className="title">
+                                            {post.title}
+                                        </span>
+                                        <span className="price">
+                                            {formatPrice(post.price)}
+                                        </span>
+                                        <span className="meta">
+                                            <span className="writer">
+                                                {post.writerNickname}
+                                            </span>
+                                            <span className="date">
+                                                {post.createdDate?.slice(0, 10)}
+                                            </span>
+                                            <span className="comments">
+                                                댓글: {post.commentCount}
+                                            </span>
+                                        </span>
+                                    </span>
+                                </Link>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+                <button
+                    className="nav-arrow prev"
+                    onClick={handlePrev}
+                    aria-label="이전"
                 >
                     ◀
                 </button>
                 <button
-                    className="mini-button"
-                    onClick={() => {
-                        setFade(false);
-                        setTimeout(() => {
-                            setCurrentIndex((prev) => (prev + 1) % posts.length);
-                            setFade(true);
-                        }, 300);
-                    }}
+                    className="nav-arrow next"
+                    onClick={handleNext}
+                    aria-label="다음"
                 >
                     ▶
                 </button>

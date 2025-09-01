@@ -138,7 +138,6 @@ const LectureBoardPage = () => {
 
     return (
         <div className="LectureBoardPage">
-            <Header />
             <div className="lecture-board-container">
                 <div className="lecture-main-content">
                     <div className="lecture-header">
