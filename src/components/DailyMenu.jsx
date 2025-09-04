@@ -14,10 +14,10 @@ const fmt = (d) => {
 };
 
 const STUDENT_LABEL = {
-  SET_MENU: "정식(한식)",
-  WESTERN: "양식코너",
-  SNACK: "분식코너",
-  RAMEN: "라면코너",
+  SET_MENU: "정식",
+  WESTERN: "양식",
+  SNACK: "분식",
+  RAMEN: "라면",
 };
 const STAFF_LABEL = { BREAKFAST: "조식", LUNCH: "중식", DINNER: "석식" };
 const ALL_CORNERS = ["SET_MENU", "WESTERN", "SNACK", "RAMEN"];
@@ -155,47 +155,56 @@ export default function DailyMenu() {
           ))}
         </div>
 
-        {/* 학생식당: 코너 선택 버튼(항상 노출, 데이터 없으면 비활성화) */}
+        {/* 학생식당 코너 선택 */}
         {selectedTab === "학생식당" && (
-          <div className="subtab-buttons" role="tablist" aria-label="코너 선택">
-            {ALL_CORNERS.map((k) => {
-              const hasData = availableCorners.has(k);
-              return (
-                <button
-                  key={k}
-                  type="button"
-                  className={`chip ${studentCorner === k ? "active" : ""}`}
-                  onClick={() => hasData && setStudentCorner(k)}
-                  disabled={!hasData}
-                  title={hasData ? "" : "해당 코너 식단이 없습니다"}
-                >
-                  {STUDENT_LABEL[k] || k}
-                </button>
-              );
-            })}
-          </div>
+          <>
+            <div className="subtab-buttons" role="tablist" aria-label="코너 선택">
+              {ALL_CORNERS.map((k) => {
+                const hasData = availableCorners.has(k);
+                return (
+                  <button
+                    key={k}
+                    type="button"
+                    className={`chip ${studentCorner === k ? "active" : ""}`}
+                    onClick={() => hasData && setStudentCorner(k)}
+                    disabled={!hasData}
+                  >
+                    {STUDENT_LABEL[k] || k}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* ✅ 구분선 */}
+            <div className="menu-section-divider"></div>
+          </>
         )}
 
-        {/* 교직원식당: 끼니 선택 버튼(조/중/석) */}
+        {/* 교직원식당 끼니 선택 */}
         {selectedTab === "교직원식당" && (
-          <div className="subtab-buttons" role="tablist" aria-label="끼니 선택">
-            {["BREAKFAST", "LUNCH", "DINNER"].map((k) => {
-              const hasData = staffMealKeys.includes(k);
-              return (
-                <button
-                  key={k}
-                  type="button"
-                  className={`chip ${staffMeal === k ? "active" : ""}`}
-                  onClick={() => hasData && setStaffMeal(k)}
-                  disabled={!hasData}
-                  title={hasData ? "" : "해당 끼니 식단이 없습니다"}
-                >
-                  {STAFF_LABEL[k] || k}
-                </button>
-              );
-            })}
-          </div>
+          <>
+            <div className="subtab-buttons" role="tablist" aria-label="끼니 선택">
+              {["BREAKFAST", "LUNCH", "DINNER"].map((k) => {
+                const hasData = staffMealKeys.includes(k);
+                return (
+                  <button
+                    key={k}
+                    type="button"
+                    className={`chip ${staffMeal === k ? "active" : ""}`}
+                    onClick={() => hasData && setStaffMeal(k)}
+                    disabled={!hasData}
+                  >
+                    {STAFF_LABEL[k] || k}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* ✅ 구분선 */}
+            <div className="menu-section-divider"></div>
+          </>
         )}
+
 
         {/* 내용 */}
         {loading ? (
@@ -203,10 +212,10 @@ export default function DailyMenu() {
         ) : error ? (
           <div className="empty error">데이터 로딩 실패: {error}</div>
         ) : !daily ? (
-          <div className="empty muted">해당 날짜의 식단이 없습니다.</div>
+          <div className="empty muted">해당 날짜의 식단이 없습니다</div>
         ) : selectedTab === "학생식당" ? (
           !studentCorner ? (
-            <div className="empty muted">코너를 선택해주세요.</div>
+            <div className="empty muted">옵션을 선택해주세요</div>
           ) : (
             <ul className="menu-list">
               {(menuItems.length ? menuItems : ["(미운영)"]).map((item, idx) => (
@@ -218,7 +227,7 @@ export default function DailyMenu() {
             </ul>
           )
         ) : !staffMeal ? (
-          <div className="empty muted">조식/중식/석식 중 하나를 선택해주세요.</div>
+          <div className="empty muted">옵션을 선택해주세요</div>
         ) : (
           <ul className="menu-list">
             {(menuItems.length ? menuItems : ["(미운영)"]).map((item, idx) => (
