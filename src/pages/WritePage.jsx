@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../components/Header";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import axiosInstance from "../components/utils/AxiosInstance";
@@ -27,15 +26,21 @@ const WritePage = () => {
   const imageInputRef = useRef(null);
   const fileInputRef = useRef(null);
 
+  // 게시판 선택 및 NOTICE 게시판 새 글 제목 자동 추가
   useEffect(() => {
     if (boardType) {
       setSelectedBoard({
         value: boardType.toUpperCase(),
         label: getBoardLabel(boardType),
       });
-    }
-  }, [boardType]);
 
+      if (boardType.toUpperCase() === "NOTICE" && !isEditMode) {
+        setTitle((prev) => (prev.startsWith("<전학년>") ? prev : `<전학년> ${prev}`));
+      }
+    }
+  }, [boardType, isEditMode]);
+
+  // 수정 모드 시 게시글 불러오기
   useEffect(() => {
     if (isEditMode) {
       axiosInstance

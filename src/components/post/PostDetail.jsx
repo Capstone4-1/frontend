@@ -1,15 +1,16 @@
 import { likePost, unlikePost } from "../../api/posts/like";
 import ProfileTemplate from "../ProfileTemplate";
 import axiosInstance from "../utils/AxiosInstance";
+import { UserContext } from "../utils/UserContext";
 import CommentBox from "./CommentBox";
 import MenuButton from "./MenuButton";
 import "./PostDetail.css";
 import { Heart, Check, List, Bookmark } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
 // 좋아요 API 함수
 import { toast } from "sonner";
-
 const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
@@ -28,6 +29,8 @@ const PostDetail = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const lastSubmitTime = useRef(0);
     const navigate = useNavigate();
+    const { hasRole } = useContext(UserContext); // ✅ 현재 로그인 사용자 권한 확인
+
 
     useEffect(() => {
         fetchPost();
@@ -95,10 +98,10 @@ const PostDetail = () => {
             prev.map((c) =>
                 c.id === commentId
                     ? {
-                          ...c,
-                          liked: !c.liked,
-                          likes: (c.likes || 0) + (c.liked ? -1 : 1),
-                      }
+                        ...c,
+                        liked: !c.liked,
+                        likes: (c.likes || 0) + (c.liked ? -1 : 1),
+                    }
                     : c,
             ),
         );
@@ -126,6 +129,12 @@ const PostDetail = () => {
     };
 
     const handleCommentSubmit = async () => {
+
+        if (!hasRole("STUDENT")) {
+            toast.error("권한이 없습니다");
+            return;
+        }
+
         const now = Date.now();
         if (
             !newComment.trim() ||
@@ -138,6 +147,7 @@ const PostDetail = () => {
         lastSubmitTime.current = now;
 
         try {
+
             await axiosInstance.post(`/post/${postId}/comments`, {
                 content: newComment,
                 targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`,
@@ -154,6 +164,11 @@ const PostDetail = () => {
     };
 
     const handleReplySubmit = async (parentId) => {
+
+        if (!hasRole("STUDENT")) {
+            toast.error("권한이 없습니다");
+            return;
+        }
         const now = Date.now();
         if (
             !replyContent.trim() ||
@@ -326,9 +341,8 @@ const PostDetail = () => {
                     </span>
                     <div className="sort-controls">
                         <button
-                            className={`sort-button ${
-                                sortOrder === "oldest" ? "active" : ""
-                            }`}
+                            className={`sort-button ${sortOrder === "oldest" ? "active" : ""
+                                }`}
                             onClick={() => {
                                 setSortOrder("oldest");
                                 setComments(sortComments(comments, "oldest"));
@@ -339,9 +353,8 @@ const PostDetail = () => {
                             등록순
                         </button>
                         <button
-                            className={`sort-button ${
-                                sortOrder === "newest" ? "active" : ""
-                            }`}
+                            className={`sort-button ${sortOrder === "newest" ? "active" : ""
+                                }`}
                             onClick={() => {
                                 setSortOrder("newest");
                                 setComments(sortComments(comments, "newest"));
