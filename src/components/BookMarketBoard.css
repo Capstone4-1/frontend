@@ -37,7 +37,7 @@
     flex: 0 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    gap: var(--spacing-3);
     padding: 2px;
     box-sizing: border-box;
 }
@@ -47,12 +47,12 @@
 .book-card {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--spacing-1-5);
     align-items: flex-start;
     text-decoration: none;
     border: 1px solid var(--base-border-color);
     border-radius: 8px;
-    padding: 10px;
+    padding: var(--spacing-1-5);
     background: #fff;
     position: relative;
 }
@@ -72,7 +72,7 @@
 
 .book-card .info .title {
     margin: 0;
-    font-size: 1rem;
+    font-size: var(--font-size-xs);
     font-weight: bold;
     color: #222;
     white-space: nowrap;
@@ -83,14 +83,14 @@
 .book-card .info .price {
     font-weight: bold;
     color: #2a9d8f;
-    font-size: 0.95rem;
+    font-size: var(--font-size-xs);
 }
 
 .book-card .info .meta {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    font-size: 0.8rem;
+    font-size: var(--font-size-2xs);
     color: #666;
     margin-top: 6px;
 }
@@ -139,7 +139,20 @@
         max-width: none;
         width: 100%;
     }
+    
     .slider-page {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .book-card .thumb img {
+        height: 160px;
+    }
+    
+    /* 모바일에서 네비게이션 화살표 항상 표시 (터치 디바이스) */
+    .nav-arrow {
+        display: flex;
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
     }
 }
