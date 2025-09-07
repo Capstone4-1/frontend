@@ -6,12 +6,13 @@
 
 .InfoBox h1 {
   font-size: var(--font-size-xl);
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .InfoBox .top {
   display: flex;
   justify-content: space-between;
+  /* 왼쪽 그룹과 오른쪽 버튼 끝 정렬 */
   align-items: center;
 }
 
@@ -28,6 +29,7 @@
   gap: 10px;
 }
 
+/* 기존 게시판 버튼 */
 .InfoBox .go-to-board-btn {
   padding: 6px 12px;
   font-size: 0.9rem;
@@ -38,6 +40,7 @@
   background-color: #3399ff;
   transition: all 0.2s ease-in-out;
 }
+
 .InfoBox .go-to-board-btn:hover {
   box-shadow: 0 0 0 2px #5c5c5c;
   border: 1px solid #5c5c5c;
@@ -45,6 +48,7 @@
   background-color: #5c5c5c;
 }
 
+/* 필터 버튼 */
 .InfoBox .filter-area {
   margin-left: 10px;
   display: flex;
@@ -52,8 +56,7 @@
 }
 
 .InfoBox .filter-area button {
-  white-space: nowrap; 
-
+  white-space: nowrap;
   outline: none;
   cursor: pointer;
   font-size: 0.9rem;
@@ -65,19 +68,21 @@
   background-color: white;
   transition: all 0.2s ease-in-out;
 }
+
 .InfoBox .filter-area button.active {
   background-color: #5c5c5c;
   border-color: #5c5c5c;
   color: white;
 }
+
 .InfoBox .filter-area button:not(.active):hover {
   background-color: #5c5c5c;
   border-color: #5c5c5c;
   color: white;
 }
 
+/* 리스트 영역 */
 .InfoBox .list-area {
-  /* 전체 높이 고정 (56px * 6 + padding) */
   height: calc(65px * 6 + 44px);
   border-radius: 24px;
   margin: 14px 0 0;
@@ -94,7 +99,7 @@
 }
 
 .InfoBox .item {
-  height: 65px; /* 고정 높이 */
+  height: 65px;
   padding: 16px 0px;
   border-bottom: 1px solid #f0f0f0;
   display: flex;
@@ -112,41 +117,87 @@
   line-height: 1.4rem;
 }
 
+/* Skeleton 스타일 */
 .InfoBox .item.skeleton {
-  height: 65px; /* 동일 고정 높이 */
+  height: 65px;
   padding: 16px 0;
 }
+
 .InfoBox .item.skeleton .skeleton-title,
 .InfoBox .item.skeleton .skeleton-meta {
   background: #e0e0e0;
   border-radius: 4px;
   animation: pulse 1.2s ease-in-out infinite;
 }
+
 .InfoBox .item.skeleton .skeleton-title {
   width: 80%;
   height: 16px;
 }
+
 .InfoBox .item.skeleton .skeleton-meta {
   width: 40%;
   height: 12px;
 }
 
 @keyframes pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
 }
 
+/* 링크 스타일 */
 .InfoBox .post-link {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: inherit;
 }
+
 .InfoBox .post-link:hover .post-title {
   text-decoration: underline;
 }
 
+/* More 버튼 - 오른쪽 끝, 작은 라운드 사각형 */
+.InfoBox .more-btn {
+  margin-right: 6px;
+  width: 21px;
+  height: 21px;
+  border-radius: 6px;
+  border: none;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid rgb(92, 92, 92);
+  color: #2d2929;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.InfoBox .more-btn:hover {
+  background-color: #5c5c5c;
+  border-color: #5c5c5c;
+  color: white;
+}
+
 @media (max-width: 1480px) {
-  
+  .InfoBox .filter-area {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .InfoBox .list {
+    padding: 16px 20px;
+  }
 }

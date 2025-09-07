@@ -111,7 +111,6 @@ const MailPage = () => {
 
     return (
         <div className="MailPage">
-            <Header />
             <div className="layout">
                 <aside className="mail-side">
                     <MailSide

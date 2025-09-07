@@ -39,14 +39,14 @@ const Account = () => {
         <MyInfo />
       </section>
 
-      <section
+      {/* <section
         tabIndex={-1}
         ref={rulesRef}
         className="account-section"
         aria-label="커뮤니티 이용규칙"
       >
         <CommunityRules />
-      </section>
+      </section> */}
 
       <button
         ref={deleteRef}

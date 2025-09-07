@@ -1,0 +1,57 @@
+/* src/components/InquiryForm.css */
+
+.InquiryForm-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.InquiryForm-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.InquiryForm-form .InquiryForm-group {
+  margin-bottom: 16px;
+}
+
+.InquiryForm-form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.InquiryForm-form input,
+.InquiryForm-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.InquiryForm-form input:focus,
+.InquiryForm-form textarea:focus {
+  border-color: #4f46e5;
+  outline: none;
+}
+
+.InquiryForm-submitBtn {
+  width: 100%;
+  padding: 12px;
+  background: #4f46e5;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.InquiryForm-submitBtn:hover {
+  background: #4338ca;
+}

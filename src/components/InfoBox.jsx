@@ -75,6 +75,7 @@ const InfoBox = ({ boardTypes, title }) => {
             <div className="title-area">
               <h1 className="title">{title}</h1>
             </div>
+
             <div className="filter-area">
               <button
                 onClick={() => setSelectedBoard("ALL")}
@@ -91,10 +92,14 @@ const InfoBox = ({ boardTypes, title }) => {
                   {getBoardLabel(type)}
                 </button>
               ))}
+
+              {/* More 버튼 */}
+
             </div>
           </div>
-
-          
+          <button className="more-btn" onClick={handleMoreClick}>
+            +
+          </button>
         </div>
 
         <div className="list-area">

@@ -53,137 +53,131 @@ const MyPageV2 = () => {
 
   return (
     <div className="Mypage">
-      <Header />
       <div className="out-layout">
         <div className="container">
           <aside>
-            {/* user 없을 때와 있을 때를 분리 */}
-            {!user ? (
-              <div className="mypage-loading">
-                유저 정보를 불러오는 중입니다...
+            <div className="profile-img-box">
+              <MyProfile profileImageUrl={user.profileImageUrl} />
+              <div>{user.nickname}</div>
+              <div className="intro-text">
+      {user.intro ?? user.introduction ?? "아직 자기소개가 없습니다."}
+    </div>
+
+            </div>
+
+
+            <div className="menu-box">
+              <div>
+                <h3>내 활동</h3>
+                <ul>
+                  <li
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleSecureNavigate("activity", "comments")}
+                    onKeyDown={(e) =>
+                      onKeyActivate(e, () =>
+                        handleSecureNavigate("activity", "comments")
+                      )
+
+                    }
+                  >
+                    작성한 댓글
+                  </li>
+
+                  <li
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleSecureNavigate("activity", "posts")}
+                    onKeyDown={(e) =>
+                      onKeyActivate(e, () =>
+                        handleSecureNavigate("activity", "posts")
+                      )
+
+                    }
+                  >
+                    작성한 글
+                  </li>
+
+                  <li
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleSecureNavigate("activity", "favorites")}
+                    onKeyDown={(e) =>
+                      onKeyActivate(e, () =>
+                        handleSecureNavigate("activity", "favorites")
+                      )
+
+                    }
+                  >
+                    좋아요 한 게시물
+                  </li>
+
+                  <li
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleSecureNavigate("activity", "scraps")}
+                    onKeyDown={(e) =>
+                      onKeyActivate(e, () =>
+                        handleSecureNavigate("activity", "scraps")
+                      )
+                    }
+                  >
+                    스크랩 한 게시물
+                  </li>
+            
+                </ul>
               </div>
-            ) : (
-              <>
-                <div className="profile-img-box">
-                  <MyProfile profileImageUrl={user.profileImageUrl} />
-                  <div>{user.nickname}</div>
-                </div>
 
-                <div className="menu-box">
-                  <div>
-                    <h3>내 활동</h3>
-                    <ul>
-                      <li
-                        role="button"
-                        tabIndex={0}
-                        onClick={() =>
-                          handleSecureNavigate("activity", "comments")
-                        }
-                        onKeyDown={(e) =>
-                          onKeyActivate(e, () =>
-                            handleSecureNavigate("activity", "comments")
-                          )
-                        }
-                      >
-                        작성한 댓글
-                      </li>
+              <div style={{ marginTop: "20px" }}>
+                <h3>계정 및 보안</h3>
+                <ul>
+                  {/* 개인정보 수정: account/info 포커스 */}
+                  <li
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleSecureNavigate("account", "info")}
+                    onKeyDown={(e) =>
+                      onKeyActivate(e, () =>
+                        handleSecureNavigate("account", "info")
+                      )
+                    }
+                  >
+                    개인 정보 수정
+                  </li>
 
-                      <li
-                        role="button"
-                        tabIndex={0}
-                        onClick={() =>
-                          handleSecureNavigate("activity", "posts")
-                        }
-                        onKeyDown={(e) =>
-                          onKeyActivate(e, () =>
-                            handleSecureNavigate("activity", "posts")
-                          )
-                        }
-                      >
-                        작성한 글
-                      </li>
+                  {/* 커뮤니티 이용규칙: account/rules 포커스 (비번 확인 포함) */}
+                  {/* <li
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleSecureNavigate("account", "rules")}
+                    onKeyDown={(e) =>
+                      onKeyActivate(e, () =>
+                        handleSecureNavigate("account", "rules")
+                      )
+                    }
+                  >
+                    커뮤니티 이용규칙
+                  </li> */}
 
-                      <li
-                        role="button"
-                        tabIndex={0}
-                        onClick={() =>
-                          handleSecureNavigate("activity", "favorites")
-                        }
-                        onKeyDown={(e) =>
-                          onKeyActivate(e, () =>
-                            handleSecureNavigate("activity", "favorites")
-                          )
-                        }
-                      >
-                        좋아요 한 게시물
-                      </li>
+                  <li
+  role="button"
+  tabIndex={0}
+  onClick={() => handleSecureNavigate("account", "delete")}
+  onKeyDown={(e) =>
+    onKeyActivate(e, () =>
+      handleSecureNavigate("account", "delete")
+    )
+  }
+  aria-label="회원 탈퇴로 이동"
+>
+  회원탈퇴
+</li>
 
-                      <li
-                        role="button"
-                        tabIndex={0}
-                        onClick={() =>
-                          handleSecureNavigate("activity", "scraps")
-                        }
-                        onKeyDown={(e) =>
-                          onKeyActivate(e, () =>
-                            handleSecureNavigate("activity", "scraps")
-                          )
-                        }
-                      >
-                        스크랩 한 게시물
-                      </li>
-                    </ul>
-                  </div>
 
-                  <div style={{ marginTop: "20px" }}>
-                    <h3>계정 및 보안</h3>
-                    <ul>
-                      <li
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => handleSecureNavigate("account", "info")}
-                        onKeyDown={(e) =>
-                          onKeyActivate(e, () =>
-                            handleSecureNavigate("account", "info")
-                          )
-                        }
-                      >
-                        개인 정보 수정
-                      </li>
+                </ul>
+              </div>
+            </div>
 
-                      <li
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => handleSecureNavigate("account", "rules")}
-                        onKeyDown={(e) =>
-                          onKeyActivate(e, () =>
-                            handleSecureNavigate("account", "rules")
-                          )
-                        }
-                      >
-                        커뮤니티 이용규칙
-                      </li>
-
-                      <li
-                        role="button"
-                        tabIndex={0}
-                        onClick={() =>
-                          handleSecureNavigate("account", "delete")
-                        }
-                        onKeyDown={(e) =>
-                          onKeyActivate(e, () =>
-                            handleSecureNavigate("account", "delete")
-                          )
-                        }
-                        aria-label="회원 탈퇴로 이동"
-                      >
-                        회원탈퇴
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </>
-            )}
           </aside>
 
           <section className="display-area">

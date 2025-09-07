@@ -1,17 +1,18 @@
 // components/PostTag.jsx
 import "./PostTag.css";
+import { boardConfig } from "./utils/boardUtils";
+boardConfig
 
-const tagStyles = {
-  FREE: { label: "자유", color: "#4caf50" },
-  SECRET: { label: "비밀", color: "#9c27b0" },
-  REVIEW: { label: "후기", color: "#2196f3" },
-  NOTICE_C: { label: "공지", color: "#f44336" },
-  NOTICE: { label: "조교", color: "#ff9800" },
-};
+// boardConfig 기반으로 tagStyles 생성
+const tagStyles = boardConfig.reduce((acc, board) => {
+  acc[board.type] = { label: board.tagLabel, color: board.color };
+  return acc;
+}, {});
 
 const PostTag = ({ type }) => {
-  const tag = tagStyles[type];
+  if (!type) return null;
 
+  const tag = tagStyles[type.toUpperCase()]; // 대소문자 안전 처리
   if (!tag) return null;
 
   return (

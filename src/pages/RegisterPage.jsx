@@ -1,7 +1,7 @@
-import { useSearchParams } from "react-router-dom";
-import RegisterForm from "../components/RegisterForm";
 import IntroBox from "../components/IntroBox";
+import RegisterForm from "../components/RegisterForm";
 import ResetPasswordForm from "../components/ResetPasswordForm";
+import { Link, useSearchParams } from "react-router-dom";
 
 const RegisterPage = () => {
     const [searchParams] = useSearchParams();
@@ -14,12 +14,18 @@ const RegisterPage = () => {
             </div>
             <div className="right-side">
                 <div className="form-container">
-                    <img
-                        className="logo-img"
-                        src="/icons/logo.svg"
-                        alt="logo_img"
-                    />
-                    {mode === "register" ? <RegisterForm /> : <ResetPasswordForm />}
+                    <Link to="/login">
+                        <img
+                            className="logo-img"
+                            src="/icons/logo.svg"
+                            alt="logo_img"
+                        />
+                    </Link>
+                    {mode === "register" ? (
+                        <RegisterForm />
+                    ) : (
+                        <ResetPasswordForm />
+                    )}
                 </div>
             </div>
         </div>
