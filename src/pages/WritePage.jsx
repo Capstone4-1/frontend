@@ -7,12 +7,13 @@ import { getBoardLabel } from "../components/utils/boardUtils";
 
 import "./WritePage.css";
 import {
-    FileImage,
-    Paperclip,
-    Link as LinkIcon,
-    AArrowUp,
-    AArrowDown,
+  FileImage,
+  Paperclip,
+  Link as LinkIcon,
+  AArrowUp,
+  AArrowDown,
 } from "lucide-react";
+import { toast } from "sonner";
 
 const WritePage = () => {
   const { boardType, postId } = useParams();
@@ -43,7 +44,6 @@ const WritePage = () => {
           const postData = res.data.dto;
           setTitle(postData.title);
           if (editorRef.current) editorRef.current.innerHTML = postData.content;
-          // 게시판 타입이 다르면 변경도 고려 가능
           if (postData.boardType && postData.boardType !== selectedBoard?.value) {
             setSelectedBoard({
               value: postData.boardType,
@@ -53,64 +53,64 @@ const WritePage = () => {
         })
         .catch((err) => {
           console.error("게시글 불러오기 실패", err);
-          alert("게시글을 불러오는데 실패했습니다.");
+          toast.error("게시글을 불러오는데 실패했습니다.");
         });
     }
   }, [isEditMode, postId, selectedBoard]);
 
-    const applyStyle = (command) => {
-        document.execCommand(command, false, null);
-        editorRef.current.focus();
-    };
+  const applyStyle = (command) => {
+    document.execCommand(command, false, null);
+    editorRef.current.focus();
+  };
 
-    const insertHTML = (html) => {
-        editorRef.current.focus();
-        document.execCommand("insertHTML", false, html);
-    };
+  const insertHTML = (html) => {
+    editorRef.current.focus();
+    document.execCommand("insertHTML", false, html);
+  };
 
-    const handleImageUpload = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-        try {
-            const res = await axiosInstance.get("/aws/S3/presign", {
-                params: { filename: file.name, contentType: file.type },
-            });
-            const { uploadUrl, fileUrl } = res.data;
+    try {
+      const res = await axiosInstance.get("/aws/S3/presign", {
+        params: { filename: file.name, contentType: file.type },
+      });
+      const { uploadUrl, fileUrl } = res.data;
 
-            await axios.put(uploadUrl, file, {
-                headers: {
-                    "Content-Type": file.type,
-                    Authorization: undefined,
-                },
-            });
+      await axios.put(uploadUrl, file, {
+        headers: {
+          "Content-Type": file.type,
+          Authorization: undefined,
+        },
+      });
 
-            const imgTag = `<img src="${fileUrl}" alt="${file.name}" style="max-width: 500px; width: 100%; height: auto; margin: 8px 0;" />`;
-            insertHTML(imgTag);
-        } catch (err) {
-            console.error("❌ 이미지 업로드 실패:", err);
-            alert("이미지 업로드 실패: 콘솔 로그를 확인하세요.");
-        }
-    };
+      const imgTag = `<img src="${fileUrl}" alt="${file.name}" style="max-width: 500px; width: 100%; height: auto; margin: 8px 0;" />`;
+      insertHTML(imgTag);
+    } catch (err) {
+      console.error("이미지 업로드 실패:", err);
+      toast.error("이미지 업로드 실패: 콘솔 로그를 확인하세요.");
+    }
+  };
 
-    const handleFileUpload = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const fileTag = `<a href="#" style="color: #3498db;">📎 ${file.name}</a>`;
-        insertHTML(fileTag);
-    };
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const fileTag = `<a href="#" style="color: #3498db;">📎 ${file.name}</a>`;
+    insertHTML(fileTag);
+  };
 
   const handleSubmit = async () => {
     const content = editorRef.current.innerHTML.trim();
     if (!selectedBoard || !title.trim() || !content) {
-      alert("게시판, 제목, 내용을 모두 입력해 주세요.");
+      toast.warning("게시판, 제목, 내용을 모두 입력해 주세요.");
       return;
     }
 
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = content;
-        const firstImg = tempDiv.querySelector("img");
-        const imageUrls = firstImg ? firstImg.src : null;
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = content;
+    const firstImg = tempDiv.querySelector("img");
+    const imageUrls = firstImg ? firstImg.src : null;
 
     try {
       if (isEditMode) {
@@ -123,7 +123,7 @@ const WritePage = () => {
         if (res.status === 200) {
           navigate(`/main/community/${selectedBoard.value.toLowerCase()}`);
         } else {
-          alert("수정 실패. 다시 시도해주세요.");
+          toast.error("수정 실패. 다시 시도해주세요.");
         }
       } else {
         const res = await axiosInstance.post("/post/post-up", {
@@ -135,11 +135,12 @@ const WritePage = () => {
         if (res.status === 200 || res.status === 201) {
           navigate(`/main/community/${selectedBoard.value.toLowerCase()}`);
         } else {
-          alert("등록 실패. 다시 시도해주세요.");
+          toast.error("등록 실패. 다시 시도해주세요.");
         }
       }
     } catch (err) {
-      alert("서버 오류가 발생했습니다.");
+      console.error(err);
+      toast.error(err?.response?.data?.message || "서버 에러 발생");
     }
   };
 
@@ -164,8 +165,7 @@ const WritePage = () => {
         wrapper = span;
       }
     }
-    const currentSize =
-      parseFloat(window.getComputedStyle(wrapper).fontSize) || 16;
+    const currentSize = parseFloat(window.getComputedStyle(wrapper).fontSize) || 16;
     wrapper.style.fontSize = `${Math.max(1, currentSize + delta)}px`;
     const newRange = document.createRange();
     newRange.selectNodeContents(wrapper);
@@ -173,30 +173,30 @@ const WritePage = () => {
     selection.addRange(newRange);
   };
 
-    const increaseFontSize = () => changeFontSize(1);
-    const decreaseFontSize = () => changeFontSize(-1);
+  const increaseFontSize = () => changeFontSize(1);
+  const decreaseFontSize = () => changeFontSize(-1);
 
-    const applyLink = () => {
-        const selection = window.getSelection();
-        if (!selection.rangeCount || selection.isCollapsed) {
-            alert("먼저 링크로 만들 텍스트를 드래그하세요.");
-            return;
-        }
-        const url = prompt("링크 주소를 입력하세요 (https:// 포함)");
-        if (!url || !/^https?:\/\//.test(url)) {
-            alert("올바른 링크 형식을 입력해 주세요 (https://...)");
-            return;
-        }
-        const range = selection.getRangeAt(0);
-        const link = document.createElement("a");
-        link.href = url;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = selection.toString();
-        range.deleteContents();
-        range.insertNode(link);
-        editorRef.current.focus();
-    };
+  const applyLink = () => {
+    const selection = window.getSelection();
+    if (!selection.rangeCount || selection.isCollapsed) {
+      toast.warning("먼저 링크로 만들 텍스트를 드래그하세요.");
+      return;
+    }
+    const url = prompt("링크 주소를 입력하세요 (https:// 포함)");
+    if (!url || !/^https?:\/\//.test(url)) {
+      toast.warning("올바른 링크 형식을 입력해 주세요 (https://...)");
+      return;
+    }
+    const range = selection.getRangeAt(0);
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = selection.toString();
+    range.deleteContents();
+    range.insertNode(link);
+    editorRef.current.focus();
+  };
 
   return (
     <div className="WritePage">
@@ -233,11 +233,7 @@ const WritePage = () => {
                   <Paperclip size={24} />
                   <span className="toolbar-label">파일</span>
                 </button>
-                <button
-                  title="링크"
-                  className="toolbar-button"
-                  onClick={applyLink}
-                >
+                <button title="링크" className="toolbar-button" onClick={applyLink}>
                   <LinkIcon size={24} />
                   <span className="toolbar-label">링크</span>
                 </button>

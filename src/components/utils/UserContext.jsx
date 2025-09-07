@@ -10,7 +10,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  
+
   useEffect(() => {
     axiosInstance.get("/member/me")
       .then(res => {
@@ -23,8 +23,16 @@ export const UserProvider = ({ children }) => {
       });
   }, []);
 
+  const hasRole = (requiredRole) => {
+    if (!user || !user.roles) return false;
+    const roleHierarchy = ["USER", "STUDENT", "MANAGER", "PROFESSOR", "ADMIN", "SYSTEM"];
+    const requiredIndex = roleHierarchy.indexOf(requiredRole);
+
+    return user.roles.some(role => roleHierarchy.indexOf(role) >= requiredIndex);
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser, isLoading }}>
+    <UserContext.Provider value={{ user, setUser, isLoading, hasRole }}>
       {children}
     </UserContext.Provider>
   );

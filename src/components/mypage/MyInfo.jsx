@@ -93,6 +93,7 @@ const MyInfo = () => {
   };
 
   // 이메일 저장(인증코드 발송)
+
   const handleEmailSave = async () => {
     setEmailError("");
     setCodeError("");
@@ -165,6 +166,7 @@ const MyInfo = () => {
       const msg = "새 비밀번호를 입력해주세요.";
       setPwError(msg);
       toast.error(msg);
+
       return;
     }
 
@@ -186,6 +188,7 @@ const MyInfo = () => {
       const msg = "비밀번호 확인 중 오류가 발생했습니다.";
       setPwError(msg);
       toast.error(msg);
+
     }
   };
 
@@ -195,6 +198,7 @@ const MyInfo = () => {
       const msg = "비밀번호가 일치하지 않습니다.";
       setPwError(msg);
       toast.error(msg);
+
       return;
     }
     try {
@@ -204,6 +208,7 @@ const MyInfo = () => {
         newPassword,
       });
       toast.success("비밀번호가 성공적으로 변경되었습니다.");
+
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -229,6 +234,7 @@ const MyInfo = () => {
         const msg = "네트워크 오류가 발생했습니다.";
         setPwError(msg);
         toast.error(msg);
+
       }
     } finally {
       setIsPwUpdating(false);

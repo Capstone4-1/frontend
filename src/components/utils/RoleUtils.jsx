@@ -25,3 +25,5 @@ export const ROLE_TITLES_MAP = {
   SYSTEM: "#시스템",
   ADMIN: "#관리자",
 };
+
+export const roleHierarchy = ["USER", "STUDENT", "PROFESSOR", "MANAGER", "ADMIN"];

@@ -1,39 +1,33 @@
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../components/utils/AxiosInstance";
 import { useState } from "react";
+import axios from "axios"; // 일반 axios import
 
-const WithdrawSection = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState(""); // 테스트할 이메일 입력값
+const HealthCheckSection = () => {
+  const [status, setStatus] = useState(""); // 서버 응답 상태 표시
 
-  const handleTestRequest = async () => {
+  const handleHealthCheck = async () => {
     try {
-      const response = await axiosInstance.post("/auth/email-check", {
-        email: email, // MailDto의 email 필드
-      });
-      alert(`서버 응답: ${response.data}`); // 인증 코드 or 메시지 표시
+      const response = await axios.get("http://15.164.171.42:8080/health"); // 일반 axios 사용
+      setStatus(response.data); // 서버 응답 바디
+      alert(`서버 응답: ${response.data}`); // 200 OK 확인
+      console.log(response.data)
     } catch (error) {
       console.error(error);
+      setStatus("요청 중 오류 발생");
       alert("요청 중 오류 발생");
     }
   };
 
   return (
-    <div className="withdraw-section">
-      <h2>회원 탈퇴</h2>
-
-      <input
-        type="email"
-        placeholder="이메일 입력"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+    <div className="health-check-section">
+      <h2>서버 헬스체크 테스트</h2>
 
       <div>
-        <button onClick={handleTestRequest}>테스트 요청</button>
+        <button onClick={handleHealthCheck}>헬스체크 요청</button>
       </div>
+
+      {status && <p>서버 상태: {status}</p>}
     </div>
   );
 };
 
-export default WithdrawSection;
+export default HealthCheckSection;
