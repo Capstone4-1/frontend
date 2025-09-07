@@ -223,7 +223,6 @@
 
 .InfoBox .stats span {
     vertical-align: middle;
-    font-size: var(--font-size-2xs);
     font-size: var(--font-size-3xs);
 }
 
