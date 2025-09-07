@@ -1,7 +1,7 @@
 import "./BookMarketBoard.css";
+import axiosInstance from "./utils/AxiosInstance";
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import axiosInstance from "./utils/AxiosInstance";
 
 const formatPrice = (price) => {
     return new Intl.NumberFormat("ko-KR").format(price || 0) + " 원";
@@ -11,13 +11,30 @@ const BookMarketBoard = ({ boardType, title }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
+    const [visibleCount, setVisibleCount] = useState(4);
 
     const [currentIndex, setCurrentIndex] = useState(1);
     const [isAnimating, setIsAnimating] = useState(true);
     const [isSnapping, setIsSnapping] = useState(false);
 
-    const VISIBLE_COUNT = 4;
     const PAGE_SIZE = 12;
+
+    // 화면 크기에 따라 VISIBLE_COUNT 조정
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 767) {
+                setVisibleCount(2);
+            } else {
+                setVisibleCount(4);
+            }
+        };
+
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const fetchPosts = useCallback(async () => {
         try {
@@ -26,7 +43,7 @@ const BookMarketBoard = ({ boardType, title }) => {
                 `/post/${boardType}/summary`,
                 {
                     params: { pageSize: PAGE_SIZE },
-                }
+                },
             );
             setPosts(response.data?.Posts || []);
         } catch (error) {
@@ -43,7 +60,7 @@ const BookMarketBoard = ({ boardType, title }) => {
         }
     }, [boardType, fetchPosts]);
 
-    const totalPages = Math.max(1, Math.ceil(posts.length / VISIBLE_COUNT));
+    const totalPages = Math.max(1, Math.ceil(posts.length / visibleCount));
 
     const handlePrev = () => {
         if (posts.length === 0) return;
@@ -77,7 +94,7 @@ const BookMarketBoard = ({ boardType, title }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, posts.length, totalPages, isHovered, isSnapping, isAnimating]);
 
-    // 데이터/페이지 변경 시 인덱스 초기화 (무한 루프용)
+    // visibleCount 변경 시 currentIndex 재조정
     useEffect(() => {
         if (totalPages > 0) {
             setIsAnimating(false);
@@ -85,7 +102,7 @@ const BookMarketBoard = ({ boardType, title }) => {
             const id = requestAnimationFrame(() => setIsAnimating(true));
             return () => cancelAnimationFrame(id);
         }
-    }, [totalPages]);
+    }, [totalPages, visibleCount]);
 
     const handleTransitionEnd = () => {
         if (currentIndex === 0) {
@@ -134,9 +151,9 @@ const BookMarketBoard = ({ boardType, title }) => {
     // 페이지 배열 생성
     const pages = Array.from({ length: totalPages }, (_, pageIndex) =>
         posts.slice(
-            pageIndex * VISIBLE_COUNT,
-            pageIndex * VISIBLE_COUNT + VISIBLE_COUNT
-        )
+            pageIndex * visibleCount,
+            pageIndex * visibleCount + visibleCount,
+        ),
     );
 
     // 무한 루프용 확장 페이지 (앞뒤 클론)
