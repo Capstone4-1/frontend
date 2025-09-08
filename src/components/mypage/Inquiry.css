@@ -1,0 +1,85 @@
+.Inquiry {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Noto Sans KR', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.Inquiry h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: #2d8cff;
+  position: relative;
+  padding-left: 12px;
+}
+
+.Inquiry h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 4px;
+  height: 20px;
+  background: #2d8cff;
+  border-radius: 2px;
+}
+
+/* 표 */
+.Inquiry .inquiry-table-wrap {
+  overflow-x: auto;
+}
+
+.Inquiry .inquiry-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.Inquiry .inquiry-table th,
+.Inquiry .inquiry-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.Inquiry .inquiry-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #444;
+}
+
+.Inquiry .inquiry-row {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.Inquiry .inquiry-row:hover {
+  background: #f1f7ff;
+}
+
+.Inquiry .truncate {
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 상태 뱃지 */
+.Inquiry .status-badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.Inquiry .status-badge.done {
+  background: #e6f7ee;
+  color: #177245;
+}
+
+.Inquiry .status-badge.pending {
+  background: #fff7e6;
+  color: #b45d00;
+}

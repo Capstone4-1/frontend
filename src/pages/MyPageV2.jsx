@@ -145,19 +145,18 @@ const MyPageV2 = () => {
                     개인 정보 수정
                   </li>
 
-                  {/* 커뮤니티 이용규칙: account/rules 포커스 (비번 확인 포함) */}
-                  {/* <li
+                  <li
                     role="button"
                     tabIndex={0}
-                    onClick={() => handleSecureNavigate("account", "rules")}
+                    onClick={() => handleSecureNavigate("account", "inquiry")}
                     onKeyDown={(e) =>
                       onKeyActivate(e, () =>
-                        handleSecureNavigate("account", "rules")
+                        handleSecureNavigate("account", "inquiry")
                       )
                     }
                   >
-                    커뮤니티 이용규칙
-                  </li> */}
+                    문의내역
+                  </li>
 
                   <li
   role="button"
