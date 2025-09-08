@@ -3,7 +3,7 @@ import "./Friends.css";
 import ProfileTemplate from "./ProfileTemplate";
 import Reddot from "./Reddot";
 import { getRequestFriendList, getMyFriends } from "./utils/friendApi";
-import { UserRoundPlus } from "lucide-react";
+import { Users } from "lucide-react";
 import { useState, useEffect } from "react";
 
 // 모듈화한 API 사용
@@ -48,11 +48,8 @@ const Friends = () => {
             {/* <button className="Friends-btn" onClick={() => setIsOpen(!isOpen)}>
                 <h4>친구</h4>
             </button> */}
-            <button
-                className="header-btn"
-                onClick={() => setOpenModal(true)}
-            >
-                <UserRoundPlus />
+            <button className="header-btn" onClick={() => setOpenModal(true)}>
+                <Users />
                 <Reddot count={requestMemberList.length} />
             </button>
 
