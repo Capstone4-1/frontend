@@ -16,7 +16,7 @@ export const buildInquiryPayload = (title, content, category, targetRole) => {
   return {
     title,
     content,
-    inquireType: category,
+    category,
     targetRole: category === "ROLE_REQUEST" ? targetRole : null,
   };
 };
@@ -27,3 +27,8 @@ export const buildInquiryPayload = (title, content, category, targetRole) => {
  * @returns {boolean}
  */
 export const isRoleRequest = (category) => category === "ROLE_REQUEST";
+
+export const getCategoryLabel = (categoryValue) => {
+  const category = InquiryCategories.find((c) => c.value === categoryValue);
+  return category ? category.label : "-";
+};

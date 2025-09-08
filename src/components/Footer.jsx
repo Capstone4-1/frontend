@@ -22,7 +22,7 @@ const Footer = () => {
                     <h4>Contact</h4>
                     <p>Email: support@moai.kr</p>
                     <p>Instagram: @moai_official</p>
-                    <Link to="/inquiry">문의하기</Link>
+                    <Link to="/support">문의하기</Link>
                 </div>
             </div>
             <div className="footer-bottom">
