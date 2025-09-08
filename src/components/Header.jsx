@@ -48,7 +48,6 @@ function Header() {
 
     const profileMenuItems = [
         { label: "마이 페이지", onClick: () => navigate("/mypage") },
-        { label: "친구" },
         { label: "로그아웃", onClick: handleLogout },
     ];
 
