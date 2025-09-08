@@ -1,5 +1,4 @@
 import "./FriendModal.css";
-import { useState } from "react";
 import InputBox from "./InputBox";
 import Reddot from "./Reddot";
 import {
@@ -8,6 +7,8 @@ import {
     acceptFriendRequest,
     declineFriendRequest,
 } from "./utils/friendApi";
+import { X } from "lucide-react";
+import { useState } from "react";
 
 const FriendModal = ({
     setOpenModal,
@@ -61,7 +62,7 @@ const FriendModal = ({
         try {
             await acceptFriendRequest(idToAccept);
             setRequestMemberList((prev) =>
-                prev.filter((request) => request.id !== idToAccept)
+                prev.filter((request) => request.id !== idToAccept),
             );
             fetchMyFriendInfo();
         } catch (error) {
@@ -73,7 +74,7 @@ const FriendModal = ({
         try {
             await declineFriendRequest(idToDecline);
             setRequestMemberList((prev) =>
-                prev.filter((request) => request.id !== idToDecline)
+                prev.filter((request) => request.id !== idToDecline),
             );
         } catch (error) {
             console.error("친구 요청 거절 실패:", error);
@@ -103,12 +104,11 @@ const FriendModal = ({
                             <Reddot count={requestMemberList.length} />
                         </button>
                         <button
-                            style={{
-                                backgroundImage: "url('/icons/exit-image.svg')",
-                            }}
                             className="exit-btn"
                             onClick={() => setOpenModal(false)}
-                        />
+                        >
+                            <X />
+                        </button>
                     </div>
 
                     {activeTab === "send" ? (
