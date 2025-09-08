@@ -1,53 +1,17 @@
-.Friends-Container{
+.Friends {
     position: relative;
-
 }
 
-
-.Friends-Container .header{
-    padding: 5px;
-    gap: 5px;
-    display: flex;
-    align-items: center;
-}
-.Friends-btn {
-    background-color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    color: black;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-
-.Friends-List {
+.Friends .Friends-List {
     margin-top: 10px;
     padding: 0;
     list-style-type: none;
 }
 
-.Friends-Item {
+.Friends .Friends-Item {
     padding: 8px;
     border-bottom: 1px solid #ddd;
     background-color: transparent;
     border-radius: 4px;
     transition: background-color 0.2s;
 }
-.add-friend-btn{
-    position: relative;
-    background-color: white;
-    width: 28px;
-    height: 25px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-
-
-.add-friend-btn:hover {
-    opacity: 0.5;
-}
-
-
