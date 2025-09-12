@@ -4,7 +4,7 @@
   min-height: 100vh;
 }
 
-/* 메인 컨테이너 레이아웃 유지 */
+/* 메인 컨테이너 */
 .Mypage .out-layout {
   display: flex;
   flex-direction: column;
@@ -17,6 +17,8 @@
   width: 70%;
   max-width: 2000px;
   gap: 20px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
 }
 
 /* 사이드바 */
@@ -27,10 +29,12 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
-  width: 30%;
-  min-width: 350px;
-  max-width: 500px;
-  max-height: calc(100vh - 100px);
+
+  flex: 0 1 360px;              
+  min-width: 220px;             
+  max-width: 420px;
+
+  width: auto;
   margin-top: 30px;
   padding: 0 15px 30px 15px;
   box-sizing: border-box;
@@ -47,7 +51,11 @@
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 }
+
 
 .Mypage .profile-img-box > div {
   margin-top: 12px;
@@ -120,9 +128,10 @@
   cursor: default;
 }
 
-/* display-area (메인 컨텐츠 영역) */
+/* display-area  */
 .Mypage .display-area {
-  flex-grow: 1;
+  flex: 1 0 760px;              
+  min-width: 600px;         
   border: 1px solid var(--base-border-color);
   border-radius: 10px;
   margin: 30px 0;
@@ -133,68 +142,54 @@
   overflow-y: auto;
 }
 
-/* 💡 태블릿~모바일: 겹침 방지용 레이아웃 전환 */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) and (min-width: 992px) {
   .Mypage .container {
-    flex-direction: column;
-    width: 95%;
-    gap: 12px;
-    padding: 0 10px;
+    width: min(94vw, 1240px);
+    gap: 16px;
   }
-
   .Mypage aside {
-    position: static;
-    top: auto;
-    width: 100%;
-    min-width: 0;
-    max-width: none;
-    max-height: none;
-    margin-top: 0;
-    padding: 10px;
-    z-index: 1;
+    flex: 0 1 320px;         
+    min-width: 200px;          
+    max-width: 360px;
   }
-
-  .Mypage .profile-img-box {
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 12px;
-  }
-
-  .Mypage .menu-box {
-    width: 100%;
-    padding: 12px;
-  }
-
-  .Mypage .menu-box h3 {
-    font-size: var(--font-size-lg, 1.25rem);
-  }
-
-  .Mypage .menu-box ul li {
-    font-size: var(--font-size-sm, 0.875rem);
-  }
-
   .Mypage .display-area {
-    position: relative;
-    width: 100%;
-    margin: 12px 0 20px;
-    padding: 12px;
-    min-height: 340px;
-    overflow: auto;
-    z-index: 0;
+    flex: 1 0 720px;            
+    min-width: 560px;          
   }
 }
 
-/* 더 작은 모바일(<= 767px) 추가 미세 조정 */
-@media (max-width: 767px) {
-  .Mypage .menu-box h3 {
-    font-size: var(--font-size-base, 1rem);
+@media (min-width: 1150px) and (max-width: 1200px) {
+  .Mypage .container {
+    width: 94%;
+    gap: 14px;
+    flex-wrap: nowrap;
   }
-
-  .Mypage .menu-box ul li {
-    font-size: var(--font-size-sm, 0.875rem);
+  .Mypage aside {
+    flex: 0 1 clamp(240px, 26%, 320px);
+    min-width: 200px;
   }
-
   .Mypage .display-area {
+    flex: 1 0 720px;
+    min-width: 560px;
+  }
+}
+
+@media (max-width: 991px) {
+  .Mypage .container {
+    width: 94%;
+    flex-direction: column;   
+  }
+  .Mypage aside {
+    position: static;         
+    flex: 0 0 auto;
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+  }
+  .Mypage .display-area {
+    flex: 1 1 auto;
+    min-width: 0;           
     min-height: 300px;
+    margin-top: 10px;
   }
 }
