@@ -182,3 +182,77 @@
   color: #111827;
 }
 
+/* 태블릿(768~1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .modal-container.horizontal {
+    width: clamp(360px, 92vw, 700px);
+    gap: var(--spacing-6);
+    padding: var(--spacing-8);
+  }
+  .left-box { width: 200px; }           
+  .right-box { overflow: auto; min-width: 0; }
+}
+
+/*  작은 데스크탑(1024~1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .modal-container.horizontal {
+    width: clamp(560px, 80vw, 760px);
+    gap: var(--spacing-6);
+    padding: var(--spacing-8);
+    max-height: calc(100dvh - var(--spacing-10) * 2);
+  }
+  .right-box { overflow: auto; min-width: 0; }
+}
+
+/*  모바일(≤767px) */
+@media (max-width: 767px) {
+  .modal-backdrop {
+    align-items: flex-end; 
+    padding: var(--spacing-4);
+  }
+
+  .modal-container.horizontal {
+    flex-direction: column;           
+    width: min(94vw, 520px);
+    gap: var(--spacing-4);
+    padding: var(--spacing-6);
+    max-height: calc(100dvh - var(--spacing-6) * 2);
+    overflow: auto;                     
+    border-radius: 16px;                  
+  }
+
+  .left-box {
+    width: 100%;
+    max-width: 220px;  
+    margin: 0 auto;    
+    aspect-ratio: 1 / 1;
+    height: auto;               
+  }
+
+  .right-box {
+    gap: var(--spacing-3);
+    min-width: 0;
+  }
+
+  .modal-buttons {
+    position: sticky;                      
+    bottom: 0;
+    background: #fff;
+    padding-top: var(--spacing-3);
+    margin-top: var(--spacing-4);
+  }
+
+  .modal-buttons button {
+    flex: 1 1 0;                        
+  }
+}
+
+/*  넓은 데스크탑(≥1280px) */
+@media (min-width: 1280px) {
+  .modal-container.horizontal {
+    width: clamp(640px, 52vw, 880px);
+    gap: var(--spacing-8);
+    padding: var(—spacing-10);
+  }
+  .left-box { width: 240px; }
+}
