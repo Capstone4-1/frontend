@@ -3,6 +3,7 @@ import axiosInstance from "../utils/AxiosInstance";
 import axios from "axios";
 import { toast } from "sonner";   
 import "./MarketUploadModal.css";
+import "../modals/Modal.css"
 
 const MarketUploadModal = ({ onClose }) => {
   const [imgFile, setImgFile] = useState(null);

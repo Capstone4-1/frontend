@@ -1,6 +1,7 @@
 import "./FriendModal.css";
 import InputBox from "./InputBox";
 import Reddot from "./Reddot";
+import "./modals/Modal.css";
 import {
     searchFriendByNickname,
     sendFriendRequest,
@@ -112,7 +113,7 @@ const FriendModal = ({
                     </div>
 
                     {activeTab === "send" ? (
-                        <section>
+                        <div>
                             <div className="search-box">
                                 <InputBox
                                     state={nickname}
@@ -153,7 +154,7 @@ const FriendModal = ({
                                     </>
                                 )}
                             </div>
-                        </section>
+                        </div>
                     ) : (
                         <div className="requests-box">
                             {requestMemberList.length > 0 ? (
