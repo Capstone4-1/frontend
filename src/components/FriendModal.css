@@ -1,3 +1,51 @@
+.FriendModal .container {
+    padding: 0 !important;
+}
+
+.FriendModal .friend-modal-header {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.FriendModal .tab {
+    display: flex;
+    cursor: pointer;
+    font-size: var(--font-size-2xs);
+    font-weight: 700;
+    line-height: 1.25;
+    padding: var(--spacing-2-5) 0;
+    border-bottom: solid 1.5px var(--point-text-color-blue);
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    opacity: 0.3;
+    color: black;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.FriendModal .tab.active {
+    opacity: 1;
+}
+
+.FriendModal .tab span {
+    line-height: 1.125;
+    color: var(--point-text-color-blue);
+}
+
+.Modal .exit-btn {
+    position: absolute;
+    top: 15%;
+    right: var(--spacing-3);
+    /* z-index: 10; */
+}
+
+.Modal .exit-btn svg {
+    width: var(--spacing-3-5);
+    height: var(--spacing-3-5);
+}
+
 .Modal .requests-box {
     display: block;
     width: 100%;

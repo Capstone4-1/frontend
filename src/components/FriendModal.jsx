@@ -18,6 +18,7 @@ const FriendModal = ({
     setHasFriendrequest,
     setRequestMemberList,
 }) => {
+    const [tabOpacity, setTabOpacity] = useState("friends");
     const [result, setResult] = useState(null);
     const [resultMessage, setResultMessage] = useState("");
     const [isFriendError, setIsFriendError] = useState(false); // ✅ 성공/실패 메시지 구분
@@ -83,18 +84,41 @@ const FriendModal = ({
     };
 
     return (
-        <div className="Modal">
+        <div className="Modal FriendModal">
             <div className="Overlay">
                 <div className="container">
-                    <div className="header">
-                        <h3>🖐️ 친구 추가</h3>
-                        <button
+                    <div className="friend-modal-header" role="tablist">
+                        <div
+                            className={`tab ${tabOpacity === "friends" ? "active" : ""}`}
+                            role="tab"
+                            tabIndex="0"
+                            onClick={() => setTabOpacity("friends")}
+                        >
+                            <span>내 친구</span>
+                        </div>
+                        <div
+                            className={`tab ${tabOpacity === "search" ? "active" : ""}`}
+                            role="tab"
+                            tabIndex="0"
+                            onClick={() => setTabOpacity("search")}
+                        >
+                            <span>검색</span>
+                        </div>
+                        <div
+                            className={`tab ${tabOpacity === "request" ? "active" : ""}`}
+                            role="tab"
+                            tabIndex="0"
+                            onClick={() => setTabOpacity("request")}
+                        >
+                            <span>받은 요청</span>
+                        </div>
+                        {/* <button
                             className="request-tap-btn"
                             onClick={() => handleTabChange("send")}
                         >
                             검색
-                        </button>
-                        <button
+                        </button> */}
+                        {/* <button
                             className="request-tap-btn"
                             onClick={() => {
                                 handleTabChange("receive");
@@ -103,7 +127,7 @@ const FriendModal = ({
                         >
                             받은요청
                             <Reddot count={requestMemberList.length} />
-                        </button>
+                        </button> */}
                         <button
                             className="exit-btn"
                             onClick={() => setOpenModal(false)}
