@@ -18,11 +18,10 @@ const FriendModal = ({
     setHasFriendrequest,
     setRequestMemberList,
 }) => {
-    const [tabOpacity, setTabOpacity] = useState("friends");
     const [result, setResult] = useState(null);
     const [resultMessage, setResultMessage] = useState("");
     const [isFriendError, setIsFriendError] = useState(false); // ✅ 성공/실패 메시지 구분
-    const [activeTab, setActiveTab] = useState("send");
+    const [activeTab, setActiveTab] = useState("friends");
     const [nickname, setNickname] = useState("");
 
     const handleSearch = async () => {
@@ -89,26 +88,26 @@ const FriendModal = ({
                 <div className="container">
                     <div className="friend-modal-header" role="tablist">
                         <div
-                            className={`tab ${tabOpacity === "friends" ? "active" : ""}`}
+                            className={`tab ${activeTab === "friends" ? "active" : ""}`}
                             role="tab"
                             tabIndex="0"
-                            onClick={() => setTabOpacity("friends")}
+                            onClick={() => setActiveTab("friends")}
                         >
                             <span>내 친구</span>
                         </div>
                         <div
-                            className={`tab ${tabOpacity === "search" ? "active" : ""}`}
+                            className={`tab ${activeTab === "search" ? "active" : ""}`}
                             role="tab"
                             tabIndex="0"
-                            onClick={() => setTabOpacity("search")}
+                            onClick={() => setActiveTab("search")}
                         >
                             <span>검색</span>
                         </div>
                         <div
-                            className={`tab ${tabOpacity === "request" ? "active" : ""}`}
+                            className={`tab ${activeTab === "request" ? "active" : ""}`}
                             role="tab"
                             tabIndex="0"
-                            onClick={() => setTabOpacity("request")}
+                            onClick={() => setActiveTab("request")}
                         >
                             <span>받은 요청</span>
                         </div>
@@ -136,7 +135,9 @@ const FriendModal = ({
                         </button>
                     </div>
 
-                    {activeTab === "send" ? (
+                    {activeTab === "friends" && <></>}
+
+                    {activeTab === "search" && (
                         <div>
                             <div className="search-box">
                                 <InputBox
@@ -179,7 +180,9 @@ const FriendModal = ({
                                 )}
                             </div>
                         </div>
-                    ) : (
+                    )}
+
+                    {activeTab === "request" && (
                         <div className="requests-box">
                             {requestMemberList.length > 0 ? (
                                 requestMemberList.map((request, index) => (

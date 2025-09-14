@@ -1,5 +1,6 @@
 .FriendModal .container {
-    padding: 0 !important;
+    padding: 0;
+    gap: 0;
 }
 
 .FriendModal .friend-modal-header {
@@ -37,6 +38,7 @@
 .Modal .exit-btn {
     position: absolute;
     top: 15%;
+    top: 25%;
     right: var(--spacing-3);
 }
 
