@@ -7,19 +7,20 @@
     padding: 0;
     margin: 0;
 }
+
 .auth-page .left-side {
     background-image: url("/images/background.png");
-    width: 100%;
-    flex-basis: 130%;
+    width: 57%;
     height: 100%;
     background-repeat: no-repeat; /* 이미지 반복 제거 */
     background-size: cover; /* 화면 크기에 맞게 조정 */
     background-position: center; /* 배경 위치 중앙 정렬 */
 }
+
 .auth-page .right-side {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 43%;
 }
 
 .auth-page .form-container {
