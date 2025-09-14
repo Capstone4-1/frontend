@@ -47,6 +47,14 @@
     height: var(--spacing-3-5);
 }
 
+.FriendModal .search-section {
+    padding: 0.5rem var(--spacing-3);
+}
+
+.FriendModal .search-box {
+    height: var(--spacing-6);
+}
+
 .Modal .requests-box {
     display: block;
     width: 100%;

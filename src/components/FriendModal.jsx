@@ -135,27 +135,49 @@ const FriendModal = ({
                         </button>
                     </div>
 
-                    {activeTab === "friends" && <></>}
-
-                    {activeTab === "search" && (
-                        <div>
-                            <div className="search-box">
+                    {activeTab === "friends" && (
+                        <>
+                            <div className="search-section">
                                 <InputBox
                                     state={nickname}
                                     setStateFunction={setNickname}
                                     onClickFunction={handleSearch}
                                     placeholder="닉네임으로 친구를 찾아보세요"
                                 />
-                                {resultMessage && (
-                                    <p
-                                        className={`friend-message ${
-                                            isFriendError ? "error" : "success"
-                                        }`}
-                                    >
-                                        {resultMessage}
-                                    </p>
-                                )}
                             </div>
+                            {resultMessage && (
+                                <p
+                                    className={`friend-message ${
+                                        isFriendError ? "error" : "success"
+                                    }`}
+                                >
+                                    {resultMessage}
+                                </p>
+                            )}
+                        </>
+                    )}
+
+                    {activeTab === "search" && (
+                        <div>
+                            <div className="search-section">
+                                <div className="search-box">
+                                    <InputBox
+                                        state={nickname}
+                                        setStateFunction={setNickname}
+                                        onClickFunction={handleSearch}
+                                        placeholder="닉네임으로 친구를 찾아보세요"
+                                    />
+                                </div>
+                            </div>
+                            {resultMessage && (
+                                <p
+                                    className={`friend-message ${
+                                        isFriendError ? "error" : "success"
+                                    }`}
+                                >
+                                    {resultMessage}
+                                </p>
+                            )}
                             <div className="request-container">
                                 {result && (
                                     <>
