@@ -2,19 +2,15 @@
 import { useState } from "react";
 import "./RolesBox.css";
 import axiosInstance from "../utils/AxiosInstance";
-import { ROLE_OPTIONS } from "../utils/roleUtils";
-
+import { ROLE_OPTIONS } from "../utils/RoleUtils";
+import { toast } from "sonner";
 const RolesBox = () => {
   const [filters, setFilters] = useState({ username: "", name: "", role: "" });
   const [users, setUsers] = useState([]);
   const [searched, setSearched] = useState(false);
   const [selectedRole, setSelectedRole] = useState("STUDENT");
 
-  // 더미 권한 요청 데이터
-  const [permissionRequests, setPermissionRequests] = useState([
-    { id: 1, username: "user01", requestedRole: "ADMIN", reason: "관리자 권한 필요", expanded: false },
-    { id: 2, username: "user02", requestedRole: "MODERATOR", reason: "게시판 관리 필요", expanded: false }
-  ]);
+
 
   const handleSearch = async () => {
     try {
@@ -28,48 +24,37 @@ const RolesBox = () => {
       setUsers(res.data);
       setSearched(true);
     } catch (err) {
-      console.error("❌ 유저 불러오기 실패:", err);
-      alert("유저 검색 실패");
+      toast.error(err.response.data.message)
     }
   };
 
   const handleGrantRole = async (userId) => {
-  try {
-    await axiosInstance.post("/admin/grant-role", null, {
-      params: { userId, role: selectedRole },
-    });
-    alert("권한 부여 완료");
-    handleSearch();
-  } catch (err) {
-    console.error("❌ 권한 부여 실패:", err);
+    try {
+      await axiosInstance.post("/admin/grant-role", null, {
+        params: { userId, role: selectedRole },
+      });
 
-    const msg = err.response?.data?.message || "권한 부여 실패";
-    alert(msg);
-  }
-};
+      toast.success("권한 부여 완료");
+      handleSearch();
+    } catch (err) {
+      const msg = err.response?.data?.message || "권한 부여 실패";
+      toast.error(msg)
+    }
+  };
 
   const handleRevokeRole = async (userId) => {
-  try {
-    await axiosInstance.delete("/admin/revoke-role", {
-      params: { userId, role: selectedRole },
-    });
-    alert("권한 회수 완료");
-    handleSearch();
-  } catch (err) {
-    console.error("❌ 권한 회수 실패:", err);
-
-    const msg = err.response?.data?.message || "권한 회수 실패";
-    alert(msg);
-  }
-};
-
-  const toggleRequestExpand = (id) => {
-    setPermissionRequests((prev) =>
-      prev.map((req) =>
-        req.id === id ? { ...req, expanded: !req.expanded } : req
-      )
-    );
+    try {
+      await axiosInstance.delete("/admin/revoke-role", {
+        params: { userId, role: selectedRole },
+      });
+      toast.success("권한 회수 완료")
+      handleSearch();
+    } catch (err) {
+      const msg = err.response?.data?.message || "권한 회수 실패";
+      toast.error(msg)
+    }
   };
+
 
   return (
     <div className="RolesBox">

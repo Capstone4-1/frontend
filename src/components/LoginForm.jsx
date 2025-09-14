@@ -2,7 +2,6 @@ import "./LoginForm.css";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "./utils/AxiosInstance";
-import { jwtDecode } from "jwt-decode";
 import { UserContext } from "./utils/UserContext";
 import { toast } from "sonner";
 const LoginForm = ({ setIsAuthenticated }) => {
@@ -26,7 +25,6 @@ const LoginForm = ({ setIsAuthenticated }) => {
                 formData
             );
             if (response.status === 200) {
-                console.log("로그인 성공:", response.data);
                 localStorage.setItem("accessToken", response.data.accessToken);
                 localStorage.setItem(
                     "refreshToken",

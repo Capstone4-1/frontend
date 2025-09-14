@@ -165,7 +165,7 @@ function App() {
                         element={
                             <PrivateRoute
                                 isAuthenticated={isAuthenticated}
-                                requiredRole="ADMIN"
+                                requiredRole="STUDENT_COUNCIL"
                             >
                                 <AdminPage />
                             </PrivateRoute>

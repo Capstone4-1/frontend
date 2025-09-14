@@ -74,15 +74,16 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
   };
 
   const handleWriteButtonClick = () => {
+    const normalizedBoardType = boardType.toUpperCase();
+    console.log(user.roles);
     let requiredRole = "STUDENT";
-    if (boardType === "NOTICE") requiredRole = "ADMIN";
-    if (boardType === "NOTICE_UNIV" || boardType === "NOTICE_DEPT") requiredRole = "SYSTEM";
-
+    if (normalizedBoardType === "NOTICE") requiredRole = "MANAGER";
+    if (normalizedBoardType === "NOTICE_UNIV" || normalizedBoardType === "NOTICE_DEPT") requiredRole = "SYSTEM";
+    if (normalizedBoardType === "NOTICE_SC" ) requiredRole = "STUDENT_COUNCIL";
     if (!hasRole(requiredRole)) {
       toast.error("글쓰기 권한이 없습니다");
       return;
     }
-
     handleWriteClick();
   };
 
@@ -90,7 +91,7 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
     <div className="FreeBoardBox">
       <div className="free-header">
         <div style={{ display: "flex", alignItems: "center" }}>
-          <h1 className="Free-title">{boardTitle}</h1>
+          <h1 className="Free-title"><b>{boardTitle}</b></h1>
           <button
             onClick={handleToggleFavorite}
             style={{ background: "none", border: "none", cursor: "pointer", marginLeft: 8, padding: 0 }}

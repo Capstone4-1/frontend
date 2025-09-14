@@ -20,6 +20,7 @@ import {
     FcPaid,
 } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
+import { roleHierarchy } from "./utils/RoleUtils";
 
 function Header() {
     const { user } = useContext(UserContext);
@@ -146,12 +147,6 @@ function Header() {
             basePath: "/main/community/notice",
             subMenus: [
                 {
-                    title: "전체 공지사항",
-                    desc: "모든 공지를 한곳에서 확인해요.",
-                    icon: <FcAdvertising />,
-                    to: "#",
-                },
-                {
                     title: "학교 공지사항",
                     desc: "교내 공지사항이에요.",
                     icon: <FcGraduationCap />,
@@ -159,15 +154,22 @@ function Header() {
                 },
                 {
                     title: "학과 공지사항",
-                    desc: "교내 공지사항이에요.",
+                    desc: "학과 홈페이지 공지사항이에요.",
                     icon: <FcGraduationCap />,
                     to: "/main/community/notice_dept",
                 },
                 {
                     title: "조교알림",
-                    desc: "조교가 올린 학과 공지에요.",
+                    desc: "조교가 올린 공지에요.",
                     icon: <FcManager />,
                     to: "/main/community/notice",
+                },
+
+                {
+                    title: "학생회",
+                    desc: "학생회가 올린 공지에요.",
+                    icon: <FcManager />,
+                    to: "/main/community/notice_sc",
                 },
             ],
         },
@@ -331,7 +333,7 @@ function Header() {
                         )}
                     </div>
 
-                    {user?.roles?.includes("ADMIN") && (
+                    {user?.roles?.some(role => roleHierarchy.indexOf(role) >= roleHierarchy.indexOf("STUDENT_COUNCIL")) && (
                         <div className="header-wrap">
                             <div className="btn-wrap">
                                 <button

@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import axiosInstance from "./AxiosInstance";
-import { hasMinimumRole } from "../utils/roleUtils"; // ✅ 가져오기
+import { hasMinimumRole } from "./RoleUtils";
 
 export const UserContext = createContext();
 

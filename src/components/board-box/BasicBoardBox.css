@@ -6,6 +6,13 @@
   position: relative;
 }
 
+
+
+.Free-title{
+  font-size: var(--font-size-xl);
+  
+}
+
 /* 헤더 */
 .free-header {
   display: flex;
@@ -98,7 +105,7 @@
   text-overflow: ellipsis;
   display: block;
   width: 100%;
-  font-size: 1rem;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   color: #333;
   margin: 0;

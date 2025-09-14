@@ -20,7 +20,7 @@ const Footer = () => {
                 </div>
                 <div className="footer-section">
                     <h4>Contact</h4>
-                    <p>Email: support@moai.kr</p>
+                    <p>Email: moai37487@gmail.com</p>
                     <p>Instagram: @moai_official</p>
                     <Link to="/support">문의하기</Link>
                 </div>

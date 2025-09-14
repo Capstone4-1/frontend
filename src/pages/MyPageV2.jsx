@@ -7,7 +7,7 @@ import { useNavigate, Outlet } from "react-router-dom";
 import PasswordConfirmModal from "../components/modals/PasswordConfirmModal";
 
 const MyPageV2 = () => {
-  const { user } = useContext(UserContext);
+  const { user, isLoading } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -24,13 +24,11 @@ const MyPageV2 = () => {
       const requiresPassword = secureRoutes.has(route);
 
       if (!requiresPassword) {
-        // 비번 확인 필요 없음
         if (focusSection) navigate(route, { state: { focusSection } });
         else navigate(route);
         return;
       }
 
-      // 비번 확인 필요
       if (isPasswordVerified) {
         if (focusSection) navigate(route, { state: { focusSection } });
         else navigate(route);
@@ -51,20 +49,28 @@ const MyPageV2 = () => {
     }
   };
 
+  // 로딩 상태 처리
+  if (isLoading) {
+    return <div className="Mypage">로딩 중...</div>;
+  }
+
+  // user null 체크
+  if (!user) {
+    return <div className="Mypage">사용자 정보를 불러올 수 없습니다.</div>;
+  }
+
   return (
     <div className="Mypage">
       <div className="out-layout">
         <div className="container">
           <aside>
             <div className="profile-img-box">
-              <MyProfile profileImageUrl={user.profileImageUrl} />
-              <div>{user.nickname}</div>
+              <MyProfile profileImageUrl={user?.profileImageUrl} />
+              <div>{user?.nickname ?? "닉네임 없음"}</div>
               <div className="intro-text">
-      {user.intro ?? user.introduction ?? "아직 자기소개가 없습니다."}
-    </div>
-
+                {user?.intro ?? user?.introduction ?? "아직 자기소개가 없습니다."}
+              </div>
             </div>
-
 
             <div className="menu-box">
               <div>
@@ -78,12 +84,10 @@ const MyPageV2 = () => {
                       onKeyActivate(e, () =>
                         handleSecureNavigate("activity", "comments")
                       )
-
                     }
                   >
                     작성한 댓글
                   </li>
-
                   <li
                     role="button"
                     tabIndex={0}
@@ -92,12 +96,10 @@ const MyPageV2 = () => {
                       onKeyActivate(e, () =>
                         handleSecureNavigate("activity", "posts")
                       )
-
                     }
                   >
                     작성한 글
                   </li>
-
                   <li
                     role="button"
                     tabIndex={0}
@@ -106,12 +108,10 @@ const MyPageV2 = () => {
                       onKeyActivate(e, () =>
                         handleSecureNavigate("activity", "favorites")
                       )
-
                     }
                   >
                     좋아요 한 게시물
                   </li>
-
                   <li
                     role="button"
                     tabIndex={0}
@@ -124,14 +124,12 @@ const MyPageV2 = () => {
                   >
                     스크랩 한 게시물
                   </li>
-            
                 </ul>
               </div>
 
               <div style={{ marginTop: "20px" }}>
                 <h3>계정 및 보안</h3>
                 <ul>
-                  {/* 개인정보 수정: account/info 포커스 */}
                   <li
                     role="button"
                     tabIndex={0}
@@ -144,7 +142,6 @@ const MyPageV2 = () => {
                   >
                     개인 정보 수정
                   </li>
-
                   <li
                     role="button"
                     tabIndex={0}
@@ -157,26 +154,22 @@ const MyPageV2 = () => {
                   >
                     문의내역
                   </li>
-
                   <li
-  role="button"
-  tabIndex={0}
-  onClick={() => handleSecureNavigate("account", "delete")}
-  onKeyDown={(e) =>
-    onKeyActivate(e, () =>
-      handleSecureNavigate("account", "delete")
-    )
-  }
-  aria-label="회원 탈퇴로 이동"
->
-  회원탈퇴
-</li>
-
-
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleSecureNavigate("account", "delete")}
+                    onKeyDown={(e) =>
+                      onKeyActivate(e, () =>
+                        handleSecureNavigate("account", "delete")
+                      )
+                    }
+                    aria-label="회원 탈퇴로 이동"
+                  >
+                    회원탈퇴
+                  </li>
                 </ul>
               </div>
             </div>
-
           </aside>
 
           <section className="display-area">
@@ -196,9 +189,7 @@ const MyPageV2 = () => {
             setIsPasswordVerified(true);
             if (pendingRoute) {
               if (pendingRouteFocus) {
-                navigate(pendingRoute, {
-                  state: { focusSection: pendingRouteFocus },
-                });
+                navigate(pendingRoute, { state: { focusSection: pendingRouteFocus } });
               } else {
                 navigate(pendingRoute);
               }

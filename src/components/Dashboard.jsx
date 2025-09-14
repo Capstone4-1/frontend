@@ -18,6 +18,7 @@ const Dashboard = () => {
                             <InfoBox
                                 boardTypes={[
                                     "NOTICE",
+                                    "NOTICE_SC",
                                     "NOTICE_UNIV",
                                     "NOTICE_DEPT",
                                 ]}
