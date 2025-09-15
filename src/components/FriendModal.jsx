@@ -9,7 +9,7 @@ import {
     declineFriendRequest,
 } from "./utils/friendApi";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const FriendModal = ({
     setOpenModal,
@@ -24,6 +24,27 @@ const FriendModal = ({
     const [isFriendError, setIsFriendError] = useState(false); // ✅ 성공/실패 메시지 구분
     const [activeTab, setActiveTab] = useState("friends");
     const [nickname, setNickname] = useState("");
+    const [filteredFriends, setFilteredFriends] = useState(myFriendList);
+
+    useEffect(() => {
+        setFilteredFriends(myFriendList);
+    }, [myFriendList]);
+
+    // 내 친구 목록에서 검색
+    const handleNicknameChange = (value) => {
+        setNickname(value);
+
+        const keyword = value.trim().toLowerCase();
+        if (!keyword) {
+            setFilteredFriends(myFriendList);
+            return;
+        }
+
+        const filtered = myFriendList.filter((friend) =>
+            friend.nickName.toLowerCase().includes(keyword),
+        );
+        setFilteredFriends(filtered);
+    };
 
     const handleSearch = async () => {
         try {
@@ -141,14 +162,13 @@ const FriendModal = ({
                             <div className="search-section">
                                 <InputBox
                                     state={nickname}
-                                    setStateFunction={setNickname}
-                                    onClickFunction={handleSearch}
-                                    placeholder="닉네임으로 친구를 찾아보세요"
+                                    setStateFunction={handleNicknameChange}
+                                    placeholder="내 친구 목록에서 검색"
                                 />
                             </div>
                             <ul className="Friends-List">
-                                {myFriendList.length > 0 ? (
-                                    myFriendList.map((friend) => (
+                                {filteredFriends.length > 0 ? (
+                                    filteredFriends.map((friend) => (
                                         <li
                                             key={friend.id}
                                             className="Friends-Item"
@@ -161,7 +181,9 @@ const FriendModal = ({
                                                     name={friend.nickName}
                                                     id={friend.id}
                                                 />
-                                                <button className="friend-del-btn">삭제</button>
+                                                <button className="friend-del-btn">
+                                                    삭제
+                                                </button>
                                             </div>
                                         </li>
                                     ))
