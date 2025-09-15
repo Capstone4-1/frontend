@@ -1,6 +1,6 @@
 import "./FriendModal.css";
 import InputBox from "./InputBox";
-import Reddot from "./Reddot";
+import ProfileTemplate from "./ProfileTemplate";
 import "./modals/Modal.css";
 import {
     searchFriendByNickname,
@@ -17,6 +17,7 @@ const FriendModal = ({
     fetchMyFriendInfo,
     setHasFriendrequest,
     setRequestMemberList,
+    myFriendList,
 }) => {
     const [result, setResult] = useState(null);
     const [resultMessage, setResultMessage] = useState("");
@@ -53,11 +54,11 @@ const FriendModal = ({
         }
     };
 
-    const handleTabChange = (tab) => {
-        setActiveTab(tab);
-        setResult(null);
-        setResultMessage("");
-    };
+    // const handleTabChange = (tab) => {
+    //     setActiveTab(tab);
+    //     setResult(null);
+    //     setResultMessage("");
+    // };
 
     const handleAccept = async (idToAccept) => {
         try {
@@ -145,15 +146,28 @@ const FriendModal = ({
                                     placeholder="닉네임으로 친구를 찾아보세요"
                                 />
                             </div>
-                            {resultMessage && (
-                                <p
-                                    className={`friend-message ${
-                                        isFriendError ? "error" : "success"
-                                    }`}
-                                >
-                                    {resultMessage}
-                                </p>
-                            )}
+                            <ul className="Friends-List">
+                                {myFriendList.length > 0 ? (
+                                    myFriendList.map((friend) => (
+                                        <li
+                                            key={friend.id}
+                                            className="Friends-Item"
+                                        >
+                                            <ProfileTemplate
+                                                profileImageUrl={
+                                                    friend.profileThumbnails
+                                                }
+                                                name={friend.nickName}
+                                                id={friend.id}
+                                            />
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="Friends-Item">
+                                        친구가 없습니다.
+                                    </li>
+                                )}
+                            </ul>
                         </>
                     )}
 

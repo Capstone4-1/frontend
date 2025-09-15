@@ -1,6 +1,5 @@
 import FriendModal from "./FriendModal";
 import "./Friends.css";
-import ProfileTemplate from "./ProfileTemplate";
 import Reddot from "./Reddot";
 import { getRequestFriendList, getMyFriends } from "./utils/friendApi";
 import { Users } from "lucide-react";
@@ -9,7 +8,6 @@ import { useState, useEffect } from "react";
 // 모듈화한 API 사용
 
 const Friends = () => {
-    const [isOpen, setIsOpen] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [hasFriendRequest, setHasFriendrequest] = useState(false);
     const [requestMemberList, setRequestMemberList] = useState([]);
@@ -45,9 +43,6 @@ const Friends = () => {
 
     return (
         <div className="Friends">
-            {/* <button className="Friends-btn" onClick={() => setIsOpen(!isOpen)}>
-                <h4>친구</h4>
-            </button> */}
             <button className="header-btn" onClick={() => setOpenModal(true)}>
                 <Users />
                 <Reddot count={requestMemberList.length} />
@@ -61,26 +56,9 @@ const Friends = () => {
                     requestMemberList={requestMemberList}
                     setRequestMemberList={setRequestMemberList}
                     fetchMyFriendInfo={fetchMyFriendInfo}
+                    myFriendList={myFriendList}
                 />
             )}
-
-            {/* {isOpen && (
-        <ul className="Friends-List">
-          {myFriendList.length > 0 ? (
-            myFriendList.map((friend) => (
-              <li key={friend.id} className="Friends-Item">
-                <ProfileTemplate
-                  profileImageUrl={friend.profileThumbnails}
-                  name={friend.nickName}
-                  id={friend.id}
-                />
-              </li>
-            ))
-          ) : (
-            <li className="Friends-Item">친구가 없습니다.</li>
-          )}
-        </ul>
-      )} */}
         </div>
     );
 };
