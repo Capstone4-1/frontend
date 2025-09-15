@@ -23,8 +23,9 @@ import TestPage from "./pages/TestPage.jsx";
 import MyActivity from "./components/mypage/MyActivity.jsx";
 import Account from "./components/mypage/Account.jsx";
 import Header from "./components/Header.jsx";
-import InquiryPage from "./pages/InquiryPage.jsx";
+
 import { Toaster } from "sonner";
+import SupportPage from "./pages/SupportPage.jsx";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -105,10 +106,10 @@ function App() {
                     />
 
                     <Route
-                        path="/inquiry"
+                        path="/support"
                         element={
                             <PrivateRoute isAuthenticated={isAuthenticated}>
-                                <InquiryPage />
+                                <SupportPage />
                             </PrivateRoute>
                         }
                     />
@@ -164,7 +165,7 @@ function App() {
                         element={
                             <PrivateRoute
                                 isAuthenticated={isAuthenticated}
-                                requiredRole="ADMIN"
+                                requiredRole="STUDENT_COUNCIL"
                             >
                                 <AdminPage />
                             </PrivateRoute>

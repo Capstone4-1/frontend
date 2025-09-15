@@ -6,6 +6,13 @@
   position: relative;
 }
 
+
+
+.Free-title{
+  font-size: var(--font-size-xl);
+  
+}
+
 /* 헤더 */
 .free-header {
   display: flex;
@@ -98,7 +105,7 @@
   text-overflow: ellipsis;
   display: block;
   width: 100%;
-  font-size: 1rem;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   color: #333;
   margin: 0;
@@ -125,10 +132,17 @@
   text-overflow: ellipsis;
 }
 
+.FreeBoardBox .meta-area{
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
 .free-meta-line {
   font-size: var(--font-size-sm);
   color: #777;
-  margin-top: 6px;
 }
 
 /* 페이지네이션 */

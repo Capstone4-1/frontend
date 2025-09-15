@@ -7,6 +7,7 @@ import { getBoardLabel } from "../utils/boardUtils";
 import SearchBar from "../SearchBar";
 import { UserContext } from "../utils/UserContext";
 import { toast } from "sonner";
+import PostStats from "../post/PostStats"; // 추가
 
 const formatDateTime = (datetimeStr) => {
   if (!datetimeStr) return "";
@@ -20,7 +21,7 @@ const formatDateTime = (datetimeStr) => {
 };
 
 const BasicBoardBox = ({ boardType, handleWriteClick }) => {
-  const { user, hasRole } = useContext(UserContext); // 수정: userRole → hasRole
+  const { user, hasRole } = useContext(UserContext);
   const [postData, setPostData] = useState({
     posts: [],
     totalCount: 0,
@@ -72,17 +73,17 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
     fetchData(0, filter, query);
   };
 
-  // 글쓰기 버튼 클릭 (권한 체크)
   const handleWriteButtonClick = () => {
-    let requiredRole = "STUDENT"; // 기본
-    if (boardType === "NOTICE") requiredRole = "ADMIN";
-    if (boardType === "NOTICE_UNIV" || boardType === "NOTICE_DEPT") requiredRole = "SYSTEM";
-
+    const normalizedBoardType = boardType.toUpperCase();
+    console.log(user.roles);
+    let requiredRole = "STUDENT";
+    if (normalizedBoardType === "NOTICE") requiredRole = "MANAGER";
+    if (normalizedBoardType === "NOTICE_UNIV" || normalizedBoardType === "NOTICE_DEPT") requiredRole = "SYSTEM";
+    if (normalizedBoardType === "NOTICE_SC" ) requiredRole = "STUDENT_COUNCIL";
     if (!hasRole(requiredRole)) {
-      toast.error("글쓰기 권한이 없습니다")
+      toast.error("글쓰기 권한이 없습니다");
       return;
     }
-
     handleWriteClick();
   };
 
@@ -90,7 +91,7 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
     <div className="FreeBoardBox">
       <div className="free-header">
         <div style={{ display: "flex", alignItems: "center" }}>
-          <h1 className="Free-title">{boardTitle}</h1>
+          <h1 className="Free-title"><b>{boardTitle}</b></h1>
           <button
             onClick={handleToggleFavorite}
             style={{ background: "none", border: "none", cursor: "pointer", marginLeft: 8, padding: 0 }}
@@ -114,20 +115,36 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
           postData.posts.map((post) => (
             <div key={post.id} className="free-list-item">
               <div className="free-list-content-with-thumbnail">
-                {post.imageUrls && <img src={post.thumbNailUrl} alt="썸네일" className="free-thumbnail" loading="lazy" />}
+                {post.imageUrls && (
+                  <img
+                    src={post.thumbNailUrl}
+                    alt="썸네일"
+                    className="free-thumbnail"
+                    loading="lazy"
+                  />
+                )}
                 <div className="free-list-content">
-                  <Link to={`/main/community/${post.boardType.toLowerCase()}/post/${post.id}`} className="free-link">
+                  <Link
+                    to={`/main/community/${post.boardType.toLowerCase()}/post/${post.id}`}
+                    className="free-link"
+                  >
                     <div className="free-title-line">
                       <div className="free-title-wrapper">
                         <h3 className="free-title">{post.title}</h3>
                       </div>
-                      <div className="free-author-date">
-                        {post.boardType === "SECRET" ? "익명" : post.writerNickname} | {formatDateTime(post.createdDate)}
-                      </div>
                     </div>
                   </Link>
-                  <div className="free-meta-line">
-                    조회수: {post.viewCount} | ❤️ {post.likeCount} | 댓글 {post.commentCount}
+                  <div className="meta-area">
+                    <div className="free-author-date">
+                      {post.boardType === "SECRET" ? "익명" : post.writerNickname} |{" "}
+                      {formatDateTime(post.createdDate)}
+                    </div>
+                    {/* PostStats 적용 */}
+                    <PostStats
+                      likeCount={post.likeCount}
+                      commentCount={post.commentCount}
+                      viewCount={post.viewCount}
+                    />
                   </div>
                 </div>
               </div>
@@ -152,7 +169,11 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
 
           for (let i = startPage; i <= endPage; i++) {
             pageButtons.push(
-              <button key={i} onClick={() => handlePageChange(i)} className={i === currentPage ? "active-page" : ""}>
+              <button
+                key={i}
+                onClick={() => handlePageChange(i)}
+                className={i === currentPage ? "active-page" : ""}
+              >
                 {i + 1}
               </button>
             );
@@ -162,8 +183,12 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
 
           return pageButtons;
         })()}
-        {postData.currentPage < postData.totalPages - 1 && <button onClick={() => handlePageChange(postData.currentPage + 1)}>다음 &gt;</button>}
-        {postData.currentPage < postData.totalPages - 3 && <button onClick={() => handlePageChange(postData.totalPages - 1)}>&raquo; 마지막</button>}
+        {postData.currentPage < postData.totalPages - 1 && (
+          <button onClick={() => handlePageChange(postData.currentPage + 1)}>다음 &gt;</button>
+        )}
+        {postData.currentPage < postData.totalPages - 3 && (
+          <button onClick={() => handlePageChange(postData.totalPages - 1)}>&raquo; 마지막</button>
+        )}
       </div>
     </div>
   );

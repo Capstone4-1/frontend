@@ -3,18 +3,14 @@ import { useState } from "react";
 import "./RolesBox.css";
 import axiosInstance from "../utils/AxiosInstance";
 import { ROLE_OPTIONS } from "../utils/RoleUtils";
-
+import { toast } from "sonner";
 const RolesBox = () => {
   const [filters, setFilters] = useState({ username: "", name: "", role: "" });
   const [users, setUsers] = useState([]);
   const [searched, setSearched] = useState(false);
   const [selectedRole, setSelectedRole] = useState("STUDENT");
 
-  // 더미 권한 요청 데이터
-  const [permissionRequests, setPermissionRequests] = useState([
-    { id: 1, username: "user01", requestedRole: "ADMIN", reason: "관리자 권한 필요", expanded: false },
-    { id: 2, username: "user02", requestedRole: "MODERATOR", reason: "게시판 관리 필요", expanded: false }
-  ]);
+
 
   const handleSearch = async () => {
     try {
@@ -28,8 +24,7 @@ const RolesBox = () => {
       setUsers(res.data);
       setSearched(true);
     } catch (err) {
-      console.error("❌ 유저 불러오기 실패:", err);
-      alert("유저 검색 실패");
+      toast.error(err.response.data.message)
     }
   };
 
@@ -38,11 +33,12 @@ const RolesBox = () => {
       await axiosInstance.post("/admin/grant-role", null, {
         params: { userId, role: selectedRole },
       });
-      alert("권한 부여 완료");
+
+      toast.success("권한 부여 완료");
       handleSearch();
     } catch (err) {
-      console.error("❌ 권한 부여 실패:", err);
-      alert("권한 부여 실패");
+      const msg = err.response?.data?.message || "권한 부여 실패";
+      toast.error(msg)
     }
   };
 
@@ -51,21 +47,14 @@ const RolesBox = () => {
       await axiosInstance.delete("/admin/revoke-role", {
         params: { userId, role: selectedRole },
       });
-      alert("권한 회수 완료");
+      toast.success("권한 회수 완료")
       handleSearch();
     } catch (err) {
-      console.error("❌ 권한 회수 실패:", err);
-      alert("권한 회수 실패");
+      const msg = err.response?.data?.message || "권한 회수 실패";
+      toast.error(msg)
     }
   };
 
-  const toggleRequestExpand = (id) => {
-    setPermissionRequests((prev) =>
-      prev.map((req) =>
-        req.id === id ? { ...req, expanded: !req.expanded } : req
-      )
-    );
-  };
 
   return (
     <div className="RolesBox">
@@ -171,32 +160,6 @@ const RolesBox = () => {
         )}
       </div>
 
-      {/* 권한 요청(Permission Requests) 영역 */}
-      <div className="permission-requests">
-        <h2>권한 요청 목록</h2>
-        {permissionRequests.length > 0 ? (
-          <ul className="request-list">
-            {permissionRequests.map((req) => (
-              <li key={req.id}>
-                <div className="request-header" onClick={() => toggleRequestExpand(req.id)}>
-                  {req.username} → {req.requestedRole}
-                </div>
-                <div className={`request-detail-wrapper ${req.expanded ? "open" : ""}`}>
-                  <div className="request-detail">
-                    <p><strong>아이디:</strong> {req.username}</p>
-                    <p><strong>요청 권한:</strong> {req.requestedRole}</p>
-                    <p><strong>사유:</strong> {req.reason}</p>
-                    <button className="approve-btn" onClick={() => alert("승인!")}>승인</button>
-                    <button className="cancel-btn" onClick={() => alert("거절!")}>거절</button>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="no-result">권한 요청 없음</p>
-        )}
-      </div>
     </div>
   );
 };

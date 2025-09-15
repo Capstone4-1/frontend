@@ -1,42 +1,51 @@
-    
-.InputBox{
+.InputBox {
+    height: var(--spacing-6);
+    border-radius: 0.5rem;
     display: flex;
-    background-color: var(--base-point-color);
-    border-radius: 6px;
     border: 1px solid var(--base-border-color);
+    background-color: var(--base-point-color);
+    align-items: center;
     word-wrap: break-word;
-    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1);
     width: 100%;
-    min-height: 35px;
     box-sizing: border-box;
     align-content: center;
-    align-items: center;
 }
-.InputBox input{
-    line-height: 20px; /*커서올리면 보이는 빨간줄 안잘림림*/
-    word-wrap: break-word;
-    margin-left: 8px;
-    font-size: 14px;
-    display: block;
-    min-height: 35px;
-    border:none;
-    outline: none;
-    background: none;
+
+.InputBox input {
+    padding: 0.188rem var(--spacing-3);
     width: 100%;
+    height: 100%;
+    font-size: var(--font-size-2xs);
+    outline: none;
+    border-radius: 0.5rem;
+    line-height: 1.25; /*커서올리면 보이는 빨간줄 안잘림림*/
+    font-weight: 400;
+    word-wrap: break-word;
+    display: block;
+    border: none;
 }
-.InputBox .search-btn{
-    background-size: contain;
+
+.InputBox .search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 34px;
     height: 29px;
-    border:none;
+    border: none;
     background-color: transparent;
     margin-right: 5px;
     cursor: pointer;
     filter: brightness(0.8);
-
 }
 
 .InputBox .search-btn:active {
     transform: scale(0.9); /* 버튼을 살짝 줄여 눌린 느낌 */
-    opacity: 0.7; 
+    opacity: 0.7;
+}
+
+.InputBox .search-btn svg {
+    color: #8e8e8e;
+    width: var(--spacing-3-5);
+    height: var(--spacing-3-5);
 }

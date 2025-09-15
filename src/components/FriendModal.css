@@ -1,129 +1,194 @@
-.Modal .Overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index:1009;
+.FriendModal .container {
+    padding: 0;
+    gap: 0;
 }
 
-.Modal .container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: white;
-  width: 350px;
-  height: 250px;
-  border: 1px solid var(--base-border-color);
-  border-radius: 10px;
-  padding: 20px;
-  position: relative;
-  font-weight: 600;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  position: fixed;
-  z-index: 100;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  align-content: center;
+.FriendModal .friend-modal-header {
+    display: flex;
+    width: 100%;
+    position: relative;
 }
 
-.Modal .requests-box{
-  display: block;
-  width: 100%;
-  flex-grow: 1;
-  overflow: auto;
-  border: 1px solid var(--base-border-color);
-  border-radius: 6px;
-  box-sizing: border-box;
-  box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1);
+.FriendModal .tab {
+    display: flex;
+    cursor: pointer;
+    font-size: var(--font-size-2xs);
+    font-weight: 700;
+    line-height: 1.25;
+    padding: var(--spacing-2-5) 0;
+    border-bottom: solid 1.5px var(--point-text-color-blue);
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    opacity: 0.3;
+    color: black;
+    transition: opacity 0.25s ease-in-out;
 }
 
-.Modal .header {
-  width: 100%;
-  display: flex;
-  height: 4vh;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--base-border-color);
+.FriendModal .tab.active {
+    opacity: 1;
 }
 
-.Modal .request-container{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  align-items: center;
-  margin:8px
-}
-.request-tap-btn{
-  position: relative;
-  background-color: transparent;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-}
-
-.Modal .request-tap-btn:hover {
-  opacity: 0.7;
-}
-.Modal .request-btn{
-  color: white;
-  border-radius: 6px;
-  position: relative;
-  background-color: transparent;
-  background-color: var(--point-green);
-  border: none;
-  cursor: pointer;
-  padding: 2px;
-}
-
-.Modal .request-btn:hover {
-  background-color: var(--point-focus-green);
-}
-.request-btn.accept {
-  color: white;
-  background-color: var(--point-green); /* 녹색 */
-}
-
-.request-btn.decline {
-  color: black;
-  background-color: white
+.FriendModal .tab span {
+    line-height: 1.125;
+    color: var(--point-text-color-blue);
 }
 
 .Modal .exit-btn {
-  width: 15px;
-  height: 15px;
-  background-size: contain;
-  background-color: transparent;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  filter: brightness(0.8);
+    position: absolute;
+    top: 15%;
+    top: 25%;
+    right: var(--spacing-3);
+}
+
+.Modal .exit-btn svg {
+    width: var(--spacing-3-5);
+    height: var(--spacing-3-5);
+}
+
+.FriendModal .search-section {
+    padding: 0.5rem var(--spacing-3);
+}
+
+.FriendModal .search-box {
+    height: var(--spacing-6);
+}
+
+.FriendModal .Friends-List {
+    min-height: var(--spacing-42);
+    overflow: hidden auto;
+    border-radius: 0.75rem;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.FriendModal .Friends-Item {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+}
+
+.FriendModal .friend-item-section {
+    display: flex;
+    padding: 0.5rem var(--spacing-3);
+    overflow: visible;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.FriendModal .ProfileTemplate__profile-img {
+    max-width: 100%;
+    display: flex;
+    width: var(--spacing-8);
+    height: var(--spacing-8);
+}
+
+.FriendModal .ProfileTemplate__profile-name {
+    font-size: var(--font-size-xs);
+    line-height: 1.29;
+}
+
+.FriendModal .friend-del-btn {
+    background-color: #f0f2f5;
+    padding: 0 var(--spacing-2-5);
+    height: var(--spacing-5);
+    border-radius: 0.5rem;
+    font-size: var(--font-size-2xs);
+}
+
+.FriendModal .friend-del-btn:hover {
+    background-color: #e7eaee;
+}
+
+.FriendModal .friend-del-btn:active {
+    transform: scale(0.98);
+}
+
+.Modal .requests-box {
+    display: block;
+    width: 100%;
+    flex-grow: 1;
+    overflow: auto;
+    border: 1px solid var(--base-border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.Modal .request-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px;
+}
+.request-tap-btn {
+    position: relative;
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.Modal .request-tap-btn:hover {
+    opacity: 0.7;
+}
+.Modal .request-btn {
+    color: white;
+    border-radius: 6px;
+    position: relative;
+    background-color: transparent;
+    background-color: var(--point-green);
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.Modal .request-btn:hover {
+    background-color: var(--point-focus-green);
+}
+.request-btn.accept {
+    color: white;
+    background-color: var(--point-green); /* 녹색 */
+}
+
+.request-btn.decline {
+    color: black;
+    background-color: white;
+}
+
+.Modal .exit-btn {
+    width: 15px;
+    height: 15px;
+    background-size: contain;
+    background-color: transparent;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    filter: brightness(0.8);
 }
 
 .Modal .exit-btn:hover {
-  opacity: 0.5;
-  /* 마우스 올릴 때 약간 투명해짐 */
+    opacity: 0.5;
+    /* 마우스 올릴 때 약간 투명해짐 */
 }
 
 .search-result-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .profile-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 /* FriendModal.css */
-
 
 .friend-message {
     font-size: 0.8rem;
@@ -137,4 +202,10 @@
 
 .friend-message.error {
     color: red;
+}
+
+@media (max-width: 600px) {
+    .Modal .container {
+        width: 90vw;
+    }
 }

@@ -1,0 +1,30 @@
+/* src/components/PostStats.css */
+.post-stats {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.post-stats .view {
+    color: #7b90a6;
+}
+
+.post-stats .like {
+    color: #ff6b6b;
+}
+
+.post-stats .comment {
+    color: #38b6ff;
+}
+
+.post-stats svg {
+    color: inherit;
+    height: var(--spacing-2-5);
+    margin-right: -3px;
+    vertical-align: middle;
+}
+
+.post-stats span {
+    vertical-align: middle;
+    font-size: var(--font-size-3xs);
+}

@@ -1,10 +1,10 @@
+/* ========== Layout ========== */
 .MarketBox {
   display: flex;
   flex-direction: column;
   padding: 0 8px;
 }
 
-/* 헤더 */
 .market-header {
   display: flex;
   justify-content: space-between;
@@ -17,7 +17,7 @@
   background-color: #3399ff;
   border: none;
   border-radius: 8px;
-  color: white;
+  color: #fff;
   padding: 8px 16px;
   cursor: pointer;
   float: right;
@@ -34,28 +34,23 @@
   display: flex;
   align-items: center;
 }
-.star-toggle-button svg {
-  transform: translateY(2px);
-}
+.star-toggle-button svg { transform: translateY(2px); }
 
-/* 게시글 그리드 */
+/* ========== Grid & Card ========== */
 .market-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 16px;
 }
 
-/* 게시글 카드 */
 .market-item {
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
+  background: #fff;
   transition: box-shadow 0.3s ease;
-  background-color: #fff;
 }
-.market-item:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+.market-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 .market-item a {
   text-decoration: none;
   color: inherit;
@@ -73,32 +68,35 @@
   transform: translateZ(0);
 }
 
-/* 텍스트 정보 */
+/* 카드 내용 */
 .market-info {
   padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
+
 .market-info h3 {
-  font-size: 1rem;
   margin: 0;
+  font-size: 1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .market-info .price {
   font-weight: bold;
   color: #2a9d8f;
   font-size: 0.95rem;
 }
 
-/* 작성자, 조회수 */
+/* ========== Meta Lines ========== */
 .market-meta {
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
   color: #666;
+  margin-bottom: 2px;
 }
 .market-meta .writer {
   font-weight: 500;
@@ -106,43 +104,45 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.market-meta .view-count {
-  font-style: italic;
+.market-meta .meta-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* 날짜 */
-.market-date {
+.market-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.75rem;
-  color: #aaa;
-  text-align: right;
+  color: #999;
+  margin-top: 2px;
+}
+.market-views { padding-left: 2px; }
+.market-date { text-align: right; }
+
+/* ========== Reactions ========== */
+.like-count,
+.comment-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: 600;
+}
+.like-count .heart-icon,
+.comment-count .comment-icon { stroke: #666; }
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+  .market-thumbnail { height: 120px; }
+  .market-info h3 { font-size: 0.9rem; }
+  .market-info .price { font-size: 0.85rem; }
+  .market-meta, .market-date { font-size: 0.7rem; }
 }
 
-/* 반응형 스타일 */
-@media screen and (max-width: 768px) {
-  .market-thumbnail {
-    height: 120px;
-  }
-
-  .market-info h3 {
-    font-size: 0.9rem;
-  }
-
-  .market-info .price {
-    font-size: 0.85rem;
-  }
-
-  .market-meta,
-  .market-date {
-    font-size: 0.7rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .market-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .market-thumbnail {
-    height: 100px;
-  }
+@media (max-width: 480px) {
+  .market-grid { grid-template-columns: 1fr; }
+  .market-thumbnail { height: 100px; }
 }

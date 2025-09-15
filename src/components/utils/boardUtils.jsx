@@ -1,9 +1,10 @@
 
 // 게시판 라벨 맵 (네비게이션 바 등에서 사용)
 export const boardTypeMap = {
-  NOTICE: "조교알림",
+  NOTICE: "조교",
   NOTICE_UNIV: "학교공지",
   NOTICE_DEPT: "학과공지",
+  NOTICE_SC : "학생회",
   FREE: "자유게시판",
   SECRET: "비밀게시판",
   REVIEW: "후기",
@@ -30,6 +31,14 @@ export const boardConfig = [
     tagLabel: "학과공지",
     color: "#e869a2ff",
   },
+
+  {
+    type: "NOTICE_SC",
+    label: "학생회",
+    tagLabel: "학생회",
+    color: "#5e2063ff",
+  },
+
   {
     type: "FREE",
     label: "자유게시판",

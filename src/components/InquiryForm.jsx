@@ -1,12 +1,15 @@
 // src/components/InquiryForm.jsx
 import { useState } from "react";
-import axios from "axios"; // axios 설치 필요: npm install axios
 import "./InquiryForm.css";
 import axiosInstance from "./utils/AxiosInstance";
-
+import { ROLE_TITLES } from "./utils/roleUtils";
+import { InquiryCategories, buildInquiryPayload, isRoleRequest } from "./utils/InquiryUtils";
+import { toast } from "sonner";
 const InquiryForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [category, setCategory] = useState("GENERAL");
+  const [targetRole, setTargetRole] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,18 +20,20 @@ const InquiryForm = () => {
     }
 
     try {
-      const response = await axiosInstance.post(
-        "/inquiry", 
-        { title, content },
-        { withCredentials: true } // JWT나 세션 인증 필요하면
-      );
+      const payload = buildInquiryPayload(title, content, category, targetRole);
 
-      alert(response.data.message || "문의가 정상적으로 제출되었습니다!");
+      const response = await axiosInstance.post("/inquiry", payload, {
+        withCredentials: true,
+      });
+
+      toast.success("문의가 정상적으로 제출되었습니다!")
       setTitle("");
       setContent("");
+      setCategory("GENERAL");
+      setTargetRole("");
     } catch (error) {
       console.error("문의 등록 실패:", error);
-      alert("문의 등록 중 오류가 발생했습니다.");
+      toast.error("문의 등록 중 오류가 발생했습니다.")
     }
   };
 
@@ -36,6 +41,43 @@ const InquiryForm = () => {
     <div className="InquiryForm-container">
       <h2 className="InquiryForm-title">문의하기</h2>
       <form className="InquiryForm-form" onSubmit={handleSubmit}>
+        {/* 문의 유형 선택 */}
+        <div className="InquiryForm-group">
+          <label htmlFor="category">문의 유형</label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            {InquiryCategories.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.label || item.value}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* 권한 요청일 때만 권한 선택 */}
+        {isRoleRequest(category) && (
+          <div className="InquiryForm-group">
+            <label htmlFor="targetRole">요청할 권한</label>
+            <select
+              id="targetRole"
+              value={targetRole}
+              onChange={(e) => setTargetRole(e.target.value)}
+              required
+            >
+              <option value="">권한 선택</option>
+              {ROLE_TITLES.map((role) => (
+                <option key={role.value} value={role.value}>
+                  {role.label} {/* 화면에 한글 표시 */}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {/* 제목 */}
         <div className="InquiryForm-group">
           <label htmlFor="title">제목</label>
           <input
@@ -48,6 +90,7 @@ const InquiryForm = () => {
           />
         </div>
 
+        {/* 내용 */}
         <div className="InquiryForm-group">
           <label htmlFor="content">내용</label>
           <textarea

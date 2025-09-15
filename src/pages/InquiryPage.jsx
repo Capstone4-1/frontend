@@ -6,7 +6,7 @@ const InquiryPage = () => {
 
     return (
         <div className="InquiryPage">
-            <div>고객센털</div>
+            <div>고객센터</div>
             <InquiryForm />
         </div>
     );

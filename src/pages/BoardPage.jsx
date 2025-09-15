@@ -18,6 +18,7 @@ const BoardPage = () => {
             case "free":
             case "notice_univ":
             case "notice_dept":
+            case "notice_sc":
             case "notice":
             case "secret":
             case "review":

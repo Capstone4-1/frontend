@@ -4,10 +4,11 @@ import { ROLE_TITLES_MAP } from "../utils/RoleUtils";
 
 
 const getRoleIcon = (roles) => {
+    if (roles.includes("SYSTEM")) return "🤖";
+    if (roles.includes("ADMIN")) return "🔧";
     if (roles.includes("PROFESSOR")) return "👑";
     if (roles.includes("MANAGER")) return "😄";
-    if (roles.includes("ADMIN")) return "🔧";
-    if (roles.includes("SYSTEM")) return "🤖";
+    if (roles.includes("STUDENT_COUNCIL")) return "🎖️"; 
     if (roles.includes("STUDENT")) return "🎓";
     return null;
 };

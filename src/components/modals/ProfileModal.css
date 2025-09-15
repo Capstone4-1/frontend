@@ -100,7 +100,7 @@
 .ProfileModal .role-manager { background-color: #f1c40f; color: black; } /* 매니저 - 노랑 */
 .ProfileModal .role-system { background-color: #9b59b6; }    /* 시스템 - 보라 */
 .ProfileModal .role-admin { background-color: #e74c3c; }     /* 관리자 - 빨강 */
-
+.ProfileModal .role-student_council { background-color: #8e44ad; }
 .ProfileModal .modal-actions {
     display: flex;
     gap: 10px;

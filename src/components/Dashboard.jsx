@@ -1,11 +1,10 @@
-import "./Dashboard.css";
 import BookMarketBoard from "./BookMarketBoard";
+import DailyMenu from "./DailyMenu";
+import "./Dashboard.css";
 import InfoBox from "./InfoBox";
 import QuickLinks from "./QuickLinks";
-import Friends from "./Friends";
-import DailyMenu from "./DailyMenu";
-import { useState } from "react";
 import { BookOpenCheck } from "lucide-react";
+import { useState } from "react";
 
 const Dashboard = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -17,7 +16,12 @@ const Dashboard = () => {
                     <div className="div-area info-area">
                         <section className="inner-container">
                             <InfoBox
-                                boardTypes={["NOTICE", "NOTICE_UNIV", "NOTICE_DEPT"]}
+                                boardTypes={[
+                                    "NOTICE",
+                                    "NOTICE_SC",
+                                    "NOTICE_UNIV",
+                                    "NOTICE_DEPT",
+                                ]}
                                 title="공지사항"
                             />
                         </section>
@@ -39,12 +43,6 @@ const Dashboard = () => {
                             <BookMarketBoard title="장터" boardType="MARKET" />
                         </section>
                     </section>
-
-                    <div className="div-area">
-                        <section className="inner-container">
-                            <Friends />
-                        </section>
-                    </div>
                     <div className="daily-area">
                         <DailyMenu selectedDate={selectedDate} />
                     </div>

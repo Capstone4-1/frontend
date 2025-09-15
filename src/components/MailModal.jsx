@@ -1,8 +1,9 @@
-import { useState } from "react";
-import "./MailModal.css";
-import axiosInstance from "./utils/AxiosInstance";
 import InputBox from "./InputBox";
+import "./MailModal.css";
+import "./modals/Modal.css";
+import axiosInstance from "./utils/AxiosInstance";
 import { searchFriendByNickname, getMyFriends } from "./utils/friendApi";
+import { useState } from "react";
 
 const MailModal = ({ setOpenModal, fetchChatRooms }) => {
     const [nickname, setNickname] = useState("");
@@ -19,7 +20,9 @@ const MailModal = ({ setOpenModal, fetchChatRooms }) => {
         } catch (error) {
             console.error("검색 실패:", error);
             setResult(null);
-            setResultMessage(error.response?.data?.message || "검색 중 오류 발생");
+            setResultMessage(
+                error.response?.data?.message || "검색 중 오류 발생",
+            );
         }
     };
 
@@ -37,20 +40,20 @@ const MailModal = ({ setOpenModal, fetchChatRooms }) => {
     };
 
     const createMailRoom = async (targetId) => {
-    try {
-        await axiosInstance.post(`/mail/new?id=${targetId}`);
-        alert("채팅방이 생성되었습니다.");
-        fetchChatRooms();
-        setOpenModal(false);
-    } catch (error) {
-        if (error.response?.status === 409) {
-            alert("이미 같은 채팅방이 존재합니다.");
-        } else {
-            console.error("채팅방 생성 실패:", error);
-            alert("채팅방 생성에 실패했습니다.");
+        try {
+            await axiosInstance.post(`/mail/new?id=${targetId}`);
+            alert("채팅방이 생성되었습니다.");
+            fetchChatRooms();
+            setOpenModal(false);
+        } catch (error) {
+            if (error.response?.status === 409) {
+                alert("이미 같은 채팅방이 존재합니다.");
+            } else {
+                console.error("채팅방 생성 실패:", error);
+                alert("채팅방 생성에 실패했습니다.");
+            }
         }
-    }
-};
+    };
 
     return (
         <div className="Modal">
@@ -58,10 +61,22 @@ const MailModal = ({ setOpenModal, fetchChatRooms }) => {
                 <div className="container">
                     <div className="header">
                         <h3>📝대화 추가</h3>
-                        <button className="request-tap-btn" onClick={() => handleTabChange("send")}>검색</button>
-                        <button className="request-tap-btn" onClick={() => handleTabChange("receive")}>친구목록</button>
                         <button
-                            style={{ backgroundImage: "url('/icons/exit-image.svg')" }}
+                            className="request-tap-btn"
+                            onClick={() => handleTabChange("send")}
+                        >
+                            검색
+                        </button>
+                        <button
+                            className="request-tap-btn"
+                            onClick={() => handleTabChange("receive")}
+                        >
+                            친구목록
+                        </button>
+                        <button
+                            style={{
+                                backgroundImage: "url('/icons/exit-image.svg')",
+                            }}
                             className="exit-btn"
                             type="button"
                             onClick={() => setOpenModal(false)}
@@ -77,7 +92,11 @@ const MailModal = ({ setOpenModal, fetchChatRooms }) => {
                                     onClickFunction={handleSearch}
                                     placeholder={"닉네임으로 친구를 찾아보세요"}
                                 />
-                                {resultMessage && <p className="error-text">{resultMessage}</p>}
+                                {resultMessage && (
+                                    <p className="error-text">
+                                        {resultMessage}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="request-container">
@@ -85,13 +104,21 @@ const MailModal = ({ setOpenModal, fetchChatRooms }) => {
                                     <>
                                         <div className="search-result-profile">
                                             <img
-                                                src={result.profileThumbnails || "/default-profile.png"}
+                                                src={
+                                                    result.profileThumbnails ||
+                                                    "/default-profile.png"
+                                                }
                                                 alt="프로필"
                                                 className="profile-img"
                                             />
                                             <p>{result.nickName}</p>
                                         </div>
-                                        <button className="request-btn" onClick={() => createMailRoom(result.id)}>
+                                        <button
+                                            className="request-btn"
+                                            onClick={() =>
+                                                createMailRoom(result.id)
+                                            }
+                                        >
                                             +채팅방 생성
                                         </button>
                                     </>
@@ -102,16 +129,27 @@ const MailModal = ({ setOpenModal, fetchChatRooms }) => {
                         <div className="requests-box">
                             {friendList.length > 0 ? (
                                 friendList.map((friend, index) => (
-                                    <div className="request-container" key={index}>
+                                    <div
+                                        className="request-container"
+                                        key={index}
+                                    >
                                         <div className="search-result-profile">
                                             <img
-                                                src={friend.profileThumbnails || "/default-profile.png"}
+                                                src={
+                                                    friend.profileThumbnails ||
+                                                    "/default-profile.png"
+                                                }
                                                 alt="프로필"
                                                 className="profile-img"
                                             />
                                             <span>{friend.nickName}</span>
                                         </div>
-                                        <button className="request-btn" onClick={() => createMailRoom(friend.id)}>
+                                        <button
+                                            className="request-btn"
+                                            onClick={() =>
+                                                createMailRoom(friend.id)
+                                            }
+                                        >
                                             +채팅방 생성
                                         </button>
                                     </div>
