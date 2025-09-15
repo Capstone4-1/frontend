@@ -89,42 +89,54 @@ const MyComments = () => {
       <h2>작성한 댓글</h2>
 
       <div className="comments-card">
-        {initialLoading ? (
-          <div className="empty-state">불러오는 중...</div>
-        ) : errMsg ? (
-          <div className="empty-state">{errMsg}</div>
-        ) : comments.length === 0 ? (
-          <div className="empty-state">아직 작성한 댓글이 없어요.</div>
-        ) : (
-          <ul className="comments-list">
-            {comments.map((c) => (
-              <li
-                key={c.id}
-                className="comment-item"
-                role="button"
-                tabIndex={0}
-                onClick={() => handleClick(c)}
-                onKeyDown={(e) => onKey(e, c)}
-                aria-label={`게시물로 이동: ${c?.content?.slice(0, 30) || ""}`}
-                title="게시물로 이동"
-              >
-                <div className="comment-content">
-                  <p className="comment-text">{c.content}</p>
-                  {(c.createdDate || c.boardType || c.writerNickname || c.targetNickname) && (
-                    <span className="comment-meta">
-                      {c.writerNickname && `@${c.writerNickname}`}
-                      {c.targetNickname && ` → @${c.targetNickname}`}
-                      {c.createdDate ? ` • ${formatDotDate(c.createdDate)}` : ""}
-                      {c.boardType ? ` • ${getBoardLabel(c.boardType)}` : ""}
-                    </span>
-                  )}
-                </div>
-                <span className="comment-chevron">›</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+  <ul className="comments-list">
+    {initialLoading ? (
+      <li className="comment-item empty">
+        <div className="comment-content">
+          <p className="comment-text">불러오는 중...</p>
+        </div>
+      </li>
+    ) : errMsg ? (
+      <li className="comment-item empty">
+        <div className="comment-content">
+          <p className="comment-text">{errMsg}</p>
+        </div>
+      </li>
+    ) : comments.length === 0 ? (
+      <li className="comment-item empty">
+        <div className="comment-content">
+          <p className="comment-text">작성한 댓글이 없습니다.</p>
+        </div>
+      </li>
+    ) : (
+      comments.map((c) => (
+        <li
+          key={c.id}
+          className="comment-item"
+          role="button"
+          tabIndex={0}
+          onClick={() => handleClick(c)}
+          onKeyDown={(e) => onKey(e, c)}
+          aria-label={`게시물로 이동: ${c?.content?.slice(0, 30) || ""}`}
+          title="게시물로 이동"
+        >
+          <div className="comment-content">
+            <p className="comment-text">{c.content}</p>
+            {(c.createdDate || c.boardType || c.writerNickname || c.targetNickname) && (
+              <span className="comment-meta">
+                {c.writerNickname && `@${c.writerNickname}`}
+                {c.targetNickname && ` → @${c.targetNickname}`}
+                {c.createdDate ? ` • ${formatDotDate(c.createdDate)}` : ""}
+                {c.boardType ? ` • ${getBoardLabel(c.boardType)}` : ""}
+              </span>
+            )}
+          </div>
+          <span className="comment-chevron">›</span>
+        </li>
+      ))
+    )}
+  </ul>
+</div>
       
       <div className="pager-bottom">
         <button

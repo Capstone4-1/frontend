@@ -52,6 +52,17 @@
   position: relative;
 }
 
+.comment-item.empty {
+  text-align: center;
+  color: #999;
+  cursor: default;
+  background: #fafafa;
+}
+.comment-item.empty:hover {
+  background: #fafafa;
+  color: #999;
+}
+
 /* 각 아이템 사이 얇은 디바이더 */
 .comment-item + .comment-item {
   margin-top: 6px;
@@ -94,17 +105,6 @@
   font-size: 22px;
   color: #9ab9e7;
   transition: transform .15s ease, color .2s ease;
-}
-
-.comment-item:hover {
-  background: #f3f8ff;          
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(45,140,255,0.12);
-}
-.comment-item:hover .comment-text { color: #165fbf; }
-.comment-item:hover .comment-chevron {
-  color: #2d8cff;
-  transform: translateX(2px);
 }
 
 .pager-bottom {
