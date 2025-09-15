@@ -6,6 +6,8 @@ import "./MarketBox.css";
 import SearchBar from "../SearchBar";
 import { UserContext } from "../utils/UserContext"; // ✅ 권한 체크용
 import { toast } from "sonner"; // ✅ 알림
+import PostStats from "../post/PostStats";
+
 
 const MarketBox = ({ boardType = "market", setShowUploadModal }) => {
   const boardTitle = "장터";
@@ -122,23 +124,18 @@ const MarketBox = ({ boardType = "market", setShowUploadModal }) => {
                     </p>
 
                     <div className="market-meta">
-                      <span className="writer">{post.writerNickname}</span>
-                      <div className="meta-right">
-                        <span className="like-count">
-                          <Heart size={14} className="heart-icon" />
-                          {likeCnt}
-                        </span>
-                        <span className="comment-count">
-                          <MessageCircle size={14} className="comment-icon" />
-                          {commentCnt}
-                        </span>
-                      </div>
-                    </div>
+  <span className="writer">{post.writerNickname}</span>
+  <PostStats
+    likeCount={likeCnt}
+    commentCount={commentCnt}
+    viewCount={post.viewCount}
+  />
+</div>
 
-                    <div className="market-bottom">
-                      <span className="market-views">조회 {post.viewCount}</span>
-                      <span className="market-date">{post.createdDate?.slice(0, 10)}</span>
-                    </div>
+<div className="market-bottom">
+  <span className="market-date">{post.createdDate?.slice(0, 10)}</span>
+</div>
+
                   </div>
                 </Link>
               </div>
