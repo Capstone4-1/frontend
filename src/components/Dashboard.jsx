@@ -43,7 +43,7 @@ const Dashboard = () => {
                             <BookMarketBoard title="장터" boardType="MARKET" />
                         </section>
                     </section>
-                    <div className="daily-daily-area desktop-only">
+                    <div className="daily-area desktop-only">
                         <DailyMenu selectedDate={selectedDate} />
                     </div>
                 </div>
