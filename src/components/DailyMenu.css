@@ -277,3 +277,7 @@
   margin: 12px 0; 
 }
 
+/* 이게 더 안전한 방식: desktop-only 래퍼를 숨김 */
+@media (max-width: 768px){
+  .desktop-only { display: none; }
+}
