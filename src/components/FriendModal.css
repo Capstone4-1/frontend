@@ -55,6 +55,57 @@
     height: var(--spacing-6);
 }
 
+.FriendModal .Friends-List {
+    min-height: var(--spacing-42);
+    overflow: hidden auto;
+    border-radius: 0.75rem;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.FriendModal .Friends-Item {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+}
+
+.FriendModal .friend-item-section {
+    display: flex;
+    padding: 0.5rem var(--spacing-3);
+    overflow: visible;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.FriendModal .ProfileTemplate__profile-img {
+    max-width: 100%;
+    display: flex;
+    width: var(--spacing-8);
+    height: var(--spacing-8);
+}
+
+.FriendModal .ProfileTemplate__profile-name {
+    font-size: var(--font-size-xs);
+    line-height: 1.29;
+}
+
+.FriendModal .friend-del-btn {
+    background-color: #f0f2f5;
+    padding: 0 var(--spacing-2-5);
+    height: var(--spacing-5);
+    border-radius: 0.5rem;
+    font-size: var(--font-size-2xs);
+}
+
+.FriendModal .friend-del-btn:hover {
+    background-color: #e7eaee;
+}
+
+.FriendModal .friend-del-btn:active {
+    transform: scale(0.98);
+}
+
 .Modal .requests-box {
     display: block;
     width: 100%;

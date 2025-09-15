@@ -5,7 +5,7 @@
 .ProfileTemplate__search-result {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-2);
   cursor: pointer;
 }
 
@@ -14,11 +14,11 @@
   height: 27px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid black;
+  border: .7px solid #EAEAEB;
 }
 
-.ProfileTemplate__profile-name {
-  font-weight: bold;
+.ProfileTemplate .ProfileTemplate__profile-name {
+  font-weight: 600;
 }
 
 .ProfileTemplate__profile-name:hover {

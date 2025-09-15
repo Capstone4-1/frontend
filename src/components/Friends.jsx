@@ -7,6 +7,59 @@ import { useState, useEffect } from "react";
 
 // 모듈화한 API 사용
 
+const dummyFriends = [
+  {
+    id: 1,
+    nickName: "Alice",
+    profileThumbnails: "https://i.pravatar.cc/100?img=1",
+  },
+  {
+    id: 2,
+    nickName: "Bob",
+    profileThumbnails: "https://i.pravatar.cc/100?img=2",
+  },
+  {
+    id: 3,
+    nickName: "Charlie",
+    profileThumbnails: "https://i.pravatar.cc/100?img=3",
+  },
+  {
+    id: 4,
+    nickName: "David",
+    profileThumbnails: "https://i.pravatar.cc/100?img=4",
+  },
+  {
+    id: 5,
+    nickName: "Eve",
+    profileThumbnails: "https://i.pravatar.cc/100?img=5",
+  },
+  {
+    id: 6,
+    nickName: "Frank",
+    profileThumbnails: "https://i.pravatar.cc/100?img=6",
+  },
+  {
+    id: 7,
+    nickName: "Grace",
+    profileThumbnails: "https://i.pravatar.cc/100?img=7",
+  },
+  {
+    id: 8,
+    nickName: "Heidi",
+    profileThumbnails: "https://i.pravatar.cc/100?img=8",
+  },
+  {
+    id: 9,
+    nickName: "Ivan",
+    profileThumbnails: "https://i.pravatar.cc/100?img=9",
+  },
+  {
+    id: 10,
+    nickName: "Judy",
+    profileThumbnails: "https://i.pravatar.cc/100?img=10",
+  },
+];
+
 const Friends = () => {
     const [openModal, setOpenModal] = useState(false);
     const [hasFriendRequest, setHasFriendrequest] = useState(false);
@@ -57,6 +110,7 @@ const Friends = () => {
                     setRequestMemberList={setRequestMemberList}
                     fetchMyFriendInfo={fetchMyFriendInfo}
                     myFriendList={myFriendList}
+                    // myFriendList={dummyFriends}
                 />
             )}
         </div>

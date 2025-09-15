@@ -54,8 +54,10 @@ html {
     --spacing-3: 0.75rem; /* 12px */
     --spacing-3-5: 0.875rem; /* 14px */
     --spacing-4: 1rem; /* 16px */
+    --spacing-5: 1.25rem; /* 20px */
     --spacing-6: 1.5rem; /* 24px */
     --spacing-8: 2rem; /* 32px */
+    --spacing-9: 2.25rem; /* 36px */
     --spacing-10: 2.5rem; /* 40px */
     --spacing-42: 10.5rem; /* 168px */
     --spacing-64: 16rem; /* 256px */
@@ -82,8 +84,10 @@ html {
         --spacing-3: 0.875rem; /* 14px */
         --spacing-3-5: 1rem; /* 16px */
         --spacing-4: 1.25rem; /* 20px */
+        --spacing-5: 1.5rem; /* 24px */
         --spacing-6: 1.75rem; /* 28px */
         --spacing-8: 2.25rem; /* 36px */
+        --spacing-9: 2.5rem; /* 40px */
         --spacing-10: 2.75rem; /* 44px */
         --spacing-42: 11.5rem; /* 184px */
         --spacing-64: 18rem; /* 288px */
@@ -111,8 +115,10 @@ html {
         --spacing-3: 1rem; /* 16px */
         --spacing-3-5: 1.25rem; /* 20px */
         --spacing-4: 1.5rem; /* 24px */
+        --spacing-5: 1.75rem; /* 28px */
         --spacing-6: 2rem; /* 32px */
         --spacing-8: 2.5rem; /* 40px */
+        --spacing-9: 2.75rem; /* 44px */
         --spacing-10: 3rem; /* 48px */
         --spacing-42: 12.5rem; /* 200px */
         --spacing-64: 20rem; /* 320px */

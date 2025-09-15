@@ -153,13 +153,16 @@ const FriendModal = ({
                                             key={friend.id}
                                             className="Friends-Item"
                                         >
-                                            <ProfileTemplate
-                                                profileImageUrl={
-                                                    friend.profileThumbnails
-                                                }
-                                                name={friend.nickName}
-                                                id={friend.id}
-                                            />
+                                            <div className="friend-item-section">
+                                                <ProfileTemplate
+                                                    profileImageUrl={
+                                                        friend.profileThumbnails
+                                                    }
+                                                    name={friend.nickName}
+                                                    id={friend.id}
+                                                />
+                                                <button className="friend-del-btn">삭제</button>
+                                            </div>
                                         </li>
                                     ))
                                 ) : (
