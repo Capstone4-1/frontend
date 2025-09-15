@@ -4,33 +4,36 @@ import { createPortal } from "react-dom";
 import { Camera } from "lucide-react";
 import axiosInstance from "./utils/AxiosInstance";
 import { UserContext } from "./utils/UserContext";
+import { toast } from "sonner";   
 
 const MyProfile = ({ profileImageUrl }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
+
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showEditOptions, setShowEditOptions] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
+
   const menuRef = useRef(null);
+  const btnRef = useRef(null);
+
   const { user, setUser } = useContext(UserContext);
 
-  // 최초에 이미지 동기화
+  // 최초 이미지 동기화
   useEffect(() => {
     const url = profileImageUrl ?? user?.profileImageUrl;
-    if (url) {
-      setSelectedImage(url);
-    }
+    if (url) setSelectedImage(url);
   }, [profileImageUrl, user?.profileImageUrl]);
 
   const toggleMenu = () => {
-    setShowProfileMenu((prev) => !prev);
     setShowEditOptions(false);
+    setShowProfileMenu((prev) => !prev);
   };
 
   const handleProfileView = () => {
     setShowProfileModal(true);
     setShowProfileMenu(false);
-    document.body.classList.add("profile-open"); 
+    document.body.classList.add("profile-open");
   };
 
   const closeProfileModal = () => {
@@ -49,9 +52,7 @@ const MyProfile = ({ profileImageUrl }) => {
     setShowEditOptions(false);
   };
 
-  const openFilePicker = () => {
-    fileInputRef.current.click();
-  };
+  const openFilePicker = () => fileInputRef.current?.click();
 
   const handleDeleteImage = () => {
     setSelectedImage(null);
@@ -62,7 +63,9 @@ const MyProfile = ({ profileImageUrl }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+      const inMenu = menuRef.current?.contains(event.target);
+      const inBtn = btnRef.current?.contains(event.target);
+      if (showProfileMenu && !inMenu && !inBtn) {
         setShowProfileMenu(false);
       }
     };
@@ -71,7 +74,7 @@ const MyProfile = ({ profileImageUrl }) => {
     }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      document.body.classList.remove("profile-open"); 
+      document.body.classList.remove("profile-open");
     };
   }, [showProfileMenu]);
 
@@ -81,17 +84,14 @@ const MyProfile = ({ profileImageUrl }) => {
       if (!file) {
         const res = await axiosInstance.delete("/member/delete-profile-image");
         if (res.data?.imageUrl) {
-          setUser((prev) => ({
-            ...prev,
-            profileImageUrl: res.data.imageUrl,
-          }));
+          setUser((prev) => ({ ...prev, profileImageUrl: res.data.imageUrl }));
           setSelectedImage(res.data.imageUrl);
         }
-        alert("프로필 이미지가 삭제되었습니다!");
+        toast.success("프로필 이미지가 삭제되었습니다!");
         return;
       }
       if (file.size > MAX_FILE_SIZE) {
-        alert("이미지 크기는 4MB 이하만 가능합니다.");
+        toast.error("이미지 크기는 4MB 이하만 가능합니다."); 
         return;
       }
       const formData = new FormData();
@@ -100,16 +100,13 @@ const MyProfile = ({ profileImageUrl }) => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       if (res.data?.imageUrl) {
-        setUser((prev) => ({
-          ...prev,
-          profileImageUrl: res.data.imageUrl,
-        }));
+        setUser((prev) => ({ ...prev, profileImageUrl: res.data.imageUrl }));
         setSelectedImage(res.data.imageUrl);
       }
-      alert("프로필 이미지가 저장되었습니다!");
+      toast.success("프로필 이미지가 저장되었습니다!"); 
     } catch (err) {
       console.error("프로필 이미지 업로드 실패:", err);
-      alert("프로필 이미지 저장에 실패했습니다.");
+      toast.error("프로필 이미지 저장에 실패했습니다."); 
     }
   };
 
@@ -121,23 +118,43 @@ const MyProfile = ({ profileImageUrl }) => {
         <div className="profile-pic empty">No Image</div>
       )}
 
-      <Camera className="camera-icon" onClick={toggleMenu} />
+      <div className="profile-actions">
+        <button
+          type="button"
+          className="camera-icon"
+          onClick={toggleMenu}
+          ref={btnRef}
+          aria-haspopup="menu"
+          aria-expanded={showProfileMenu}
+          aria-label="프로필 옵션 열기"
+        >
+          <Camera />
+        </button>
 
-      {showProfileMenu && (
-        <div className="profile-menu" ref={menuRef}>
-          {!showEditOptions ? (
-            <>
-              <div onClick={handleProfileView}>프로필 보기</div>
-              <div onClick={() => setShowEditOptions(true)}>프로필 수정</div>
-            </>
-          ) : (
-            <>
-              <div onClick={openFilePicker}>라이브러리에서 선택</div>
-              <div onClick={handleDeleteImage}>현재 사진 삭제</div>
-            </>
-          )}
-        </div>
-      )}
+        {showProfileMenu && (
+          <div className="profile-menu" ref={menuRef} role="menu">
+            {!showEditOptions ? (
+              <>
+                <div role="menuitem" onClick={handleProfileView}>
+                  프로필 보기
+                </div>
+                <div role="menuitem" onClick={() => setShowEditOptions(true)}>
+                  프로필 수정
+                </div>
+              </>
+            ) : (
+              <>
+                <div role="menuitem" onClick={openFilePicker}>
+                  라이브러리에서 선택
+                </div>
+                <div role="menuitem" onClick={handleDeleteImage}>
+                  현재 사진 삭제
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </div>
 
       <input
         type="file"
@@ -147,14 +164,11 @@ const MyProfile = ({ profileImageUrl }) => {
         onChange={handleFileChange}
       />
 
-      {/* ✅ 모달을 포털로 렌더 */}
+      {/* 모달 */}
       {showProfileModal &&
         createPortal(
           <div className="profile-modal-backdrop" onClick={closeProfileModal}>
-            <div
-              className="profile-modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className="profile-modal-content" onClick={(e) => e.stopPropagation()}>
               {selectedImage ? (
                 <img src={selectedImage} alt="프로필 확대" />
               ) : (

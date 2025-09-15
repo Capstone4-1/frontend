@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   background: transparent;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* 실제 프로필 이미지 */
@@ -31,43 +31,67 @@
   border-radius: 50%;
 }
 
-/* 카메라 아이콘 */
-.camera-icon {
+.profile-actions {
   position: absolute;
-  bottom: 5px;
   right: 5px;
-  background: white;
-  border-radius: 50%;
-  padding: 4px;
-  width: 30px;
-  height: 30px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  color: #555;
-  cursor: pointer;
+  bottom: 5px;
 }
 
-/* 메뉴 */
+.camera-icon {
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 4px;
+  width: clamp(28px, 4.2vw, 34px);
+  height: clamp(28px, 4.2vw, 34px);
+  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+  color: #555;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.camera-icon:hover { background: #f8f8f8; }
+
 .profile-menu {
   position: absolute;
-  bottom: 40px;
-  right: 0;
-  background: white;
+  background: #fff;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 100;
-  padding: 10px;
-  width: 180px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 1000;
+  
+  width: clamp(140px, 28vw, 180px);
+  padding: clamp(6px, 1.2vw, 10px) 0;
+  font-size: clamp(12px, 1.6vw, 14px);
+  white-space: nowrap;
+}
+
+/* 기본 */
+.profile-menu {
+  top: 100%;
+  left: 100%;
+  margin-left: 8px;
+  margin-top: 8px;
+}
+
+@media (max-width: 480px) {
+  .profile-menu {
+    left: auto;
+    right: 0;
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
 }
 
 .profile-menu div {
-  padding: 8px;
+  padding: clamp(8px, 1.6vw, 10px) clamp(10px, 2vw, 12px);
   cursor: pointer;
-  font-size: 14px;
+  line-height: 1.2;
+  white-space: nowrap;
 }
-.profile-menu div:hover {
-  background-color: #f0f0f0;
-}
+.profile-menu div:hover { background-color: #f5f7fa; }
 
 /* 프로필 모달 */
 .profile-modal-backdrop {
@@ -110,9 +134,7 @@
   justify-content: center;
 }
 
-body.profile-open {
-  overflow: hidden;
-}
+body.profile-open { overflow: hidden; }
 body.profile-open .Mypage .out-layout {
   filter: blur(6px);
   pointer-events: none;
