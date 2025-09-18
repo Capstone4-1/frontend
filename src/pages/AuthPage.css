@@ -32,8 +32,8 @@
 }
 
 .auth-page .logo-img {
-    width: 120px;
-    height: 60px;
+    width: 6.25rem;
+    height: 3.125rem;
 }
 
 @media (max-width: 1023px) {
@@ -43,12 +43,15 @@
     .auth-page .left-side {
         display: none;
     }
+    .auth-page .right-side {
+        width: 100%;
+    }
     .auth-page .logo-img {
         display: block;
         margin-left: auto;
         margin-right: auto;
     }
     .auth-page .form-container {
-        padding: 0 15px;
+        padding: 0 var(--spacing-4);
     }
 }
