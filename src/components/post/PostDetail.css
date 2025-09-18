@@ -83,11 +83,26 @@
 }
 
 .PostDetail .post-content img {
-    max-width: 100%;
-    height: auto;
+    max-width: 100% !important;
+    height: auto !important;
     display: block;
     margin: 20px auto;
     border-radius: 10px;
+}
+
+.PostDetail .post-content table {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.PostDetail .post-content th,
+.PostDetail .post-content td {
+    word-break: break-word;
+    white-space: normal;
+    padding: 0.5rem;
+    vertical-align: top;
 }
 
 .PostDetail .comment-header-wrap {
