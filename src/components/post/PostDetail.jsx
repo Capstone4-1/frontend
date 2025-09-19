@@ -6,12 +6,12 @@ import { UserContext } from "../utils/UserContext";
 import CommentBox from "./CommentBox";
 import MenuButton from "./MenuButton";
 import "./PostDetail.css";
-import { Heart, Check, List, Bookmark } from "lucide-react";
+import { Heart, Check, List, Bookmark, ChevronsRight } from "lucide-react";
 import { useEffect, useState, useRef, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-
+import { useParams, useNavigate, Link } from "react-router-dom";
 // 좋아요 API 함수
 import { toast } from "sonner";
+
 const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
@@ -31,7 +31,6 @@ const PostDetail = () => {
     const lastSubmitTime = useRef(0);
     const navigate = useNavigate();
     const { hasRole, user } = useContext(UserContext); // ✅ 현재 로그인 사용자 권한 확인
-
 
     useEffect(() => {
         fetchPost();
@@ -99,10 +98,10 @@ const PostDetail = () => {
             prev.map((c) =>
                 c.id === commentId
                     ? {
-                        ...c,
-                        liked: !c.liked,
-                        likes: (c.likes || 0) + (c.liked ? -1 : 1),
-                    }
+                          ...c,
+                          liked: !c.liked,
+                          likes: (c.likes || 0) + (c.liked ? -1 : 1),
+                      }
                     : c,
             ),
         );
@@ -131,7 +130,8 @@ const PostDetail = () => {
 
     const canComment = () =>
         user?.roles?.some(
-            (role) => roleHierarchy.indexOf(role) >= roleHierarchy.indexOf("STUDENT")
+            (role) =>
+                roleHierarchy.indexOf(role) >= roleHierarchy.indexOf("STUDENT"),
         );
 
     const handleCommentSubmit = async () => {
@@ -141,7 +141,11 @@ const PostDetail = () => {
         }
 
         const now = Date.now();
-        if (!newComment.trim() || isSubmitting || now - lastSubmitTime.current < 1000)
+        if (
+            !newComment.trim() ||
+            isSubmitting ||
+            now - lastSubmitTime.current < 1000
+        )
             return;
 
         setIsSubmitting(true);
@@ -154,7 +158,8 @@ const PostDetail = () => {
             setNewComment("");
             await fetchComments();
         } catch (err) {
-            const message = err.response?.data?.message || "댓글 등록에 실패했습니다.";
+            const message =
+                err.response?.data?.message || "댓글 등록에 실패했습니다.";
             toast.error(message);
         } finally {
             setIsSubmitting(false);
@@ -168,7 +173,11 @@ const PostDetail = () => {
         }
 
         const now = Date.now();
-        if (!replyContent.trim() || isSubmitting || now - lastSubmitTime.current < 1000)
+        if (
+            !replyContent.trim() ||
+            isSubmitting ||
+            now - lastSubmitTime.current < 1000
+        )
             return;
 
         setIsSubmitting(true);
@@ -184,7 +193,8 @@ const PostDetail = () => {
             setReplyingTo(null);
             await fetchReplies(parentId);
         } catch (err) {
-            const message = err.response?.data?.message || "답글 등록에 실패했습니다.";
+            const message =
+                err.response?.data?.message || "답글 등록에 실패했습니다.";
             toast.error(message);
         } finally {
             setIsSubmitting(false);
@@ -280,19 +290,21 @@ const PostDetail = () => {
                     )}
                     <div>
                         {post.createdDate
-                            ? new Date(post.createdDate).toLocaleString("ko-KR", {
-                                year: "numeric",
-                                month: "2-digit",
-                                day: "2-digit",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                                hour12: false, // ✅ 24시간 표기
-                            })
+                            ? new Date(post.createdDate).toLocaleString(
+                                  "ko-KR",
+                                  {
+                                      year: "numeric",
+                                      month: "2-digit",
+                                      day: "2-digit",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                      hour12: false, // ✅ 24시간 표기
+                                  },
+                              )
                             : ""}
                         {" | "}조회 {post.viewCount}
                     </div>
                 </div>
-
 
                 {post.boardType === "MARKET" ? (
                     <div className="market-horizontal-layout">
@@ -335,6 +347,18 @@ const PostDetail = () => {
                                 }}
                             ></div>
                         </section>
+                        {post.targetUrl && (
+                            <Link
+                                to={post.targetUrl}
+                                target="_blank"
+                                className="link-area"
+                            >
+                                {post.boardType === "NOTICE_UNIV"
+                                    ? "학교"
+                                    : "학과"}{" "}
+                                홈페이지에서 보기 <ChevronsRight />
+                            </Link>
+                        )}
                     </>
                 )}
 
@@ -344,8 +368,9 @@ const PostDetail = () => {
                     </span>
                     <div className="sort-controls">
                         <button
-                            className={`sort-button ${sortOrder === "oldest" ? "active" : ""
-                                }`}
+                            className={`sort-button ${
+                                sortOrder === "oldest" ? "active" : ""
+                            }`}
                             onClick={() => {
                                 setSortOrder("oldest");
                                 setComments(sortComments(comments, "oldest"));
@@ -356,8 +381,9 @@ const PostDetail = () => {
                             등록순
                         </button>
                         <button
-                            className={`sort-button ${sortOrder === "newest" ? "active" : ""
-                                }`}
+                            className={`sort-button ${
+                                sortOrder === "newest" ? "active" : ""
+                            }`}
                             onClick={() => {
                                 setSortOrder("newest");
                                 setComments(sortComments(comments, "newest"));

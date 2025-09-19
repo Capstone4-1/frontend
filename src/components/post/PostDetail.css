@@ -73,13 +73,13 @@
 
 .PostDetail .post-content-box {
     min-height: 400px;
+    margin-bottom: var(--spacing-5);
 }
 
 .PostDetail .post-content {
     font-size: var(--font-size-2xs);
     line-height: 1.8;
     color: #333;
-    margin-bottom: 24px;
 }
 
 .PostDetail .post-content img {
@@ -105,7 +105,7 @@
 }
 
 .PostDetail .post-content span {
-  font-size: inherit !important;
+    font-size: inherit !important;
 }
 
 .PostDetail .comment-header-wrap {
@@ -114,6 +114,20 @@
     justify-content: space-between;
     margin-top: 26px;
     line-height: 41px;
+}
+
+.PostDetail .link-area {
+    display: flex;
+    color: #237bd9;
+    font-size: var(--font-size-2xs);
+    align-items: center;
+    width: fit-content;
+    border-bottom: 1px solid #237bd9;
+}
+
+.PostDetail .link-area svg {
+    width: 1rem;
+    height: 1rem;
 }
 
 .PostDetail .comment-header {
