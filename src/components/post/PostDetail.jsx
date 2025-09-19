@@ -243,17 +243,6 @@ const PostDetail = () => {
                 <div className="post-title-with-like">
                     <h2 className="post-title">{post.title}</h2>
                     <div className="like-container">
-                        <button
-                            className={`like-toggle-button${liked ? " liked" : ""}`}
-                            onClick={handleLikeBtnClick}
-                        >
-                            <Heart
-                                color={liked ? "#e74c3c" : "#aaa"}
-                                fill={liked ? "#e74c3c" : "none"}
-                            />
-                        </button>
-                        <span>{likenum}</span>
-
                         {/* 스크랩 버튼 */}
                         <button
                             className={`scrap-btn${scrapped ? " scrapped" : ""}`}
@@ -359,6 +348,20 @@ const PostDetail = () => {
                                 홈페이지에서 보기 <ChevronsRight />
                             </Link>
                         )}
+
+                        {/* 좋아요 버튼 */}
+                        <div className="react-area">
+                            <button
+                                className={`like-toggle-button${liked ? " liked" : ""}`}
+                                onClick={handleLikeBtnClick}
+                            >
+                                <Heart
+                                    color={liked ? "#e74c3c" : "#aaa"}
+                                    fill={liked ? "#e74c3c" : "none"}
+                                />
+                            </button>
+                            <span>{likenum}</span>
+                        </div>
                     </>
                 )}
 
