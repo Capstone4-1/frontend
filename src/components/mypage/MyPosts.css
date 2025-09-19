@@ -82,7 +82,7 @@
   overflow: hidden;
   word-break: break-word;
 }
-.post-meta {
+.MyPosts .post-meta {
   margin-top: 6px;
   font-size: 12px;
   color: #6b7a8c;
