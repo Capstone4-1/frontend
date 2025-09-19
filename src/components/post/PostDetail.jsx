@@ -254,18 +254,6 @@ const PostDetail = () => {
                 <div className="post-title-with-like">
                     <h2 className="post-title">{post.title}</h2>
                     <div className="like-container">
-                        {/* 스크랩 버튼 */}
-                        <button
-                            className={`scrap-btn${scrapped ? " scrapped" : ""}`}
-                            onClick={handleScrapBtnClick}
-                        >
-                            <Bookmark
-                                color={scrapped ? "#3399ff" : "#aaa"}
-                                fill={scrapped ? "#3399ff" : "none"}
-                            />
-                            <span>스크랩</span>
-                        </button>
-
                         {post.isAuthor && (
                             <MenuButton
                                 onEdit={() =>
@@ -300,7 +288,19 @@ const PostDetail = () => {
                                 {post.viewCount}
                             </div>
                         </div>
-                        <div className="info-right"></div>
+                        <div className="info-right">
+                            {/* 스크랩 버튼 */}
+                            <button
+                                className={`scrap-btn${scrapped ? " scrapped" : ""}`}
+                                onClick={handleScrapBtnClick}
+                            >
+                                <Bookmark
+                                    color={scrapped ? "#3399ff" : "#aaa"}
+                                    fill={scrapped ? "#3399ff" : "none"}
+                                />
+                                <span>스크랩</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
