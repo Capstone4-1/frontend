@@ -16,7 +16,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 0.563rem;
 }
 
 .PostDetail .post-title {
@@ -24,6 +24,46 @@
     font-weight: 700;
     color: #1f1f1f;
     margin: 0;
+}
+
+.PostDetail .ProfileTemplate__search-result {
+    gap: 0.25rem;
+}
+
+.PostDetail .ProfileTemplate__profile-img {
+    width: var(--spacing-4);
+    height: var(--spacing-4);
+}
+
+.PostDetail .ProfileTemplate__profile-name {
+    color: #616161;
+    font-size: var(--font-size-2xs);
+}
+
+.PostDetail .info-area {
+    padding-top: 0.375rem;
+    display: flex;
+    justify-content: space-between;
+    color: #949494;
+    font-size: var(--font-size-3xs);
+    line-height: 1.5;
+}
+
+.PostDetail .info-left {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.PostDetail .view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.PostDetail .view svg {
+    width: var(--spacing-2);
+    height: var(--spacing-2);
+    margin-right: 0.125rem;
 }
 
 .like-container {
@@ -58,7 +98,6 @@
 }
 
 .PostDetail .post-meta {
-    color: #999;
     font-size: 14px;
     margin-bottom: 20px;
 }

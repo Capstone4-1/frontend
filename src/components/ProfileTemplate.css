@@ -1,27 +1,23 @@
 .ProfileTemplate {
-  display: inline-block;
+    display: inline-block;
 }
 
 .ProfileTemplate__search-result {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    cursor: pointer;
 }
 
 .ProfileTemplate__profile-img {
-  width: 27px;
-  height: 27px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: .7px solid #EAEAEB;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 0.7px solid #eaeaeb;
 }
 
 .ProfileTemplate .ProfileTemplate__profile-name {
-  font-weight: 600;
-  font-size: var(--font-size-xs);
-}
-
-.ProfileTemplate__profile-name:hover {
-  text-decoration: underline;
+    font-weight: 600;
+    font-size: var(--font-size-xs);
 }

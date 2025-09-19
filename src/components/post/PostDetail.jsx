@@ -6,7 +6,7 @@ import { UserContext } from "../utils/UserContext";
 import CommentBox from "./CommentBox";
 import MenuButton from "./MenuButton";
 import "./PostDetail.css";
-import { Heart, Check, List, Bookmark, ChevronsRight } from "lucide-react";
+import { Heart, Check, List, Bookmark, ChevronsRight, Eye } from "lucide-react";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 // 좋아요 API 함수
@@ -48,6 +48,33 @@ const PostDetail = () => {
             setScrapped(postData.isScrap || false);
         } catch (err) {
             console.error("❌ 게시글 상세 불러오기 실패:", err);
+        }
+    };
+
+    // 게시글 작성일 포맷팅
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+
+        return `${year}.${month}.${day} ${hours}:${minutes}`;
+    };
+
+    // 스크랩 버튼 클릭 핸들러
+    const handleScrapBtnClick = async () => {
+        try {
+            if (!scrapped) {
+                const res = await axiosInstance.post(`/post/${postId}/scrap`);
+                setScrapped(true);
+            } else {
+                const res = await axiosInstance.delete(`/post/${postId}/scrap`);
+                setScrapped(false);
+            }
+        } catch (err) {
+            console.error("❌ 스크랩 토글 실패:", err);
+            toast.error("스크랩 처리 중 오류가 발생했습니다.");
         }
     };
 
@@ -166,6 +193,23 @@ const PostDetail = () => {
         }
     };
 
+    const handleLikeBtnClick = async () => {
+        try {
+            if (!liked) {
+                const data = await likePost(postId);
+                setLiked(true);
+                setLikenum(data.currentCount || likenum + 1);
+            } else {
+                const data = await unlikePost(postId);
+                setLiked(false);
+                setLikenum(data.currentCount || likenum - 1);
+            }
+        } catch (err) {
+            console.error("Error while toggling like: ", err);
+            alert("좋아요 처리 중 오류가 발생했습니다.");
+        }
+    };
+
     const handleReplySubmit = async (parentId) => {
         if (!canComment()) {
             toast.error("권한이 없습니다");
@@ -198,39 +242,6 @@ const PostDetail = () => {
             toast.error(message);
         } finally {
             setIsSubmitting(false);
-        }
-    };
-
-    const handleLikeBtnClick = async () => {
-        try {
-            if (!liked) {
-                const data = await likePost(postId);
-                setLiked(true);
-                setLikenum(data.currentCount || likenum + 1);
-            } else {
-                const data = await unlikePost(postId);
-                setLiked(false);
-                setLikenum(data.currentCount || likenum - 1);
-            }
-        } catch (err) {
-            console.error("Error while toggling like: ", err);
-            alert("좋아요 처리 중 오류가 발생했습니다.");
-        }
-    };
-
-    // 스크랩 버튼 클릭 핸들러
-    const handleScrapBtnClick = async () => {
-        try {
-            if (!scrapped) {
-                const res = await axiosInstance.post(`/post/${postId}/scrap`);
-                setScrapped(true);
-            } else {
-                const res = await axiosInstance.delete(`/post/${postId}/scrap`);
-                setScrapped(false);
-            }
-        } catch (err) {
-            console.error("❌ 스크랩 토글 실패:", err);
-            toast.error("스크랩 처리 중 오류가 발생했습니다.");
         }
     };
 
@@ -277,21 +288,19 @@ const PostDetail = () => {
                             id={post.writerId}
                         />
                     )}
-                    <div>
-                        {post.createdDate
-                            ? new Date(post.createdDate).toLocaleString(
-                                  "ko-KR",
-                                  {
-                                      year: "numeric",
-                                      month: "2-digit",
-                                      day: "2-digit",
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                      hour12: false, // ✅ 24시간 표기
-                                  },
-                              )
-                            : ""}
-                        {" | "}조회 {post.viewCount}
+                    <div className="info-area">
+                        <div className="info-left">
+                            <div className="date">
+                                {post.createdDate
+                                    ? formatDate(new Date(post.createdDate))
+                                    : ""}
+                            </div>
+                            <div className="view">
+                                <Eye />
+                                {post.viewCount}
+                            </div>
+                        </div>
+                        <div className="info-right"></div>
                     </div>
                 </div>
 
