@@ -110,7 +110,9 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
     min-width: 240px;
 }
 
@@ -212,6 +214,7 @@
 .header-btn svg {
     flex: none;
     user-select: none;
+    color: #333;
 }
 
 .header .profile {
@@ -249,7 +252,9 @@
     border: 1px solid #cfd1d5;
     border-radius: 12px;
     background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04), 0 16px 25px rgba(0, 0, 0, 0.1);
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.04),
+        0 16px 25px rgba(0, 0, 0, 0.1);
 }
 
 .header .profile-menu-item {
@@ -432,7 +437,9 @@
     .header {
         background-color: var(--background-color);
         border: 0;
-        transition: top 0.25s, background-color 0.25s;
+        transition:
+            top 0.25s,
+            background-color 0.25s;
     }
 
     .header.shadow {
