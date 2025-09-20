@@ -10,8 +10,8 @@ const AdminPanel = ({ onSelect }) => {
       <button onClick={() => onSelect("ROLES")}>회원 관리</button>
       <button onClick={() => onSelect("POSTS")}>게시글, 댓글 관리</button>
       <button onClick={() => onSelect("통계")}>사이트 통계</button>
-      <button onClick={() => onSelect("문의")}>문의 내역</button>
-      <button onClick={() => onSelect("공지")}>공지사항</button>
+      <button onClick={() => onSelect("INQUIRY")}>문의 내역</button>
+      <button onClick={() => onSelect("BANNER")}>배너 관리</button>
 
     </div>
   );

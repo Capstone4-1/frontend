@@ -1,6 +1,7 @@
 import BookMarketBoard from "./BookMarketBoard";
 import DailyMenu from "./DailyMenu";
 import "./Dashboard.css";
+import HelpGuide from "./HelpGuide";
 import InfoBox from "./InfoBox";
 import MainBanner from "./MainBanner";
 import MediaBox from "./MediaBox";
@@ -110,6 +111,8 @@ const Dashboard = () => {
                             <DailyMenu selectedDate={selectedDate} />
                         </div>
                     </section>
+
+                    <HelpGuide/>
                 </div>
             </div>
         </div>

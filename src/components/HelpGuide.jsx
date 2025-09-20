@@ -8,9 +8,9 @@ const HelpGuide = () => {
 
   return (
     <>
-      {/* 도움말 버튼 */}
-      <button className="help-guide-button" onClick={() => setIsOpen(true)}>
-        <HelpCircle size={24} /> 사용설명서
+      {/* 작은 회색 ❓ 버튼 */}
+      <button className="help-guide-icon" onClick={() => setIsOpen(true)}>
+        <HelpCircle size={18} />
       </button>
 
       {/* 모달 */}

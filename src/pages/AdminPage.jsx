@@ -5,7 +5,7 @@ import PostManageBox from "../components/admin-box/PostManageBox";
 import "./AdminPage.css";
 import StatsBox from "../components/admin-box/StatsBox";
 import AdminInquiries from "../components/admin-box/AdminInquiries";
-
+import EditBannerBox from "../components/admin-box/EditBannerBox";
 const AdminPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedMenu = searchParams.get("menu") || "ROLES";
@@ -23,10 +23,10 @@ const AdminPage = () => {
         return <PostManageBox />;
       case "통계":
         return <StatsBox/>;
-      case "문의":
+      case "INQUIRY":
         return <AdminInquiries/>
-      case "공지":
-        return <div>공지사항 관리</div>;
+      case "BANNER":
+        return <EditBannerBox/>
       default:
         return <div>선택된 메뉴 없음</div>;
     }
