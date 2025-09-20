@@ -413,6 +413,20 @@
     }
 }
 
+@media (max-width: 894px) {
+    .PostDetailPage {
+        width: 100%;
+    }
+
+    .PostDetailPage .PostDetail {
+        border-radius: 0;
+    }
+
+    .PostDetailPage .back-to-list-btn {
+        border-radius: 0;
+    }
+}
+
 @media (max-width: 767px) {
     .PostDetail .sort-button svg {
         width: 20px;
