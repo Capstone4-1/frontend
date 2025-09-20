@@ -193,6 +193,7 @@
     display: flex;
     gap: 8px;
     margin-bottom: 16px;
+    flex-wrap: nowrap;
 }
 
 .PostDetail .comment-form input {
@@ -203,6 +204,7 @@
     border-radius: 6px;
     outline: none;
     transition: border-color 0.2s ease;
+    min-width: 0;
 }
 
 .PostDetail .comment-form input:focus {
