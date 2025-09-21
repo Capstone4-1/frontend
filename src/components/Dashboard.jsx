@@ -7,39 +7,50 @@ import MainBanner from "./MainBanner";
 import MediaBox from "./MediaBox";
 import QuickLinks from "./QuickLinks";
 import { BookOpenCheck, Megaphone, Coffee } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axiosInstance from "./utils/AxiosInstance";
 
 const Dashboard = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [eventBanners, setEventBanners] = useState([]);
+    const [mediaList, setMediaList] = useState([]);
 
-    // 👉 더미 데이터 (학생회 이벤트용)
-    const eventBanners = [
-        {
-            title: "학생회 간식 나눔 🎉",
-            description:
-                "이번 주 금요일 오후 2시, 도서관 앞 광장에서 진행됩니다.<br/>선착순 200명!",
-            link: "https://school-event.com/snack",
-        },
-        {
-            title: "동아리 홍보주간",
-            description:
-                "관심 있는 동아리를 직접 만나보세요!<br/>학생회관 앞 잔디밭에서 진행됩니다.",
-            link: "https://school-event.com/club",
-        },
-        {
-            title: "체육대회 참가 신청 🏃‍♂️",
-            description:
-                "올해 체육대회 신청 접수를 시작합니다.<br/>신청 마감: 9월 25일",
-            link: "https://school-event.com/sports",
-        },
-    ];
+    // 👉 서버에서 배너/미디어 조회
+    useEffect(() => {
+        const fetchBanners = async () => {
+            try {
+                const { data } = await axiosInstance.get("/banners");
+
+                setEventBanners(
+                    data.normalBanners.map((b) => ({
+                        id: b.id,
+                        title: b.title,
+                        description: b.content,
+                        link: b.targetUrl,
+                    }))
+                );
+
+                setMediaList(
+                    data.mediaBanners.map((m) => ({
+                        id: m.id,
+                        videoUrl: m.targetUrl,
+                    }))
+                );
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchBanners();
+    }, []);
 
     return (
         <div className="Dashboard">
             <div className="Content-container">
                 <div className="main-container">
                     <QuickLinks />
-                    {/* 공지사항 / 커뮤니티 영역 */}
+
+                    {/* 공지사항 / 커뮤니티 */}
                     <div className="div-area info-area">
                         <section className="inner-container">
                             <InfoBox
@@ -60,39 +71,47 @@ const Dashboard = () => {
                         </section>
                     </div>
 
-                    <div className="div-area">
-                        <div className="banner-area">
-                            <h1 className="title">
-                                <Megaphone /> 학생회 이벤트
-                            </h1>
-                            <section className="banner-list">
-                                <ul>
-                                    {eventBanners.map((event, idx) => (
-                                        <li key={idx}>
-                                            <MainBanner
-                                                title={event.title}
-                                                description={event.description}
-                                                image={event.image}
-                                                link={event.link}
-                                            />
-                                        </li>
-                                    ))}
-                                </ul>
-                            </section>
-                        </div>
+                    {/* 이벤트 배너 + 미디어 (조건부 렌더링) */}
+                    {(eventBanners.length > 0 || mediaList.length > 0) && (
+                        <div className="div-area">
+                            {/* 이벤트 배너 영역 */}
+                            {eventBanners.length > 0 && (
+                                <div className="banner-area">
+                                    <h1 className="title">
+                                         학생회 이벤트
+                                    </h1>
+                                    <section className="banner-list">
+                                        <ul>
+                                            {eventBanners.map((event) => (
+                                                <li key={event.id}>
+                                                    <MainBanner
+                                                        title={event.title}
+                                                        description={event.description}
+                                                        link={event.link}
+                                                    />
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </section>
+                                </div>
+                            )}
 
-                        <div className="media-list">
-                            <MediaBox videoUrl="https://www.youtube.com/watch?v=5MWT_doo68k" />
-                            <MediaBox videoUrl="https://www.youtube.com/watch?v=HOoRnv3lA0k&list=RDHOoRnv3lA0k&start_radio=1" />
+                            {/* 미디어 영역 */}
+                            {mediaList.length > 0 && (
+                                <div className="media-list">
+                                    {mediaList.map((m) => (
+                                        <MediaBox key={m.id} videoUrl={m.videoUrl} />
+                                    ))}
+                                </div>
+                            )}
                         </div>
-                    </div>
-                    {/* 학생회 / 배너 영역 */}
+                    )}
 
                     {/* 중고책 장터 */}
                     <section className="div-area marketplace">
                         <header className="header-area">
                             <h1 className="title">
-                                <BookOpenCheck /> 중고책 사고팔기
+                                 중고책 사고팔기
                             </h1>
                         </header>
                         <section className="content-area">
@@ -104,7 +123,7 @@ const Dashboard = () => {
                     <section>
                         <header className="header-area">
                             <h1 className="title">
-                                <Coffee /> 오늘의 식단을 확인하세요
+                                 오늘의 식단을 확인하세요
                             </h1>
                         </header>
                         <div className="daily-area desktop-only">
@@ -112,7 +131,7 @@ const Dashboard = () => {
                         </div>
                     </section>
 
-                    <HelpGuide/>
+                    <HelpGuide />
                 </div>
             </div>
         </div>
