@@ -8,16 +8,15 @@ import {
     sendFriendRequest,
     acceptFriendRequest,
     declineFriendRequest,
-    removeFriend
+    removeFriend,
 } from "./utils/friendApi";
-import { X } from "lucide-react";
+import { X, UserX, UserPlus, Users, Search } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const FriendModal = ({
     setOpenModal,
     requestMemberList,
     fetchMyFriendInfo,
-    setHasFriendrequest,
     setRequestMemberList,
     myFriendList,
 }) => {
@@ -47,8 +46,15 @@ const FriendModal = ({
     };
 
     const handleSearch = async () => {
+        const keyword = nickname.trim();
+        if (!keyword) {
+            setResultMessage("닉네임을 입력해주세요.");
+            setIsFriendError(true);
+            setResult(null);
+            return;
+        }
         try {
-            const data = await searchFriendByNickname(nickname.trim());
+            const data = await searchFriendByNickname(keyword);
             setResult(data);
             setResultMessage("");
             setIsFriendError(false);
@@ -64,7 +70,7 @@ const FriendModal = ({
             await sendFriendRequest(result.id);
             setResult(null);
             setNickname("");
-            setResultMessage("✅ 친구 추가 요청이 전송되었습니다.");
+            setResultMessage("친구 추가 요청이 전송되었습니다.");
             setIsFriendError(false);
         } catch (error) {
             const message =
@@ -101,11 +107,7 @@ const FriendModal = ({
     const handleRemoveFriend = async (friendId) => {
         try {
             await removeFriend(friendId);
-            // UI에서 바로 제거
-            setFilteredFriends((prev) =>
-                prev.filter((f) => f.id !== friendId)
-            );
-            // 부모 상태 갱신
+            setFilteredFriends((prev) => prev.filter((f) => f.id !== friendId));
             fetchMyFriendInfo();
         } catch (error) {
             console.error("친구 삭제 실패:", error);
@@ -115,7 +117,7 @@ const FriendModal = ({
     return (
         <div className="Modal FriendModal">
             <div className="Overlay">
-                <div className="container">
+                <div className="container card">
                     <div className="friend-modal-header" role="tablist">
                         <div
                             className={`tab ${activeTab === "friends" ? "active" : ""}`}
@@ -129,7 +131,12 @@ const FriendModal = ({
                             className={`tab ${activeTab === "search" ? "active" : ""}`}
                             role="tab"
                             tabIndex="0"
-                            onClick={() => setActiveTab("search")}
+                            onClick={() => {
+                                setActiveTab("search");
+                                setNickname("");
+                                setResult(null);
+                                setResultMessage("");
+                            }}
                         >
                             <span>검색</span>
                         </div>
@@ -137,9 +144,17 @@ const FriendModal = ({
                             className={`tab ${activeTab === "request" ? "active" : ""}`}
                             role="tab"
                             tabIndex="0"
-                            onClick={() => setActiveTab("request")}
+                            onClick={() => {
+                                setActiveTab("request");
+                                setResultMessage("");
+                            }}
                         >
                             <span>받은 요청</span>
+                            {requestMemberList.length > 0 && (
+                                <span className="badge primary">
+                                    {requestMemberList.length}
+                                </span>
+                            )}
                         </div>
                         <button
                             className="exit-btn"
@@ -151,7 +166,7 @@ const FriendModal = ({
 
                     {activeTab === "friends" && (
                         <>
-                            <div className="search-section">
+                            <div className="section search-row">
                                 <InputBox
                                     state={nickname}
                                     setStateFunction={handleNicknameChange}
@@ -169,7 +184,7 @@ const FriendModal = ({
                                                     id={friend.id}
                                                 />
                                                 <button
-                                                    className="friend-del-btn"
+                                                    className="btn btn--ghost"
                                                     onClick={() => setConfirmDeleteFriendId(friend.id)}
                                                 >
                                                     삭제
@@ -178,77 +193,93 @@ const FriendModal = ({
                                         </li>
                                     ))
                                 ) : (
-                                    <li className="Friends-Item">
-                                        친구가 없습니다.
-                                    </li>
+                                    <div className="empty-state">
+                                        <UserX className="empty-icon" />
+                                        <p className="empty-title">친구가 없습니다.</p>
+                                        <p className="empty-desc">친구를 추가하거나 요청을 받아보세요.</p>
+                                    </div>
                                 )}
                             </ul>
                         </>
                     )}
 
                     {activeTab === "search" && (
-                        <div>
-                            <div className="search-section">
-                                <div className="search-box">
-                                    <InputBox
-                                        state={nickname}
-                                        setStateFunction={setNickname}
-                                        onClickFunction={handleSearch}
-                                        placeholder="닉네임으로 친구를 찾아보세요"
-                                    />
+                        <>
+                            <div className="section search-row">
+                                <InputBox
+                                    state={nickname}
+                                    setStateFunction={setNickname}
+                                    onClickFunction={handleSearch}
+                                    placeholder="닉네임으로 친구를 찾아보세요"
+                                    buttonText="검색"
+                                    icon={<Search />}
+                                />
+                            </div>
+                            <div className="section--padded">
+                                {resultMessage && (
+                                    <p className={`friend-message ${isFriendError ? "error" : "success"}`}>
+                                        {resultMessage}
+                                    </p>
+                                )}
+                                <div className="requests-box">
+                                    {result ? (
+                                        <div className="request-container request-container--card">
+                                            <div className="search-result-profile">
+                                                <img
+                                                    src={result.profileThumbnails || "/default-profile.png"}
+                                                    alt="프로필"
+                                                    className="profile-img"
+                                                />
+                                                <span className="nickname">{result.nickName}</span>
+                                            </div>
+                                            <div className="actions">
+                                                <button
+                                                    className="btn btn--primary"
+                                                    onClick={handleAddFriend}
+                                                >
+                                                    <UserPlus size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                                                    요청
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        !resultMessage && (
+                                            <div className="empty-wrapper">
+                                                <div className="empty-state">
+                                                    <Search className="empty-icon" />
+                                                    <p className="empty-title">친구를 검색해 보세요.</p>
+                                                    <p className="empty-desc">정확한 닉네임을 입력해야 찾을 수 있습니다.</p>
+                                                </div>
+                                            </div>
+                                        )
+                                    )}
                                 </div>
                             </div>
-                            {resultMessage && (
-                                <p className={`friend-message ${isFriendError ? "error" : "success"}`}>
-                                    {resultMessage}
-                                </p>
-                            )}
-                            <div className="request-container">
-                                {result && (
-                                    <>
-                                        <div className="search-result-profile">
-                                            <img
-                                                src={result.profileThumbnails || "/default-profile.png"}
-                                                alt="프로필"
-                                                className="profile-img"
-                                            />
-                                            <p>{result.nickName}</p>
-                                        </div>
-                                        <button
-                                            className="request-btn"
-                                            onClick={handleAddFriend}
-                                        >
-                                            +요청
-                                        </button>
-                                    </>
-                                )}
-                            </div>
-                        </div>
+                        </>
                     )}
 
                     {activeTab === "request" && (
                         <div className="requests-box">
                             {requestMemberList.length > 0 ? (
                                 requestMemberList.map((request, index) => (
-                                    <div className="request-container" key={index}>
+                                    <div className="request-container request-container--row" key={index}>
                                         <div className="search-result-profile">
                                             <img
                                                 src={request.profileThumbnails || "/default-profile.png"}
                                                 alt="프로필"
                                                 className="profile-img"
                                             />
-                                            <span>{request.nickName}</span>
+                                            <span className="nickname">{request.nickName}</span>
                                         </div>
-                                        <div>
+                                        <div className="actions">
                                             <button
-                                                className="request-btn accept"
+                                                className="btn btn--primary"
                                                 onClick={() => handleAccept(request.id)}
                                             >
                                                 수락
                                             </button>
-                                            |
                                             <button
-                                                className="request-btn decline"
+                                                className="btn btn--ghost"
                                                 onClick={() => handleDecline(request.id)}
                                             >
                                                 거절
@@ -257,17 +288,20 @@ const FriendModal = ({
                                     </div>
                                 ))
                             ) : (
-                                <p>친구요청이 없습니다.</p>
+                                <div className="empty-state">
+                                    <Users className="empty-icon" />
+                                    <p className="empty-title">받은 친구 요청이 없습니다.</p>
+                                    <p className="empty-desc">새로운 요청이 도착하면 여기에 표시됩니다.</p>
+                                </div>
                             )}
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* 삭제 확인 모달 */}
             {confirmDeleteFriendId && (
                 <ConfirmModal
-                    message="정말 삭제하시겠습니까?"
+                    message="정말 이 친구를 삭제하시겠습니까?"
                     onConfirm={() => {
                         handleRemoveFriend(confirmDeleteFriendId);
                         setConfirmDeleteFriendId(null);
