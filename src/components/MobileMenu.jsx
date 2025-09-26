@@ -55,14 +55,6 @@ function MobileMenu({ isOpen, onClose, user, onLogout, newMailCount }) {
           <Link to="/main/community/notice_sc" className="m-gnb-item" onClick={onClose}>학생회 공지</Link>
           <Link to="/main/community/market" className="m-gnb-item" onClick={onClose}>책 장터</Link>
 
-          {/* 식단 버튼 */}
-          <button
-            type="button"
-            className="m-gnb-item"
-            onClick={() => { onClose(); setDietOpen(true); }}
-          >
-            식단
-          </button>
         </div>
 
         {/* 서비스 */}
@@ -79,7 +71,17 @@ function MobileMenu({ isOpen, onClose, user, onLogout, newMailCount }) {
           <Link to="/chat-mail" className="m-gnb-item" onClick={onClose}>
             메일함{newMailCount > 0 ? ` (${newMailCount})` : ""}
           </Link>
+
+          {/* 식단 버튼 */}
+          <button
+            type="button"
+            className="m-gnb-item"
+            onClick={() => { onClose(); setDietOpen(true); }}
+          >
+            식단
+          </button>
         </div>
+
 
         {user && (
           <div className="m-gnb-actions">

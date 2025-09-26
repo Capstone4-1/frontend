@@ -127,13 +127,13 @@ const Dashboard = () => {
                     </section>
 
                     {/* 오늘의 식단 */}
-                    <section>
+                    <section className="desktop-only">
                         <header className="header-area">
                             <h1 className="title">
                                 오늘의 식단을 확인하세요
                             </h1>
                         </header>
-                        <div className="daily-area desktop-only">
+                        <div className="daily-area">
                             <DailyMenu selectedDate={selectedDate} />
                         </div>
                     </section>
