@@ -1,4 +1,4 @@
-:root {
+.FriendModal {
   --friend-modal-width: min(500px, 85vw);
   --friend-modal-min-height: 400px;
   --friend-modal-max-height: 75vh;
@@ -75,7 +75,7 @@
   color: var(--point-text-color-blue);
 }
 
-.Modal .exit-btn {
+.FriendModal .exit-btn {
   position: absolute;
   top: 50%;
   right: var(--spacing-3);
@@ -91,7 +91,7 @@
   transition: background 0.15s ease;
 }
 
-.Modal .exit-btn svg {
+.FriendModal .exit-btn svg {
   width: 18px;
   height: 18px;
 }
@@ -117,7 +117,7 @@
 }
 
 .FriendModal .Friends-List,
-.Modal .requests-box {
+.FriendModal .requests-box {
   flex: 1 1 auto;
   min-height: 0;
   overflow: auto;
@@ -154,7 +154,7 @@
   line-height: 1.35;
 }
 
-.btn {
+.FriendModal .btn {
   appearance: none;
   border: none;
   border-radius: 10px;
@@ -170,26 +170,26 @@
               opacity 0.2s ease;
 }
 
-.btn:active { transform: translateY(1px); }
+.FriendModal .btn:active { transform: translateY(1px); }
 
-.btn--primary {
+.FriendModal .btn--primary {
   background: var(--point-text-color-blue);
   color: #fff;
   box-shadow: 0 6px 14px rgba(39, 112, 255, 0.18);
 }
 
-.btn--primary:disabled {
+.FriendModal .btn--primary:disabled {
   opacity: 0.6;
   cursor: default;
   box-shadow: none;
 }
 
-.btn--ghost {
+.FriendModal .btn--ghost {
   background: #f0f2f5;
   color: #1f2937;
 }
 
-.Modal .request-container {
+.FriendModal .request-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -197,27 +197,27 @@
   gap: 12px;
 }
 
-.request-container--card {
+.FriendModal .request-container--card {
   background: #fafbfc;
   border: 1px solid #edf1f7;
   border-radius: 12px;
   padding: 12px 14px;
 }
 
-.request-container--row {
+.FriendModal .request-container--row {
   background: #fff;
   border: 1px solid #edf1f7;
   border-radius: 10px;
   padding: 10px 12px;
 }
 
-.search-result-profile {
+.FriendModal .search-result-profile {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.profile-img {
+.FriendModal .profile-img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -226,27 +226,27 @@
   background: #fff;
 }
 
-.nickname {
+.FriendModal .nickname {
   font-size: var(--font-size-sm);
   font-weight: 700;
   color: #1f2937;
 }
 
-.actions {
+.FriendModal .actions {
   display: inline-flex;
   gap: 8px;
 }
 
-.friend-message {
+.FriendModal .friend-message {
   font-size: 0.85rem;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-.friend-message.success { color: #16a34a; }
-.friend-message.error   { color: #dc2626; }
+.FriendModal .friend-message.success { color: #16a34a; }
+.FriendModal .friend-message.error   { color: #dc2626; }
 
-.empty-state {
+.FriendModal .empty-state {
   display: grid;
   place-items: center;
   gap: 6px;
@@ -255,11 +255,11 @@
   color: #98a2b3;
 }
 
-.empty-icon  { font-size: 28px; line-height: 1; opacity: 0.85; }
-.empty-title { font-size: 0.95rem; font-weight: 700; color: #7a8797; margin: 0; }
-.empty-desc  { font-size: 0.8rem;  color: #9aa6b2; margin: 0; }
+.FriendModal .empty-icon  { font-size: 28px; line-height: 1; opacity: 0.85; }
+.FriendModal .empty-title { font-size: 0.95rem; font-weight: 700; color: #7a8797; margin: 0; }
+.FriendModal .empty-desc  { font-size: 0.8rem;  color: #9aa6b2; margin: 0; }
 
-.empty-wrapper {
+.FriendModal .empty-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -267,13 +267,13 @@
 }
 
 @media (max-width: 600px) {
-  :root {
+  .FriendModal {
     --friend-modal-width: 88vw;          
     --friend-modal-height: min(55vh, 400px); 
   }
 
   .FriendModal .friend-item-section { padding: 0.5rem 0.6rem; }
-  .request-container { margin: 4px; }
+  .FriendModal .request-container { margin: 4px; }
 }
 
 @keyframes fadeIn {
