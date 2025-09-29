@@ -1,0 +1,25 @@
+.Exit {
+  position: absolute;
+  top: 50%;
+  right: var(--spacing-3, 12px);
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.Exit svg {
+  width: 18px;
+  height: 18px;
+  color: #444;
+}
+
+.Exit:hover {
+  background: rgba(0, 0, 0, 0.05);
+}

@@ -1,6 +1,7 @@
 import "./FriendModal.css";
 import InputBox from "./InputBox";
 import ProfileTemplate from "./ProfileTemplate";
+import Exit from "./buttons/Exit";
 import ConfirmModal from "./modals/ConfirmModal";
 import "./modals/Modal.css";
 import {
@@ -156,12 +157,7 @@ const FriendModal = ({
                                 </span>
                             )}
                         </div>
-                        <button
-                            className="exit-btn"
-                            onClick={() => setOpenModal(false)}
-                        >
-                            <X />
-                        </button>
+                        <Exit onClose={() => setOpenModal(false)} />
                     </div>
 
                     {activeTab === "friends" && (
