@@ -2,7 +2,6 @@
     width: 100%;
     max-width: 894px;
     margin: 0 auto;
-
 }
 
 .PostDetail {
@@ -21,7 +20,7 @@
 }
 
 .PostDetail .post-title {
-    font-size: var(--font-size-xl);
+    font-size: 1.125rem;
     font-weight: 700;
     color: #1f1f1f;
     margin: 0;
@@ -103,7 +102,6 @@
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #eee;
-    ;
 }
 
 .PostDetail .post-image {
@@ -428,7 +426,7 @@
     .PostDetailPage .back-to-list-btn {
         border-radius: 0;
     }
-     .PostDetail {
+    .PostDetail {
         padding: 22px 20px;
     }
 }
@@ -442,6 +440,10 @@
     .PostDetailPage .scrap-btn span {
         display: none;
     }
+}
 
-
+@media (min-width: 1024px) {
+    .PostDetail .post-title {
+        font-size: 1.3rem;
+    }
 }
