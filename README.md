@@ -146,7 +146,7 @@
 <summary>🛠 관리자 페이지</summary>
 
 **회원 관리**  
-<img width="800" src="https://github.com/user-attachments/assets/39df2b3e-9c0e-437c-911b-9400246fda86" />
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/dcd8a293-30c4-4ba4-9b09-84c2b51e25ef" />
 
 **문의 관리**  
 <img width="800" src="https://github.com/user-attachments/assets/78392369-bcd9-4b37-b024-6ed31bc44094" />
