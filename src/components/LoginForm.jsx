@@ -17,30 +17,31 @@ const LoginForm = ({ setIsAuthenticated }) => {
         });
     };
 
-    const handleSubmit = async (e) => {
+     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosInstance.post(
-                "/member/login",
-                formData
-            );
+            const response = await axiosInstance.post("/member/login", formData);
+
+            // 성공
             if (response.status === 200) {
                 localStorage.setItem("accessToken", response.data.accessToken);
-                localStorage.setItem(
-                    "refreshToken",
-                    response.data.refreshToken
-                );
+                localStorage.setItem("refreshToken", response.data.refreshToken);
                 setAuthData();
                 setIsAuthenticated(true);
 
                 const meRes = await axiosInstance.get("/member/me");
                 setUser(meRes.data.meDto);
                 navigate("/main");
+            } else {
+                // 200 아니면 무조건 에러 토스트
+                toast.error("아이디 또는 비밀번호가 잘못되었습니다.");
             }
         } catch (error) {
-            toast.error("아이디 또는 비밀번호가 잘못되었습니다.")
+            // 네트워크 오류, 4xx, 5xx 다 여기서 잡힘
+            toast.error("아이디 또는 비밀번호가 잘못되었습니다.");
         }
     };
+    
     const setAuthData = () => {
         try {
             const token = localStorage.getItem("accessToken");

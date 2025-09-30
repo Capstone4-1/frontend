@@ -73,8 +73,6 @@ const Dashboard = () => {
                                         <h1 className="title">학생회 이벤트</h1>
 
                                     </header>
-
-
                                     <section className="banner-list">
                                         <ul>
                                             {eventBanners.map((event) => (
