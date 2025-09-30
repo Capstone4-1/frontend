@@ -45,7 +45,7 @@ const PostDetail = () => {
             setPost(postData);
             setLikenum(postData.likeCount || 0);
             setLiked(postData.isLike || false);
-            setScrapped(postData.isScrap || false);
+            setScrapped(postData.isScrapped || false);
         } catch (err) {
             console.error("❌ 게시글 상세 불러오기 실패:", err);
         }
@@ -82,11 +82,15 @@ const PostDetail = () => {
     const handleScrapBtnClick = async () => {
         try {
             if (!scrapped) {
-                const res = await axiosInstance.post(`/post/${postId}/scrap`);
+                await axiosInstance.post(`/post/${postId}/scrap`);
                 setScrapped(true);
+                toast.success(
+                    "게시물이 스크랩되었습니다. 마이페이지에서 확인해보세요!",
+                );
             } else {
-                const res = await axiosInstance.delete(`/post/${postId}/scrap`);
+                await axiosInstance.post(`/post/${postId}/unScrap`);
                 setScrapped(false);
+                toast.success("스크랩이 해제되었습니다.");
             }
         } catch (err) {
             console.error("❌ 스크랩 토글 실패:", err);
@@ -311,8 +315,8 @@ const PostDetail = () => {
                                 onClick={handleScrapBtnClick}
                             >
                                 <Bookmark
-                                    color={scrapped ? "#3399ff" : "#aaa"}
-                                    fill={scrapped ? "#3399ff" : "none"}
+                                    color={scrapped ? "#2b85e4" : "#aaa"}
+                                    fill={scrapped ? "#2b85e4" : "none"}
                                 />
                                 <span>스크랩</span>
                             </button>
