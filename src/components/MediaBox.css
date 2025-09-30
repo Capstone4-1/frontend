@@ -3,8 +3,6 @@
   display: flex;              /* flexbox로 가운데 정렬 준비 */
   justify-content: center;    /* 가로 가운데 */
   align-items: center;        /* 세로 가운데 */
-  width: 500px;
-  height: 280px;
   cursor: pointer;
   border-radius: 12px;
   overflow: hidden;

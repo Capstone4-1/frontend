@@ -1,283 +1,115 @@
-
-:root{
-  --bg: #f6f8fc;
-  --card: rgba(255,255,255,0.8);
-  --border: rgba(17,24,39,0.08);
-  --text: #111827;
-  --muted: #6b7280;
-  --brand: #3b82f6;      /* 포인트 블루 */
-  --brand2:#6366f1;      /* 포인트 퍼플 */
-  --shadow: 0 10px 30px rgba(2,6,23,0.08);
-  --r: 14px;
-  --menu-card-h: 360px;  /* 메뉴 카드 고정 높이 */
+.DailyMenu {
+  width: 100%;
+  min-height: 460px;
+  margin: 0 auto;
+  padding: 16px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 24px;
+  border: 1px solid var(--base-border-color);
+  box-shadow: var(--board-shadow-color);
 }
 
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg: #0b1020;
-    --card: rgba(255,255,255,0.06);
-    --border: rgba(255,255,255,0.12);
-    --text: #e5e7eb;
-    --muted: #a1a1aa;
-    --shadow: 0 10px 30px rgba(0,0,0,0.35);
-  }
+.date-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* 전체 레이아웃 */
-.DailyMenu{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-  max-width:500px;
-  margin:0 auto;
-  font-family:'Segoe UI', system-ui, -apple-system, "Noto Sans KR", sans-serif;
-  background: linear-gradient(120deg, #eef2ff 0%, var(--bg) 100%);
-  padding:16px;
-  border-radius:16px;
+.date-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
 }
 
-/* 카드 공통 */
-.calendar-container,
-.menu-container{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  box-shadow:var(--shadow);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding:14px;
-  animation: fadeInUp .3s ease both;
+.nav-btn {
+  border: none;
+  background: #eee;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-btn:hover {
+  background: #ddd;
 }
 
-/* “날짜 선택” 텍스트 숨김 */
-.section-title{ display:none; }
-
-/* 메뉴 제목 */
-.menu-container h2{
-  font-size:1.05rem;
-  font-weight:700;
-  color:var(--text);
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin:0 0 12px 0;
-  padding-bottom:10px;
-  border-bottom:1px solid var(--border);
-}
-.menu-title .divider{ color:var(--muted); font-weight:400; }
-
-/* 상단 탭(학생/교직원) */
-.tab-buttons{
-  display:grid;
-  grid-auto-flow:column;
-  gap:8px;
-  margin-bottom:12px;
-}
-.tab-buttons button{
-  padding:10px 12px;
-  border:1px solid var(--border);
-  border-radius:999px;
-  background: linear-gradient(180deg, rgba(59,130,246,.06), rgba(99,102,241,.06));
-  color:var(--text);
-  cursor:pointer;
-  font-weight:700;
-  font-size:.9rem;
-  transition: transform .08s ease, box-shadow .15s ease, background .2s ease, border-color .2s ease;
-}
-.tab-buttons button:hover{ transform:translateY(-1px); box-shadow:var(--shadow); }
-.tab-buttons button.active{
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
-  color:#fff;
-  border-color:transparent;
-  box-shadow:0 6px 18px rgba(99,102,241,0.35), 0 6px 16px rgba(59,130,246,0.25);
+.tab-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 4px;
 }
 
-/* 학생식당 서브탭(코너) */
-.subtab-buttons{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
-.chip{
-  border:1px solid var(--border);
-  background: rgba(99,102,241,0.06);
-  padding:8px 12px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:700;
-  cursor:pointer;
-  transition:all .15s ease;
+.tab-btn {
+  flex: 1;
+  padding: 8px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
 }
-.chip:hover{ transform:translateY(-1px); box-shadow: var(--shadow); }
-.chip.active{
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
-  color:#fff; border-color:transparent;
-  box-shadow:0 6px 16px rgba(99,102,241,0.35);
+.tab-btn.active {
+  background: #333;
+  color: white;
 }
 
-/* 메뉴 리스트(칩 레이아웃) */
-.menu-list{
-  list-style:none; padding:0; margin:0;
-  display:flex; flex-wrap:wrap; gap:8px; row-gap:6px;
-}
-.menu-list .menu-item{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background: rgba(99,102,241,0.06);
-  min-height:28px; line-height:1.2; white-space:nowrap;
-  font-size:.85rem;
-  box-shadow:none; transform:none;
-}
-.menu-list .menu-item:hover{
-  background: rgba(59,130,246,0.12);
-  border-color: rgba(59,130,246,0.25);
-}
-/* li 기본 점 제거 / JSX에 span.bullet 있으면 숨김 */
-.menu-list li::before{ content:none; }
-.menu-list .bullet{ display:none; }
-
-/* 빈/에러 메시지 */
-.empty{ padding:18px 12px; border-radius:12px; border:1px dashed var(--border); }
-.empty.muted{ color:var(--muted); background: rgba(0,0,0,0.02); }
-.empty.error{ color:#ef4444; background: rgba(239,68,68,0.06); }
-
-/* 교직원식당 섹션 블록(조/중/석) */
-.sectioned{ display:grid; gap:12px; }
-.section-block{ display:grid; gap:8px; }
-/* 조식/중식/석식 칩만 크게 */
-.section-chip{
-  display:inline-flex; align-items:center; justify-content:center;
-  padding:10px 18px;
-  border-radius:999px;
-  font-size:1rem; font-weight:800;
-  background: rgba(59,130,246,0.18);
-  border:1px solid rgba(59,130,246,0.4);
-  width:max-content; min-height:34px;
-  color:var(--text);
-}
-.section-chip:hover{
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
-  color:#fff; border-color:transparent;
-  box-shadow: 0 4px 12px rgba(99,102,241,0.25);
+.subtab-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-/* ===== react-calendar 커스텀 ===== */
-.react-calendar{ 
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:12px;
-  overflow:hidden;
-  background:transparent;
-  font-family:inherit;
+.chip {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #bbb;
+  border-radius: 16px;
+  background: #fff;
+  cursor: pointer;
 }
-.react-calendar__navigation{
-  display:flex; align-items:center; justify-content:center;
-  gap:6px; padding:6px 6px 0;
+.chip.active {
+  background: #333;
+  color: white;
+  border-color: #333;
 }
-.react-calendar__navigation button{
-  background:transparent; border:0; padding:10px 8px; border-radius:10px;
-  font-weight:700; color:var(--text);
-  transition: background .2s ease; flex:0 0 auto;
-}
-.react-calendar__navigation button:hover{ background: rgba(99,102,241,0.08); }
-.react-calendar__navigation__label{
-  flex:1 1 auto; text-align:center; white-space:nowrap;
-  font-size:1.1rem; letter-spacing:.5px;
-}
-.react-calendar__month-view__weekdays{
-  text-align:center; font-weight:700; color:var(--muted); font-size:12px;
-}
-.react-calendar__tile{
-  padding:12px 0; border-radius:10px;
-  transition: background .15s ease, color .15s ease, transform .08s ease;
-}
-.react-calendar__tile:hover{ background: rgba(59,130,246,0.08); transform: translateY(-1px); }
-.react-calendar__tile--now{ background: rgba(99,102,241,0.08); }
-.react-calendar__tile--active{
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
-  color:#fff; box-shadow:0 6px 16px rgba(99,102,241,0.35);
+.chip:disabled {
+  opacity: 0.3;
 }
 
-/* 애니메이션 */
-@keyframes fadeInUp{
-  from{ opacity:0; transform: translateY(6px); }
-  to{ opacity:1; transform:none; }
+.menu-box {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  background: white;
+  overflow-y: auto;
 }
 
-/* =========================
-   메뉴 카드 고정 + 스크롤 없음 + 자동 축소 티어
-   ========================= */
-.menu-container{
-  display:flex; flex-direction:column;
-  height: var(--menu-card-h); min-height: var(--menu-card-h); max-height: var(--menu-card-h);
-  overflow:hidden;
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-.menu-container > h2{ margin:0 0 8px 0; padding-bottom:6px; font-size:1rem; }
-.menu-container > .tab-buttons{ gap:6px; margin-bottom:8px; }
-.menu-container > .subtab-buttons{ gap:6px; margin-bottom:6px; }
-.menu-container > .menu-section-divider{ margin:8px 0; }
-
-/* 자동 축소 티어 (:has) — 항목이 많을수록 더 타이트 */
-.menu-container:has(.menu-list .menu-item:nth-child(13)) .menu-list .menu-item{
-  font-size:.78rem; padding:3px 7px; min-height:22px;
+.menu-item {
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
 }
-.menu-container:has(.menu-list .menu-item:nth-child(13)) .menu-list{ gap:5px; row-gap:3px; }
-
-.menu-container:has(.menu-list .menu-item:nth-child(18)) .menu-list .menu-item{
-  font-size:.74rem; padding:3px 6px; min-height:20px;
-}
-.menu-container:has(.menu-list .menu-item:nth-child(18)) .menu-list{ gap:4px; row-gap:2px; }
-
-.menu-container:has(.menu-list .menu-item:nth-child(24)) .menu-list .menu-item{
-  font-size:.70rem; padding:2px 5px; min-height:18px;
-}
-.menu-container:has(.menu-list .menu-item:nth-child(24)) .menu-list{ gap:3px; row-gap:2px; }
-
-/* 모바일 카드 높이 살짝 낮추기(선택) */
-@media (max-width: 480px){
-  :root { --menu-card-h: 340px; }
+.menu-item:last-child {
+  border-bottom: none;
 }
 
-/* 한 줄에 꽉 차게: 균등 분배 + 줄바꿈 금지 */
-.menu-container .subtab-buttons,
-.menu-container .section-block{
-  display: flex !important;
-  flex-wrap: nowrap !important;   /* 줄바꿈 금지 */
-  gap: 8px !important;
+.empty {
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  padding: 20px 0;
 }
-
-/* 학생식당 코너(정식/양식/분식/라면...) */
-.menu-container .subtab-buttons .chip{
-  flex: 1 1 0 !important;         /* 균등 너비 */
-  text-align: center !important;
-  white-space: nowrap !important;  /* 텍스트 줄바꿈 방지 */
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  padding: 8px 0 !important;       /* 좌우폭에 영향 적게 */
-  font-size: clamp(.82rem, 2.2vw, .92rem) !important;
-}
-
-/* 교직원식당 조/중/석 */
-.menu-container .section-block .section-chip{
-  flex: 1 1 0 !important;         /* 균등 너비 */
-  text-align: center !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  padding: 10px 0 !important;      /* 좌우폭에 영향 적게 */
-  font-size: clamp(.9rem, 2.3vw, 1rem) !important;
-}
-
-/* 좁은 화면에서 간격 살짝 축소 */
-@media (max-width: 420px){
-  .menu-container .subtab-buttons,
-  .menu-container .section-block{ gap: 6px !important; }
-}
-
-.menu-section-divider { 
-  border-top: 1px solid var(--border); 
-  margin: 12px 0; 
-}
-
-/* 이게 더 안전한 방식: desktop-only 래퍼를 숨김 */
-@media (max-width: 768px){
-  .desktop-only { display: none; }
+.empty.error {
+  color: #c33;
 }
