@@ -315,8 +315,8 @@ const PostDetail = () => {
                                 onClick={handleScrapBtnClick}
                             >
                                 <Bookmark
-                                    color={scrapped ? "#3399ff" : "#aaa"}
-                                    fill={scrapped ? "#3399ff" : "none"}
+                                    color={scrapped ? "#2b85e4" : "#aaa"}
+                                    fill={scrapped ? "#2b85e4" : "none"}
                                 />
                                 <span>스크랩</span>
                             </button>
