@@ -1,7 +1,16 @@
 .BookMarketBoard {
     width: 100%;
     position: relative;
-    z-index: 0; /* 낮은 값 */
+    z-index: 0;
+    /* 낮은 값 */
+
+
+    border-radius: 24px;
+    border: 1px solid var(--base-border-color);
+    box-shadow: var(--board-shadow-color);
+    padding: 20px;
+    background-color: white;
+
 }
 
 .BookMarketBoard h3 {
@@ -127,9 +136,11 @@
 .BookMarketBoard:hover .nav-arrow {
     display: flex;
 }
+
 .nav-arrow.prev {
     left: 6px;
 }
+
 .nav-arrow.next {
     right: 6px;
 }
@@ -139,15 +150,15 @@
         max-width: none;
         width: 100%;
     }
-    
+
     .slider-page {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .book-card .thumb img {
         height: 160px;
     }
-    
+
     /* 모바일에서 네비게이션 화살표 항상 표시 (터치 디바이스) */
     .nav-arrow {
         display: flex;

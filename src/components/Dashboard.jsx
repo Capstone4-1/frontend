@@ -1,7 +1,6 @@
 import BookMarketBoard from "./BookMarketBoard";
 import DailyMenu from "./DailyMenu";
 import "./Dashboard.css";
-import HelpGuide from "./HelpGuide";
 import InfoBox from "./InfoBox";
 import MainBanner from "./MainBanner";
 import MediaBox from "./MediaBox";
@@ -14,7 +13,6 @@ const Dashboard = () => {
     const [eventBanners, setEventBanners] = useState([]);
     const [mediaList, setMediaList] = useState([]);
 
-    // 👉 서버에서 배너/미디어 조회
     useEffect(() => {
         const fetchBanners = async () => {
             try {
@@ -53,12 +51,7 @@ const Dashboard = () => {
                     <div className="div-area info-area">
                         <section className="inner-container">
                             <InfoBox
-                                boardTypes={[
-                                    "NOTICE",
-                                    "NOTICE_SC",
-                                    "NOTICE_UNIV",
-                                    "NOTICE_DEPT",
-                                ]}
+                                boardTypes={["NOTICE", "NOTICE_SC", "NOTICE_UNIV", "NOTICE_DEPT"]}
                                 title="공지사항"
                             />
                         </section>
@@ -70,15 +63,18 @@ const Dashboard = () => {
                         </section>
                     </div>
 
-                    {/* 이벤트 배너 + 미디어 (조건부 렌더링) */}
+                    {/* 이벤트 배너 + 오늘의 식단 */}
                     {(eventBanners.length > 0 || mediaList.length > 0) && (
                         <div className="div-area">
-                            {/* 이벤트 배너 영역 */}
                             {eventBanners.length > 0 && (
-                                <div className="banner-area">
-                                    <h1 className="title">
-                                        학생회 이벤트
-                                    </h1>
+                                <div className={`banner-area ${eventBanners.length > 3 ? "banner-grid-2" : "banner-grid-1"
+                                    }`}>
+                                    <header className="header-area">
+                                        <h1 className="title">학생회 이벤트</h1>
+
+                                    </header>
+
+
                                     <section className="banner-list">
                                         <ul>
                                             {eventBanners.map((event) => (
@@ -95,50 +91,39 @@ const Dashboard = () => {
                                 </div>
                             )}
 
-                            {/* 미디어 영역 */}
-                            {mediaList.length > 0 && (
-                                <div className="banner-area">
-                                    <h1 className="title">
-                                        미디어
-                                    </h1>
-
-                                    <div className="media-list">
-                                        {mediaList.map((m) => (
-                                            <MediaBox key={m.id} videoUrl={m.videoUrl} />
-                                        ))}
-                                    </div>
+                            {/* 오늘의 식단 */}
+                            <section className="desktop-only">
+                                <header className="header-area">
+                                    <h1 className="title">오늘의 식단을 확인하세요</h1>
+                                </header>
+                                <div className="daily-area">
+                                    <DailyMenu selectedDate={selectedDate} />
                                 </div>
-
-
-                            )}
+                            </section>
                         </div>
                     )}
 
                     {/* 중고책 장터 */}
                     <section className="div-area marketplace">
                         <header className="header-area">
-                            <h1 className="title">
-                                중고책 사고팔기
-                            </h1>
+                            <h1 className="title">장터</h1>
                         </header>
-                        <section className="content-area">
-                            <BookMarketBoard title="장터" boardType="MARKET" />
-                        </section>
+                        <BookMarketBoard title="장터" boardType="MARKET" />
                     </section>
 
-                    {/* 오늘의 식단 */}
-                    <section className="desktop-only">
-                        <header className="header-area">
-                            <h1 className="title">
-                                오늘의 식단을 확인하세요
-                            </h1>
-                        </header>
-                        <div className="daily-area">
-                            <DailyMenu selectedDate={selectedDate} />
+                    {/* 미디어 영역 */}
+                    {mediaList.length > 0 && (
+                        <div className="banner-area">
+                            <header className="header-area">
+                                <h1 className="title">미디어</h1>
+                            </header>
+                            <div className="media-list">
+                                {mediaList.map((m) => (
+                                    <MediaBox key={m.id} videoUrl={m.videoUrl} />
+                                ))}
+                            </div>
                         </div>
-                    </section>
-
-                    <HelpGuide />
+                    )}
                 </div>
             </div>
         </div>

@@ -1,6 +1,4 @@
-/* =========================
-   📌 Dashboard 전체 레이아웃
-   ========================= */
+/* Dashboard 전체 레이아웃 */
 .Dashboard {
     height: 100%;
     min-width: 10px;
@@ -28,18 +26,10 @@
     gap: 2.5rem;
 }
 
-/* =========================
-   📌 공통 타이틀 / 헤더
-   ========================= */
-.Dashboard .title-container {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    padding-bottom: 10px;
-}
-
+/* 공통 타이틀 / 헤더 */
 .Dashboard .header-area {
     position: relative;
+    margin-bottom: 10px;
 }
 
 .Dashboard .title {
@@ -52,15 +42,7 @@
     align-items: center;
 }
 
-.Dashboard .title svg {
-    width: var(--spacing-4);
-    margin-right: 8px;
-    color: #333;
-}
-
-/* =========================
-   📌 공통 레이아웃 블록
-   ========================= */
+/* div-area 공통 */
 .Dashboard .div-area {
     display: flex;
     gap: 30px;
@@ -68,25 +50,7 @@
     height: auto;
 }
 
-.Dashboard .inner-container {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    width: 100%;
-}
-
-.Dashboard .div-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 10px;
-    width: 100%;
-    gap: 30px;
-    height: auto;
-}
-
-/* =========================
-   📌 InfoBox (공지사항 / 커뮤니티)
-   ========================= */
+/* InfoBox */
 .Dashboard .info-area {
     display: flex;
     gap: 20px;
@@ -97,7 +61,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 0; /* ellipsis 동작 위해 필요 */
+    min-width: 0;
 }
 
 .Dashboard .info-area .inner-container h3,
@@ -107,26 +71,24 @@
     white-space: nowrap;
 }
 
-/* =========================
-   📌 이벤트 배너
-   ========================= */
-
-   .Dashboard .banner-area {
-    flex: 1;   /* 남은 공간 전부 차지 */
+/* 이벤트 배너 */
+.Dashboard .banner-area {
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
-.Dashboard .banner-list {
-    margin-top: 10px;
-    display: flex;
-}
 
-.Dashboard .banner-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* MainBanner 1컬럼 */
+.Dashboard .banner-area.banner-grid-1 .banner-list ul {
     display: flex;
     flex-direction: column;
+    gap: 16px;
+}
+
+/* MainBanner 2컬럼 */
+.Dashboard .banner-area.banner-grid-2 .banner-list ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
 }
 
@@ -136,7 +98,7 @@
 }
 
 .Dashboard .MainBanner {
-    flex: 1;
+    width: 100%;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
 }
@@ -146,152 +108,65 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* =========================
-   📌 미디어 리스트
-   ========================= */
+/* 미디어 리스트 (최대 3개) */
 .Dashboard .media-list {
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
+    width: 100%;
 }
 
-/* =========================
-   📌 중고책 장터
-   ========================= */
+.Dashboard .media-list>* {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+/* 중고책 장터 */
 .Dashboard .marketplace {
     display: flex;
     flex-direction: column;
     gap: 0;
 }
 
-.Dashboard .marketplace .title {
-    margin-bottom: var(--spacing-2);
-}
-
-.Dashboard .content-area {
-    background: #fff;
-    box-shadow: var(--board-shadow-color);
-    border-radius: 1.5rem;
-    padding: var(--spacing-3) var(--spacing-4);
-}
-
-/* =========================
-   📌 오늘의 식단
-   ========================= */
+/* 오늘의 식단 */
 .Dashboard .daily-area {
-    width: 400px;
-    padding: 20px;
-    background-color: white;
+    width: 350px;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--base-border-color);
-    gap: 10%;
 }
 
 /* 기본: 보임 */
-.desktop-only { display: block; }
+.desktop-only {
+    display: block;
+}
 
-/* 모바일: 통째로 숨김 */
+/* 모바일: 숨김 */
 @media (max-width: 768px) {
-  .desktop-only { display: none !important; }
-}
-
-
-/* =========================
-   📌 사이드 / 기타
-   ========================= */
-.Dashboard aside {
-    padding-left: 0;
-    margin-left: 0;
-}
-
-.Dashboard aside ul {
-    position: relative;
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
-
-.Dashboard aside ul::before {
-    content: "";
-    position: absolute;
-    top: 10px;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    border-left: 1px solid var(--base-border-color);
-    z-index: 0;
-}
-
-.Dashboard aside li {
-    margin-bottom: 0;
-    position: relative;
-    padding-left: 1.2em;
-    font-size: 1rem;
-    margin-bottom: 10px;
-}
-
-.Dashboard aside li::before {
-    transform: translateY(-30%);
-    content: "•";
-    position: absolute;
-    left: -0.24em;
-    top: 0;
-    color: var(--base-border-color);
-    font-size: 2.5rem;
-    line-height: 1;
-}
-
-/* =========================
-   📌 반응형 처리
-   ========================= */
-@media (max-width: 1180px) {
-    .Dashboard {
-        padding-left: 20px;
+    .desktop-only {
+        display: none !important;
     }
 
-    .Dashboard .Content-container {
-        gap: var(--medium-screen-gap);
-        display: block;
-        width: 100%;
+    .Dashboard .media-list {
+        grid-template-columns: 1fr;
     }
 
-    .Dashboard .main-container {
-        width: 100%;
-    }
-
-    .Dashboard .rightside-container {
-        width: 100%;
-    }
-
-    .Dashboard .info-area {
-        gap: 20px;
+    .Dashboard .banner-area.banner-grid-2 .banner-list ul {
+        grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 767px) {
-    .Dashboard .info-area {
+/* 반응형 미디어 그리드 */
+@media (max-width: 1024px) {
+    .Dashboard .media-list {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+    }
+
+
+    .Dashboard .daily-area {
+        width: 250px;
+        display: flex;
         flex-direction: column;
-        gap: 20px;
-    }
-
-    .Dashboard .div-container {
-        flex-direction: column;
-        gap: var(--small-screen-gap);
-    }
-
-    .Dashboard .half-board-area {
-        max-width: 100%;
-    }
-
-    .Dashboard .div-area {
-        flex-direction: column;
-    }
-
-    .Dashboard .title svg {
-        width: 18px;
-        margin-right: 6px;
-        margin-top: 1px;
     }
 }
