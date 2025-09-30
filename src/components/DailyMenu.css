@@ -54,7 +54,8 @@
   font-size: 14px;
 }
 .tab-btn.active {
-  background: #333;
+      background-color: #5c5c5c;
+
   color: white;
 }
 
@@ -67,7 +68,8 @@
 .chip {
   padding: 6px 10px;
   font-size: 13px;
-  border: 1px solid #bbb;
+  border: 1px solid#5c5c5c;
+
   border-radius: 16px;
   background: #fff;
   cursor: pointer;
@@ -75,7 +77,8 @@
 .chip.active {
   background: #333;
   color: white;
-  border-color: #333;
+      background-color: #5c5c5c;
+
 }
 .chip:disabled {
   opacity: 0.3;
@@ -110,6 +113,7 @@
   color: #777;
   padding: 20px 0;
 }
+
 .empty.error {
   color: #c33;
 }

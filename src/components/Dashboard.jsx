@@ -74,7 +74,6 @@ const Dashboard = () => {
 
                                     </header>
 
-
                                     <section className="banner-list">
                                         <ul>
                                             {eventBanners.map((event) => (
