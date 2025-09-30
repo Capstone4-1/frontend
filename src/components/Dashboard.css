@@ -155,6 +155,10 @@
     .Dashboard .banner-area.banner-grid-2 .banner-list ul {
         grid-template-columns: 1fr;
     }
+
+    .Dashboard .info-area {
+        flex-direction: column;
+}
 }
 
 /* 반응형 미디어 그리드 */
