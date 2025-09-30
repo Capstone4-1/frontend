@@ -122,6 +122,7 @@
     object-fit: cover;
 }
 
+
 /* 중고책 장터 */
 .Dashboard .marketplace {
     display: flex;
@@ -162,6 +163,7 @@
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 
     }
+
 
     .Dashboard .daily-area {
         width: 250px;
