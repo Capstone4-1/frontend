@@ -12,10 +12,9 @@ import { UserContext } from "./utils/UserContext";
 import { Menu } from "lucide-react";
 import { useContext, useEffect, useState, useRef } from "react";
 import {
-    FcAdvertising,
+    FcQuestions,
     FcGraduationCap,
     FcManager,
-    FcRating,
     FcCollaboration,
     FcLock,
     FcSms,
@@ -181,6 +180,13 @@ function Header() {
             label: "커뮤니티",
             basePath: "/main/community/free",
             subMenus: [
+
+                {
+                    title: "질문 게시판",
+                    desc: "학습을 위한 질문을 하는 공간이에요.",
+                    icon: <FcQuestions />,
+                    to: "/main/community/qna",
+                },
                 {
                     title: "자유 게시판",
                     desc: "자유롭게 이야기를 나눠보세요.",
@@ -199,6 +205,7 @@ function Header() {
                     icon: <FcSms />,
                     to: "/main/community/review",
                 },
+        
             ],
         },
         {

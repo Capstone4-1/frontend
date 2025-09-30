@@ -57,7 +57,7 @@ const Dashboard = () => {
                         </section>
                         <section className="inner-container">
                             <InfoBox
-                                boardTypes={["FREE", "SECRET", "REVIEW"]}
+                                boardTypes={[ "QNA","FREE", "SECRET", "REVIEW",]}
                                 title="커뮤니티"
                             />
                         </section>

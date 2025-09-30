@@ -8,6 +8,7 @@ export const boardTypeMap = {
   FREE: "자유게시판",
   SECRET: "비밀게시판",
   REVIEW: "후기",
+  QNA: "질문",
   MARKET: "책장터",
 };
 
@@ -56,6 +57,13 @@ export const boardConfig = [
     label: "후기",
     tagLabel: "후기",
     color: "#2196f3",
+  },
+
+  {
+    type: "QNA",
+    label: "질문",
+    tagLabel: "질문",
+    color: "#01223dff",
   },
   {
     type: "MARKET",
