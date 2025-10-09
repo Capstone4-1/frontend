@@ -137,11 +137,17 @@
     border-collapse: collapse;
 }
 
+.PostDetail .post-content table[style*="width"] {
+    width: 100% !important;
+}
+
 .PostDetail .post-content th,
 .PostDetail .post-content td {
     word-break: break-word;
     white-space: normal;
     vertical-align: top;
+    width: auto !important;
+    max-width: none !important;
 }
 
 .PostDetail .post-content span {
