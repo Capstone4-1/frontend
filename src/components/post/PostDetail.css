@@ -150,9 +150,9 @@
     max-width: none !important;
 }
 
-.PostDetail .post-content span {
+/* .PostDetail .post-content span {
     font-size: inherit !important;
-}
+} */
 
 .PostDetail .comment-header-wrap {
     display: flex;
