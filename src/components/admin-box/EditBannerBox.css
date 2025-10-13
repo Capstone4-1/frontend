@@ -1,0 +1,87 @@
+/* EditBannerBox.css (PostManageBox 테마 적용) */
+.EditBannerBox {
+  padding: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  color: #222;
+}
+
+
+.EditBannerBox .title-area{
+
+  display: flex;
+  gap: 30px;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+
+}
+.EditBannerBox h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.edit-section {
+  margin-bottom: 30px;
+}
+
+.edit-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  background-color: #f8f9fa;
+}
+
+.edit-card input,
+.edit-card textarea {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.add-btn,
+.delete-btn,
+.save-section button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #ccc;
+  background-color: transparent;
+}
+
+.add-btn:hover {
+  border-color: #007bff;
+  color: #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.delete-btn:hover {
+  border-color: #ff4d4f;
+  color: #ff4d4f;
+  background-color: rgba(255, 77, 79, 0.1);
+}
+
+.save-section button {
+  width: 100%;
+  font-size: 16px;
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.save-section button:hover {
+  background-color: rgba(40, 167, 69, 0.1);
+}

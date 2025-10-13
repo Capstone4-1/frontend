@@ -22,6 +22,7 @@ const BoardPage = () => {
             case "notice":
             case "secret":
             case "review":
+            case "qna":
                 return (
                     <BasicBoardBox
                         boardType={boardType}

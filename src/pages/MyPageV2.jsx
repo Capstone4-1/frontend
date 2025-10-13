@@ -1,3 +1,4 @@
+// src/pages/MyPageV2.jsx
 import { useContext, useState, useCallback } from "react";
 import Header from "../components/Header";
 import MyProfile from "../components/Myprofile";
@@ -5,6 +6,7 @@ import { UserContext } from "../components/utils/UserContext";
 import "./MyPageV2.css";
 import { useNavigate, Outlet } from "react-router-dom";
 import PasswordConfirmModal from "../components/modals/PasswordConfirmModal";
+import RoleTag from "../components/RoleTag"; // RoleTag 컴포넌트
 
 const MyPageV2 = () => {
   const { user, isLoading } = useContext(UserContext);
@@ -15,10 +17,10 @@ const MyPageV2 = () => {
   const [pendingRouteFocus, setPendingRouteFocus] = useState(null);
   const [isPasswordVerified, setIsPasswordVerified] = useState(false);
 
-  // 비밀번호 확인이 필요한 라우트만 여기에 등록
+  // 비밀번호 확인이 필요한 라우트
   const secureRoutes = new Set(["account"]);
 
-  // 모든 포커스/이동을 이 함수 하나로 처리
+  // 모든 포커스/이동 처리
   const handleSecureNavigate = useCallback(
     (route, focusSection = null) => {
       const requiresPassword = secureRoutes.has(route);
@@ -41,7 +43,7 @@ const MyPageV2 = () => {
     [isPasswordVerified, navigate]
   );
 
-  // 키보드 접근성(Enter/Space)
+  // 키보드 접근성
   const onKeyActivate = (e, fn) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -49,15 +51,9 @@ const MyPageV2 = () => {
     }
   };
 
-  // 로딩 상태 처리
-  if (isLoading) {
-    return <div className="Mypage">로딩 중...</div>;
-  }
-
-  // user null 체크
-  if (!user) {
-    return <div className="Mypage">사용자 정보를 불러올 수 없습니다.</div>;
-  }
+  // 로딩/유저 정보 없을 때 처리
+  if (isLoading) return <div className="Mypage">로딩 중...</div>;
+  if (!user) return <div className="Mypage">사용자 정보를 불러올 수 없습니다.</div>;
 
   return (
     <div className="Mypage">
@@ -67,6 +63,16 @@ const MyPageV2 = () => {
             <div className="profile-img-box">
               <MyProfile profileImageUrl={user?.profileImageUrl} />
               <div>{user?.nickname ?? "닉네임 없음"}</div>
+
+              {/* 권한 표시 영역 */}
+              {user.roles?.length > 0 && (
+                <div className="user-roles">
+                  {user.roles.map((role) => (
+                    <RoleTag key={role} role={role} />
+                  ))}
+                </div>
+              )}
+
               <div className="intro-text">
                 {user?.intro ?? user?.introduction ?? "아직 자기소개가 없습니다."}
               </div>
@@ -81,9 +87,7 @@ const MyPageV2 = () => {
                     tabIndex={0}
                     onClick={() => handleSecureNavigate("activity", "comments")}
                     onKeyDown={(e) =>
-                      onKeyActivate(e, () =>
-                        handleSecureNavigate("activity", "comments")
-                      )
+                      onKeyActivate(e, () => handleSecureNavigate("activity", "comments"))
                     }
                   >
                     작성한 댓글
@@ -93,9 +97,7 @@ const MyPageV2 = () => {
                     tabIndex={0}
                     onClick={() => handleSecureNavigate("activity", "posts")}
                     onKeyDown={(e) =>
-                      onKeyActivate(e, () =>
-                        handleSecureNavigate("activity", "posts")
-                      )
+                      onKeyActivate(e, () => handleSecureNavigate("activity", "posts"))
                     }
                   >
                     작성한 글
@@ -105,9 +107,7 @@ const MyPageV2 = () => {
                     tabIndex={0}
                     onClick={() => handleSecureNavigate("activity", "favorites")}
                     onKeyDown={(e) =>
-                      onKeyActivate(e, () =>
-                        handleSecureNavigate("activity", "favorites")
-                      )
+                      onKeyActivate(e, () => handleSecureNavigate("activity", "favorites"))
                     }
                   >
                     좋아요 한 게시물
@@ -117,9 +117,7 @@ const MyPageV2 = () => {
                     tabIndex={0}
                     onClick={() => handleSecureNavigate("activity", "scraps")}
                     onKeyDown={(e) =>
-                      onKeyActivate(e, () =>
-                        handleSecureNavigate("activity", "scraps")
-                      )
+                      onKeyActivate(e, () => handleSecureNavigate("activity", "scraps"))
                     }
                   >
                     스크랩 한 게시물
@@ -135,9 +133,7 @@ const MyPageV2 = () => {
                     tabIndex={0}
                     onClick={() => handleSecureNavigate("account", "info")}
                     onKeyDown={(e) =>
-                      onKeyActivate(e, () =>
-                        handleSecureNavigate("account", "info")
-                      )
+                      onKeyActivate(e, () => handleSecureNavigate("account", "info"))
                     }
                   >
                     개인 정보 수정
@@ -148,9 +144,7 @@ const MyPageV2 = () => {
                     tabIndex={0}
                     onClick={() => handleSecureNavigate("account", "inquiry")}
                     onKeyDown={(e) =>
-                      onKeyActivate(e, () =>
-                        handleSecureNavigate("account", "inquiry")
-                      )
+                      onKeyActivate(e, () => handleSecureNavigate("account", "inquiry"))
                     }
                   >
                     문의내역
@@ -161,9 +155,7 @@ const MyPageV2 = () => {
                     tabIndex={0}
                     onClick={() => handleSecureNavigate("account", "delete")}
                     onKeyDown={(e) =>
-                      onKeyActivate(e, () =>
-                        handleSecureNavigate("account", "delete")
-                      )
+                      onKeyActivate(e, () => handleSecureNavigate("account", "delete"))
                     }
                     aria-label="회원 탈퇴로 이동"
                   >
@@ -190,11 +182,8 @@ const MyPageV2 = () => {
             setIsPasswordModalOpen(false);
             setIsPasswordVerified(true);
             if (pendingRoute) {
-              if (pendingRouteFocus) {
-                navigate(pendingRoute, { state: { focusSection: pendingRouteFocus } });
-              } else {
-                navigate(pendingRoute);
-              }
+              if (pendingRouteFocus) navigate(pendingRoute, { state: { focusSection: pendingRouteFocus } });
+              else navigate(pendingRoute);
               setPendingRoute(null);
               setPendingRouteFocus(null);
             }

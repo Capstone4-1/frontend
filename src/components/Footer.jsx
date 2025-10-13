@@ -3,32 +3,32 @@ import "./Footer.css";
 
 const Footer = () => {
     return (
-        //todo 나중에 수정
-        <div className="Footer">
+        <footer className="Footer">
             <div className="footer-content">
+                {/* About */}
                 <div className="footer-section">
                     <h4>About Us</h4>
-                    <p>인공지능 공학부 위한 커뮤니티입니다.<br/>중고 교재 거래, 강의 정보 공유 등 다양한 정보를 나눠보세요.</p>
+                     <p>
+                        인공지능 공학부 커뮤니티입니다.<br />
+                        잡담, 질문, 강의 정보 공유, 중고 교재 거래까지 모두 한곳에서 해결하세요!<br />
+                    </p>
                 </div>
-                <div className="footer-section">
-                    <h4>Links</h4>
-                    <ul>
-                        <li><a href="/main/community/notice">공지사항</a></li>
-                        <li><a href="/main/community/market">책장터</a></li>
-                        <li><a href="/main/community/lecture">강의게시판</a></li>
-                    </ul>
-                </div>
+
+              
+
+                {/* Contact */}
                 <div className="footer-section">
                     <h4>Contact</h4>
-                    <p>Email: moai37487@gmail.com</p>
-                    <p>Instagram: @moai_official</p>
-                    <Link to="/support">문의하기</Link>
+                    <p>Email: <a href="mailto:moai37487@gmail.com">moai37487@gmail.com</a></p>
+                    <p>Instagram: <a href="https://instagram.com/moai_official" target="_blank" rel="noopener noreferrer">@moai_official</a></p>
+                    <Link to="/support" className="footer-support">문의하기</Link>
                 </div>
             </div>
+
             <div className="footer-bottom">
                 © 2025 moai_official. All rights reserved.
             </div>
-        </div>
+        </footer>
     );
 };
 

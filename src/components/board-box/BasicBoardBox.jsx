@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Star } from "lucide-react";
 import axiosInstance from "../utils/AxiosInstance";
 import "./BasicBoardBox.css";
 import { getBoardLabel } from "../utils/boardUtils";
@@ -53,20 +52,7 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
   }, [boardType]);
 
   const handlePageChange = (page) => fetchData(page);
-
-  const handleToggleFavorite = async () => {
-    try {
-      if (marked) {
-        await axiosInstance.delete("/board/favorites", { params: { boardType } });
-        setMarked(false);
-      } else {
-        await axiosInstance.post("/board/favorites", { boardType });
-        setMarked(true);
-      }
-    } catch (e) {
-      console.error("❌ 즐겨찾기 토글 실패", e);
-    }
-  };
+  
 
   const handleSearch = ({ filter, query }) => {
     setSearchParams({ filter, query });
@@ -92,16 +78,9 @@ const BasicBoardBox = ({ boardType, handleWriteClick }) => {
       <div className="free-header">
         <div style={{ display: "flex", alignItems: "center" }}>
           <h1 className="Free-title"><b>{boardTitle}</b></h1>
-          <button
-            onClick={handleToggleFavorite}
-            style={{ background: "none", border: "none", cursor: "pointer", marginLeft: 8, padding: 0 }}
-            title="즐겨찾기 추가/제거"
-          >
-            <Star size={20} fill={marked ? "#facc15" : "none"} stroke="#f59e0b" />
-          </button>
+          
         </div>
       </div>
-
       <div>
         <button className="create-btn" onClick={handleWriteButtonClick}>
           글쓰기

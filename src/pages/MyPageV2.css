@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 0;
 }
 
 .Mypage .container {
@@ -24,7 +23,7 @@
 /* 사이드바 */
 .Mypage aside {
   position: sticky;
-  top: 110px;
+  top: 95px;
   align-self: flex-start;
   display: flex;
   flex-direction: column;

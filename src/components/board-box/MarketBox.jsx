@@ -6,6 +6,8 @@ import "./MarketBox.css";
 import SearchBar from "../SearchBar";
 import { UserContext } from "../utils/UserContext"; // ✅ 권한 체크용
 import { toast } from "sonner"; // ✅ 알림
+import PostStats from "../post/PostStats";
+
 
 const MarketBox = ({ boardType = "market", setShowUploadModal }) => {
   const boardTitle = "장터";
@@ -37,21 +39,7 @@ const MarketBox = ({ boardType = "market", setShowUploadModal }) => {
   const handlePageChange = (page) => {
     fetchPosts(page);
   };
-
-  // ✅ 즐겨찾기 토글
-  const toggleFavorite = async () => {
-    try {
-      if (isFavorited) {
-        await axiosInstance.delete("/post/favorites", { params: { boardType } });
-      } else {
-        await axiosInstance.post("/post/favorites", { boardName: boardTitle, boardType });
-      }
-      setIsFavorited(!isFavorited);
-      window.dispatchEvent(new Event("favoritesUpdated"));
-    } catch (e) {
-      console.error("❌ 즐겨찾기 토글 실패", e);
-    }
-  };
+  
 
   // ✅ 검색
   const handleSearch = ({ filter, query }) => {
@@ -80,13 +68,6 @@ const MarketBox = ({ boardType = "market", setShowUploadModal }) => {
       <div className="market-header">
         <div style={{ display: "flex", alignItems: "center" }}>
           <h1 className="Free-title"><b>{boardTitle}</b></h1>
-          <button
-            onClick={toggleFavorite}
-            title="즐겨찾기 추가/제거"
-            style={{ background: "none", border: "none", cursor: "pointer", marginLeft: "8px", padding: 0 }}
-          >
-            <Star size={20} fill={isFavorited ? "#facc15" : "none"} stroke="#f59e0b" />
-          </button>
         </div>
       </div>
 
@@ -122,23 +103,18 @@ const MarketBox = ({ boardType = "market", setShowUploadModal }) => {
                     </p>
 
                     <div className="market-meta">
-                      <span className="writer">{post.writerNickname}</span>
-                      <div className="meta-right">
-                        <span className="like-count">
-                          <Heart size={14} className="heart-icon" />
-                          {likeCnt}
-                        </span>
-                        <span className="comment-count">
-                          <MessageCircle size={14} className="comment-icon" />
-                          {commentCnt}
-                        </span>
-                      </div>
-                    </div>
+  <span className="writer">{post.writerNickname}</span>
+  <PostStats
+    likeCount={likeCnt}
+    commentCount={commentCnt}
+    viewCount={post.viewCount}
+  />
+</div>
 
-                    <div className="market-bottom">
-                      <span className="market-views">조회 {post.viewCount}</span>
-                      <span className="market-date">{post.createdDate?.slice(0, 10)}</span>
-                    </div>
+<div className="market-bottom">
+  <span className="market-date">{post.createdDate?.slice(0, 10)}</span>
+</div>
+
                   </div>
                 </Link>
               </div>

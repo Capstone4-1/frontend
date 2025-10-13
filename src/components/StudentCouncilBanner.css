@@ -1,0 +1,50 @@
+.student-council-banner {
+    display: flex;
+    align-items: flex-start; /* 이미지와 텍스트 상단 맞춤 */
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px; /* 패딩 약간 줄임 */
+    margin-top: 16px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    gap: 12px; /* 이미지와 내용 간 간격 */
+    max-width: 480px; /* 가로 최대폭 제한 */
+}
+
+.banner-poster img {
+    width: 100px; /* 크기 축소 */
+    height: 140px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.banner-content {
+    flex: 1;
+}
+
+.banner-title {
+    font-size: 1.1rem; /* 크기 줄임 */
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.banner-description {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.banner-link {
+    margin-top: 10px;
+}
+
+.banner-link a {
+    font-size: 0.85rem;
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.banner-link a:hover {
+    text-decoration: underline;
+}

@@ -1,99 +1,96 @@
+import { useState } from "react";
 import { createPortal } from "react-dom";
-import "./ProfileModal.css";
-import { ROLE_TITLES_MAP } from "../utils/RoleUtils";
+import { ROLE_DEFS } from "../utils/RoleUtils";
+import RoleTag from "../RoleTag";
+import LockModal from "./LockModal";
+import Exit from "../buttons/Exit";
+import "./Modal.css";
 
+const getRoleDefs = (roles) =>
+  ROLE_DEFS.filter((role) => roles.includes(role.key));
 
 const getRoleIcon = (roles) => {
-    if (roles.includes("SYSTEM")) return "🤖";
-    if (roles.includes("ADMIN")) return "🔧";
-    if (roles.includes("PROFESSOR")) return "👑";
-    if (roles.includes("MANAGER")) return "😄";
-    if (roles.includes("STUDENT_COUNCIL")) return "🎖️"; 
-    if (roles.includes("STUDENT")) return "🎓";
-    return null;
+  if (roles.includes("SYSTEM")) return "🤖";
+  if (roles.includes("ADMIN")) return "🔧";
+  if (roles.includes("PROFESSOR")) return "👑";
+  if (roles.includes("MANAGER")) return "😄";
+  if (roles.includes("STUDENT_COUNCIL")) return "🎖️";
+  if (roles.includes("STUDENT")) return "🎓";
+  return null;
 };
 
-const ProfileModal = ({
-    userInfo,
-    onClose,
-    onAddFriend,
-    onRemoveFriend,
-    friendMessage,
-    isFriendError,
-}) => {
-    if (!userInfo) return null;
+const ProfileModal = ({ userInfo, onClose, onAddFriend, friendMessage, isFriendError }) => {
+  const [showLockModal, setShowLockModal] = useState(false);
+  if (!userInfo) return null;
 
-    return createPortal(
-        <div className="ProfileModal">
-            <div className="ProfileModal__overlay" onClick={onClose}>
-                <div className="ProfileModal__content" onClick={(e) => e.stopPropagation()}>
-                    <div className="ProfileModal__header">
-                        <img
-                            src={userInfo.profileThumbnails || "/default-profile.png"}
-                            alt="프로필"
-                            className="ProfileModal__profile-img"
-                        />
-                        <div className="ProfileModal__name-block">
-                            <h3>
-                                {userInfo.nickname}
-                                {getRoleIcon(userInfo.roles) && (
-                                    <span
-                                        className="role-icon"
-                                        title={userInfo.roles
-                                            .map((r) => ROLE_TITLES_MAP[r])
-                                            .filter(Boolean)
-                                            .join(", ")}
-                                    >
-                                        {getRoleIcon(userInfo.roles)}
-                                    </span>
-                                )}
-                            </h3>
-                            <span className="ProfileModal__username">{userInfo.email}</span>
-                        </div>
-                    </div>
+  const roleDefs = getRoleDefs(userInfo.roles);
 
-                    <div className="ProfileModal__body">
-                        <p><strong>소개:</strong> {userInfo.intro || "소개 정보가 없습니다."}</p>
-                        {userInfo.roles.some(role => ROLE_TITLES_MAP[role]) && (
-                            <div className="user-roles">
-                                <strong>권한:</strong>
-                                {userInfo.roles
-                                    .filter(role => ROLE_TITLES_MAP[role])
-                                    .map((role) => (
-                                        <span className={`role-badge role-${role.toLowerCase()}`} key={role}>
-                                            {ROLE_TITLES_MAP[role]}
-                                        </span>
-                                    ))}
-                            </div>
-                        )}
-                        <div className="modal-actions">
-                            {userInfo.isFriend ? (
-                                <button className="remove-friend-button" onClick={onRemoveFriend}>
-                                    친구 삭제
-                                </button>
-                            ) : (
-                                <button className="action-button" onClick={onAddFriend}>
-                                    친구 추가
-                                </button>
-                            )}
-                            <button className="action-button">쪽지 보내기</button>
-                        </div>
+  return createPortal(
+    <div className="ProfileModalWrapper">
+      <div className="ProfileModalOverlay" onClick={onClose} />
+      <div className="ProfileModalContainer">
 
-                        {friendMessage && (
-                            <p className={`friend-message ${isFriendError ? "error" : "success"}`}>
-                                {friendMessage}
-                            </p>
-                        )}
-                    </div>
+        {/* Header */}
+        <div className="ProfileModalHeader">
+          <div className="ProfileModalAvatarBlock">
+            <img
+              src={userInfo.profileThumbnails || "/default-profile.png"}
+              alt="프로필"
+              className="ProfileModalAvatar"
+            />
+          </div>
 
-                    <div className="ProfileModal__footer">
-                        <button onClick={onClose}>닫기</button>
-                    </div>
-                </div>
+          <div className="ProfileModalNameBlock">
+            <h3 className="ProfileModalNickname">
+              {userInfo.nickname}
+              {getRoleIcon(userInfo.roles) && (
+                <span className="ProfileModalRoleIcon">{getRoleIcon(userInfo.roles)}</span>
+              )}
+            </h3>
+            <span className="ProfileModalUsername">{userInfo.email}</span>
+          </div>
+
+          {/* Exit 버튼 */}
+          <Exit onClose={onClose} className="ProfileModalExit" />
+        </div>
+
+        {/* Body */}
+        <div className="ProfileModalBody">
+          <p className="ProfileModalIntro">
+            <strong>소개:</strong> {userInfo.intro || "소개 정보가 없습니다."}
+          </p>
+
+          {roleDefs.length > 0 && (
+            <div className="ProfileModalRoles">
+              {userInfo.roles.map((role) => (
+                <RoleTag key={role} role={role} />
+              ))}
             </div>
-        </div>,
-        document.body
-    );
+          )}
+
+          <div className="ProfileModalActions">
+            {!userInfo.isFriend && (
+              <button className="ProfileModalBtn" onClick={onAddFriend}>
+                친구 추가
+              </button>
+            )}
+            <button className="ProfileModalBtn" onClick={() => setShowLockModal(true)}>
+              쪽지 보내기
+            </button>
+          </div>
+
+          {friendMessage && (
+            <p className={`ProfileModalMessage ${isFriendError ? "error" : "success"}`}>
+              {friendMessage}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <LockModal isOpen={showLockModal} onClose={() => setShowLockModal(false)} />
+    </div>,
+    document.body
+  );
 };
 
 export default ProfileModal;

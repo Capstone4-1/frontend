@@ -1,3 +1,4 @@
+/* Dashboard 전체 레이아웃 */
 .Dashboard {
     height: 100%;
     min-width: 10px;
@@ -25,141 +26,10 @@
     gap: 2.5rem;
 }
 
-.title-container {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    padding-bottom: 10px;
-}
-
-.Dashboard .div-area {
-    display: flex;
-    gap: 30px;
-    width: 100%;
-    height: auto;
-}
-
-.Dashboard h3 {
-    color: var(--normal-text-color);
-    font-weight: 400;
-    font-size: 0.9rem;
-}
-
-.lectureCard-section {
-    display: flex;
-}
-
-.Dashboard .rightside-container {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    flex-grow: 1;
-    min-width: 10px;
-    width: 500px;
-    max-width: 400px;
-}
-
-.Dashboard .inner-container {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    width: 100%;
-}
-
-.Dashboard .board-area {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: auto;
-}
-
-.Dashboard .div-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 10px;
-    width: 100%;
-    gap: 30px;
-    height: auto;
-}
-
-.Dashboard .half-board-area {
-    min-width: 100px;
-    height: auto;
-}
-
-.Dashboard aside {
-    padding-left: 0;
-    margin-left: 0;
-}
-
-.Dashboard aside ul {
-    position: relative;
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
-.Dashboard aside ul::before {
-    content: "";
-    position: absolute;
-    top: 10px; /* ✅ 위에서 10px 떨어진 지점부터 시작 */
-    bottom: 0;
-    left: 0;
-    width: 0;
-    border-left: 1px solid var(--base-border-color); /* ✅ 원하는 border 색상 */
-    z-index: 0;
-}
-
-.Dashboard aside li {
-    margin-bottom: 0;
-    position: relative;
-    padding-left: 1.2em;
-    font-size: 1rem;
-    /* 마커 이후 텍스트 들여쓰기 */
-    margin-bottom: 10px;
-}
-
-.Dashboard aside li::before {
-    transform: translateY(-30%);
-    content: "•";
-    position: absolute;
-    left: -0.24em;
-    /* 마커 위치를 왼쪽 border 위로 겹치게 조정 */
-    top: 0;
-    color: var(--base-border-color);
-    font-size: 2.5rem;
-    line-height: 1;
-}
-
-/* ✅ InfoBox 반반 균등 */
-.Dashboard .info-area {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-}
-
-.Dashboard .info-area .inner-container {
-    flex: 1; /* 균등 분배 */
-    display: flex;
-    flex-direction: column;
-    min-width: 0; /* ellipsis 동작 위해 필요 */
-}
-
-/* ✅ 긴 제목 자동 줄임 (...) 처리 */
-.Dashboard .info-area .inner-container h3,
-.Dashboard .info-area .inner-container .board-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.Dashboard .marketplace {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
+/* 공통 타이틀 / 헤더 */
 .Dashboard .header-area {
     position: relative;
+    margin-bottom: 10px;
 }
 
 .Dashboard .title {
@@ -172,81 +42,136 @@
     align-items: center;
 }
 
-.Dashboard .marketplace .title {
-    margin-bottom: var(--spacing-2);
+/* div-area 공통 */
+.Dashboard .div-area {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    height: auto;
 }
 
-.Dashboard .title svg {
-    width: var(--spacing-4);
-    margin-right: 8px;
-    color: #333;
+/* InfoBox */
+.Dashboard .info-area {
+    display: flex;
+    gap: 20px;
+    width: 100%;
 }
 
-.Dashboard .content-area {
-    background: #fff;
-    box-shadow: var(--board-shadow-color);
-    border-radius: 1.5rem;
-    padding: var(--spacing-3) var(--spacing-4);
-}
-
-/* ✅ 급식 영역 */
-.daily-area {
-    width: 400px;
-    padding: 20px;
-    background-color: white;
+.Dashboard .info-area .inner-container {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--base-border-color); /* ✅ 원하는 border 색상 */
-    gap: 10%;
+    min-width: 0;
 }
 
-@media (max-width: 1180px) {
-    .Dashboard {
-        padding-left: 20px;
+.Dashboard .info-area .inner-container h3,
+.Dashboard .info-area .inner-container .board-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 이벤트 배너 */
+.Dashboard .banner-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* MainBanner 1컬럼 */
+.Dashboard .banner-area.banner-grid-1 .banner-list ul {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* MainBanner 2컬럼 */
+.Dashboard .banner-area.banner-grid-2 .banner-list ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.Dashboard .banner-list li {
+    width: 100%;
+    display: flex;
+}
+
+.Dashboard .MainBanner {
+    width: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.Dashboard .MainBanner:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 미디어 리스트 (최대 3개) */
+.Dashboard .media-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.Dashboard .media-list>* {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+
+/* 중고책 장터 */
+.Dashboard .marketplace {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* 오늘의 식단 */
+.Dashboard .daily-area {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 기본: 보임 */
+.desktop-only {
+    display: block;
+}
+
+/* 모바일: 숨김 */
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
     }
 
-    .Dashboard .Content-container {
-        gap: var(--medium-screen-gap);
-        display: block;
-        width: 100%;
+    .Dashboard .media-list {
+        grid-template-columns: 1fr;
     }
 
-    .Dashboard .main-container {
-        width: 100%;
-    }
-
-    .Dashboard .rightside-container {
-        width: 100%;
+    .Dashboard .banner-area.banner-grid-2 .banner-list ul {
+        grid-template-columns: 1fr;
     }
 
     .Dashboard .info-area {
-        gap: 20px;
-    }
+        flex-direction: column;
+}
 }
 
-/* 모바일 화면 */
-@media (max-width: 767px) {
-    .Dashboard .info-area {
+/* 반응형 미디어 그리드 */
+@media (max-width: 1024px) {
+    .Dashboard .media-list {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+    }
+
+
+    .Dashboard .daily-area {
+        width: 250px;
+        display: flex;
         flex-direction: column;
-        gap: 20px;
-    }
-
-    .Dashboard .div-container {
-        flex-direction: column;
-        gap: var(--small-screen-gap);
-    }
-
-    .Dashboard .half-board-area {
-        max-width: 100%;
-    }
-
-    .Dashboard .div-area {
-        flex-direction: column;
-    }
-
-    .Dashboard .title svg {
-        width: 18px;
-        margin-right: 6px;
-        margin-top: 1px;
     }
 }

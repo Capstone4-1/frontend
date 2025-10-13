@@ -1,211 +1,282 @@
-.FriendModal .container {
-    padding: 0;
-    gap: 0;
+.FriendModal {
+  --friend-modal-width: min(500px, 85vw);
+  --friend-modal-min-height: 400px;
+  --friend-modal-max-height: 75vh;
+}
+
+.FriendModal .container.card {
+  width: var(--friend-modal-width);
+  height: var(--friend-modal-height);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+@keyframes modalIn {
+  from { transform: translateY(6px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
 }
 
 .FriendModal .friend-modal-header {
-    display: flex;
-    width: 100%;
-    position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  width: 100%;
+  position: relative;
+  background: #f7f8fa;
+  border-bottom: 1px solid #e9edf3;
 }
 
 .FriendModal .tab {
-    display: flex;
-    cursor: pointer;
-    font-size: var(--font-size-2xs);
-    font-weight: 700;
-    line-height: 1.25;
-    padding: var(--spacing-2-5) 0;
-    border-bottom: solid 1.5px var(--point-text-color-blue);
-    flex-basis: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
-    justify-content: center;
-    opacity: 0.3;
-    color: black;
-    transition: opacity 0.25s ease-in-out;
+  display: inline-flex;
+  flex: 1 1 0;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0.875rem 0;
+  cursor: pointer;
+  font-size: var(--font-size-2xs);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #2b2f36;
+  opacity: 0.55;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
 }
 
 .FriendModal .tab.active {
-    opacity: 1;
+  opacity: 1;
+  color: var(--point-text-color-blue);
+  border-bottom-color: var(--point-text-color-blue);
+  background: #ffffff;
 }
 
-.FriendModal .tab span {
-    line-height: 1.125;
-    color: var(--point-text-color-blue);
+.FriendModal .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1;
+  background: #dfe5ee;
+  color: #556070;
 }
 
-.Modal .exit-btn {
-    position: absolute;
-    top: 15%;
-    top: 25%;
-    right: var(--spacing-3);
+.FriendModal .badge.primary {
+  background: #e8f3ff;
+  color: var(--point-text-color-blue);
 }
 
-.Modal .exit-btn svg {
-    width: var(--spacing-3-5);
-    height: var(--spacing-3-5);
+.FriendModal .exit-btn {
+  position: absolute;
+  top: 50%;
+  right: var(--spacing-3);
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
 }
 
-.FriendModal .search-section {
-    padding: 0.5rem var(--spacing-3);
+.FriendModal .exit-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
-.FriendModal .search-box {
-    height: var(--spacing-6);
+.FriendModal .section {
+  padding: 0.5rem var(--spacing-3);
+  flex: 0 0 auto;
 }
 
-.FriendModal .Friends-List {
-    min-height: var(--spacing-42);
-    overflow: hidden auto;
-    border-radius: 0.75rem;
-    height: auto;
-    display: flex;
-    flex-direction: column;
+.FriendModal .section--padded {
+  padding: 1rem var(--spacing-3) 0.5rem;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.FriendModal .search-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.FriendModal .Friends-List,
+.FriendModal .requests-box {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.FriendModal .section--padded .requests-box {
+  flex: 1 1 auto;
 }
 
 .FriendModal .Friends-Item {
-    width: 100%;
-    max-width: 100%;
-    display: block;
+  width: 100%;
+  max-width: 100%;
+  display: block;
 }
 
 .FriendModal .friend-item-section {
-    display: flex;
-    padding: 0.5rem var(--spacing-3);
-    overflow: visible;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem var(--spacing-3);
+  border-bottom: 1px solid #f0f2f5;
 }
 
 .FriendModal .ProfileTemplate__profile-img {
-    max-width: 100%;
-    display: flex;
-    width: var(--spacing-8);
-    height: var(--spacing-8);
+  width: var(--spacing-8);
+  height: var(--spacing-8);
 }
 
 .FriendModal .ProfileTemplate__profile-name {
-    font-size: var(--font-size-xs);
-    line-height: 1.29;
+  font-size: var(--font-size-sm);
+  line-height: 1.35;
 }
 
-.FriendModal .friend-del-btn {
-    background-color: #f0f2f5;
-    padding: 0 var(--spacing-2-5);
-    height: var(--spacing-5);
-    border-radius: 0.5rem;
-    font-size: var(--font-size-2xs);
+.FriendModal .btn {
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+  font-size: var(--font-size-2xs);
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.04s ease,
+              background 0.2s ease,
+              box-shadow 0.2s ease,
+              opacity 0.2s ease;
 }
 
-.FriendModal .friend-del-btn:hover {
-    background-color: #e7eaee;
+.FriendModal .btn:active { transform: translateY(1px); }
+
+.FriendModal .btn--primary {
+  background: var(--point-text-color-blue);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(39, 112, 255, 0.18);
 }
 
-.FriendModal .friend-del-btn:active {
-    transform: scale(0.98);
+.FriendModal .btn--primary:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
 }
 
-.Modal .requests-box {
-    display: block;
-    width: 100%;
-    flex-grow: 1;
-    overflow: auto;
-    border: 1px solid var(--base-border-color);
-    border-radius: 6px;
-    box-sizing: border-box;
-    box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1);
+.FriendModal .btn--ghost {
+  background: #f0f2f5;
+  color: #1f2937;
 }
 
-.Modal .request-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    align-items: center;
-    margin: 8px;
-}
-.request-tap-btn {
-    position: relative;
-    background-color: transparent;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
+.FriendModal .request-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px;
+  gap: 12px;
 }
 
-.Modal .request-tap-btn:hover {
-    opacity: 0.7;
-}
-.Modal .request-btn {
-    color: white;
-    border-radius: 6px;
-    position: relative;
-    background-color: transparent;
-    background-color: var(--point-green);
-    border: none;
-    cursor: pointer;
-    padding: 2px;
+.FriendModal .request-container--card {
+  background: #fafbfc;
+  border: 1px solid #edf1f7;
+  border-radius: 12px;
+  padding: 12px 14px;
 }
 
-.Modal .request-btn:hover {
-    background-color: var(--point-focus-green);
-}
-.request-btn.accept {
-    color: white;
-    background-color: var(--point-green); /* 녹색 */
-}
-
-.request-btn.decline {
-    color: black;
-    background-color: white;
+.FriendModal .request-container--row {
+  background: #fff;
+  border: 1px solid #edf1f7;
+  border-radius: 10px;
+  padding: 10px 12px;
 }
 
-.Modal .exit-btn {
-    width: 15px;
-    height: 15px;
-    background-size: contain;
-    background-color: transparent;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    filter: brightness(0.8);
+.FriendModal .search-result-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.Modal .exit-btn:hover {
-    opacity: 0.5;
-    /* 마우스 올릴 때 약간 투명해짐 */
+.FriendModal .profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #eef1f5;
+  background: #fff;
 }
 
-.search-result-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.FriendModal .nickname {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: #1f2937;
 }
 
-.profile-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
+.FriendModal .actions {
+  display: inline-flex;
+  gap: 8px;
 }
 
-/* FriendModal.css */
-
-.friend-message {
-    font-size: 0.8rem;
-    margin-top: 8px;
-    margin-left: 4px;
+.FriendModal .friend-message {
+  font-size: 0.85rem;
+  margin-top: 10px;
+  margin-left: 2px;
 }
 
-.friend-message.success {
-    color: green;
+.FriendModal .friend-message.success { color: #16a34a; }
+.FriendModal .friend-message.error   { color: #dc2626; }
+
+.FriendModal .empty-state {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  padding: 24px 8px;
+  text-align: center;
+  color: #98a2b3;
 }
 
-.friend-message.error {
-    color: red;
+.FriendModal .empty-icon  { font-size: 28px; line-height: 1; opacity: 0.85; }
+.FriendModal .empty-title { font-size: 0.95rem; font-weight: 700; color: #7a8797; margin: 0; }
+.FriendModal .empty-desc  { font-size: 0.8rem;  color: #9aa6b2; margin: 0; }
+
+.FriendModal .empty-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 @media (max-width: 600px) {
-    .Modal .container {
-        width: 90vw;
-    }
+  .FriendModal {
+    --friend-modal-width: 88vw;          
+    --friend-modal-height: min(55vh, 400px); 
+  }
+
+  .FriendModal .friend-item-section { padding: 0.5rem 0.6rem; }
+  .FriendModal .request-container { margin: 4px; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

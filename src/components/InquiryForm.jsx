@@ -2,9 +2,10 @@
 import { useState } from "react";
 import "./InquiryForm.css";
 import axiosInstance from "./utils/AxiosInstance";
-import { ROLE_TITLES } from "./utils/roleUtils";
 import { InquiryCategories, buildInquiryPayload, isRoleRequest } from "./utils/InquiryUtils";
+import { ROLE_DEFS } from "./utils/RoleUtils";
 import { toast } from "sonner";
+
 const InquiryForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -22,18 +23,16 @@ const InquiryForm = () => {
     try {
       const payload = buildInquiryPayload(title, content, category, targetRole);
 
-      const response = await axiosInstance.post("/inquiry", payload, {
-        withCredentials: true,
-      });
+      await axiosInstance.post("/inquiry", payload, { withCredentials: true });
 
-      toast.success("문의가 정상적으로 제출되었습니다!")
+      toast.success("문의가 정상적으로 제출되었습니다!");
       setTitle("");
       setContent("");
       setCategory("GENERAL");
       setTargetRole("");
     } catch (error) {
       console.error("문의 등록 실패:", error);
-      toast.error("문의 등록 중 오류가 발생했습니다.")
+      toast.error("문의 등록 중 오류가 발생했습니다.");
     }
   };
 
@@ -50,7 +49,7 @@ const InquiryForm = () => {
             onChange={(e) => setCategory(e.target.value)}
           >
             {InquiryCategories.map((item) => (
-              <option key={item.value} value={item.value}>
+              <option key={item.value} value={item.value} title={item.label || item.value}>
                 {item.label || item.value}
               </option>
             ))}
@@ -68,9 +67,13 @@ const InquiryForm = () => {
               required
             >
               <option value="">권한 선택</option>
-              {ROLE_TITLES.map((role) => (
-                <option key={role.value} value={role.value}>
-                  {role.label} {/* 화면에 한글 표시 */}
+              {ROLE_DEFS.map((role) => (
+                <option
+                  key={role.value}
+                  value={role.value}
+                  title={role.title}
+                >
+                  {role.title} {/* 화면에는 한글 태그 표시 */}
                 </option>
               ))}
             </select>

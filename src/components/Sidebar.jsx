@@ -35,13 +35,6 @@ const Sidebar = ({ isOpen, onClose }) => {
                         </li>
 
                         {/* ✅ 관리자 페이지 */}
-                        <li onClick={onClose}>
-                            <Link to="/admin" className="sidebar-link">
-                                <Shield size={18} />
-                                <span>관리자 페이지</span>
-                            </Link>
-                        </li>
-
                         {/* ✅ 메일함 (chat-mail) */}
                         <li onClick={onClose}>
                             <Link to="/chat-mail" className="sidebar-link">

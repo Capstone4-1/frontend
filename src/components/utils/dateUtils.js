@@ -1,7 +1,7 @@
 export const getRelativeTime = (date) => {
     const now = new Date();
     const diff = now - new Date(date);
-    const seconds = Math.floor(diff / 1000);
+    const seconds = Math.max(Math.floor(diff / 1000), 0); // ✅ 음수면 0으로 보정
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);

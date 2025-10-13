@@ -1,0 +1,37 @@
+.MediaBox {
+  position: relative;
+  display: flex;              /* flexbox로 가운데 정렬 준비 */
+  justify-content: center;    /* 가로 가운데 */
+  align-items: center;        /* 세로 가운데 */
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+  background-size: cover;     /* 배경 꽉 채우기 */
+  background-position: center;
+}
+
+.MediaBox:hover {
+  transform: scale(1.03);
+}
+
+.MediaBox-overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3); /* 반투명 덮개 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MediaBox:hover .MediaBox-overlay {
+  background: rgba(0,0,0,0.5);
+}
+
+.MediaBox-playButton {
+  color: white;
+  background: rgba(0,0,0,0.6);
+  border-radius: 50%;
+  padding: 12px;
+}

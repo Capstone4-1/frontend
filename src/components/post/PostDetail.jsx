@@ -6,12 +6,12 @@ import { UserContext } from "../utils/UserContext";
 import CommentBox from "./CommentBox";
 import MenuButton from "./MenuButton";
 import "./PostDetail.css";
-import { Heart, Check, List, Bookmark } from "lucide-react";
-import { useEffect, useState, useRef, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-
+import { Heart, Check, List, Bookmark, ChevronsRight, Eye } from "lucide-react";
+import { useEffect, useState, useRef, useContext, useMemo } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 // 좋아요 API 함수
 import { toast } from "sonner";
+
 const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
@@ -32,7 +32,6 @@ const PostDetail = () => {
     const navigate = useNavigate();
     const { hasRole, user } = useContext(UserContext); // ✅ 현재 로그인 사용자 권한 확인
 
-
     useEffect(() => {
         fetchPost();
         fetchComments();
@@ -46,9 +45,56 @@ const PostDetail = () => {
             setPost(postData);
             setLikenum(postData.likeCount || 0);
             setLiked(postData.isLike || false);
-            setScrapped(postData.isScrap || false);
+            setScrapped(postData.isScrapped || false);
         } catch (err) {
             console.error("❌ 게시글 상세 불러오기 실패:", err);
+        }
+    };
+
+    // 첨부파일 없으면 렌더링 안 하기
+    const cleanedContent = useMemo(() => {
+        if (!post?.content) return "";
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(post.content, "text/html");
+
+        const fileUl = doc.querySelector("ul.file");
+        if (fileUl && fileUl.querySelectorAll("li").length === 0) {
+            const tr = fileUl.closest("tr");
+            if (tr) tr.remove();
+        }
+
+        return doc.body.innerHTML;
+    }, [post?.content]);
+
+    // 게시글 작성일 포맷팅
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+
+        return `${year}.${month}.${day} ${hours}:${minutes}`;
+    };
+
+    // 스크랩 버튼 클릭 핸들러
+    const handleScrapBtnClick = async () => {
+        try {
+            if (!scrapped) {
+                await axiosInstance.post(`/post/${postId}/scrap`);
+                setScrapped(true);
+                toast.success(
+                    "게시물이 스크랩되었습니다. 마이페이지에서 확인해보세요!",
+                );
+            } else {
+                await axiosInstance.post(`/post/${postId}/unScrap`);
+                setScrapped(false);
+                toast.success("스크랩이 해제되었습니다.");
+            }
+        } catch (err) {
+            console.error("❌ 스크랩 토글 실패:", err);
+            toast.error("스크랩 처리 중 오류가 발생했습니다.");
         }
     };
 
@@ -99,10 +145,10 @@ const PostDetail = () => {
             prev.map((c) =>
                 c.id === commentId
                     ? {
-                        ...c,
-                        liked: !c.liked,
-                        likes: (c.likes || 0) + (c.liked ? -1 : 1),
-                    }
+                          ...c,
+                          liked: !c.liked,
+                          likes: (c.likes || 0) + (c.liked ? -1 : 1),
+                      }
                     : c,
             ),
         );
@@ -131,7 +177,8 @@ const PostDetail = () => {
 
     const canComment = () =>
         user?.roles?.some(
-            (role) => roleHierarchy.indexOf(role) >= roleHierarchy.indexOf("STUDENT")
+            (role) =>
+                roleHierarchy.indexOf(role) >= roleHierarchy.indexOf("STUDENT"),
         );
 
     const handleCommentSubmit = async () => {
@@ -141,7 +188,11 @@ const PostDetail = () => {
         }
 
         const now = Date.now();
-        if (!newComment.trim() || isSubmitting || now - lastSubmitTime.current < 1000)
+        if (
+            !newComment.trim() ||
+            isSubmitting ||
+            now - lastSubmitTime.current < 1000
+        )
             return;
 
         setIsSubmitting(true);
@@ -154,37 +205,8 @@ const PostDetail = () => {
             setNewComment("");
             await fetchComments();
         } catch (err) {
-            const message = err.response?.data?.message || "댓글 등록에 실패했습니다.";
-            toast.error(message);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    const handleReplySubmit = async (parentId) => {
-        if (!canComment()) {
-            toast.error("권한이 없습니다");
-            return;
-        }
-
-        const now = Date.now();
-        if (!replyContent.trim() || isSubmitting || now - lastSubmitTime.current < 1000)
-            return;
-
-        setIsSubmitting(true);
-        lastSubmitTime.current = now;
-
-        try {
-            await axiosInstance.post(`/post/${postId}/comments`, {
-                content: replyContent,
-                parentId,
-                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`,
-            });
-            setReplyContent("");
-            setReplyingTo(null);
-            await fetchReplies(parentId);
-        } catch (err) {
-            const message = err.response?.data?.message || "답글 등록에 실패했습니다.";
+            const message =
+                err.response?.data?.message || "댓글 등록에 실패했습니다.";
             toast.error(message);
         } finally {
             setIsSubmitting(false);
@@ -208,19 +230,38 @@ const PostDetail = () => {
         }
     };
 
-    // 스크랩 버튼 클릭 핸들러
-    const handleScrapBtnClick = async () => {
+    const handleReplySubmit = async (parentId) => {
+        if (!canComment()) {
+            toast.error("권한이 없습니다");
+            return;
+        }
+
+        const now = Date.now();
+        if (
+            !replyContent.trim() ||
+            isSubmitting ||
+            now - lastSubmitTime.current < 1000
+        )
+            return;
+
+        setIsSubmitting(true);
+        lastSubmitTime.current = now;
+
         try {
-            if (!scrapped) {
-                const res = await axiosInstance.post(`/post/${postId}/scrap`);
-                setScrapped(true);
-            } else {
-                const res = await axiosInstance.delete(`/post/${postId}/scrap`);
-                setScrapped(false);
-            }
+            await axiosInstance.post(`/post/${postId}/comments`, {
+                content: replyContent,
+                parentId: parentId,
+                targetUrl: `/main/community/${post.boardType.toLowerCase()}/post/${post.id}`,
+            });
+            setReplyContent("");
+            setReplyingTo(null);
+            await fetchReplies(parentId);
         } catch (err) {
-            console.error("❌ 스크랩 토글 실패:", err);
-            toast.error("스크랩 처리 중 오류가 발생했습니다.");
+            const message =
+                err.response?.data?.message || "답글 등록에 실패했습니다.";
+            toast.error(message);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -233,29 +274,6 @@ const PostDetail = () => {
                 <div className="post-title-with-like">
                     <h2 className="post-title">{post.title}</h2>
                     <div className="like-container">
-                        <button
-                            className={`like-toggle-button${liked ? " liked" : ""}`}
-                            onClick={handleLikeBtnClick}
-                        >
-                            <Heart
-                                color={liked ? "#e74c3c" : "#aaa"}
-                                fill={liked ? "#e74c3c" : "none"}
-                            />
-                        </button>
-                        <span>{likenum}</span>
-
-                        {/* 스크랩 버튼 */}
-                        <button
-                            className={`scrap-btn${scrapped ? " scrapped" : ""}`}
-                            onClick={handleScrapBtnClick}
-                        >
-                            <Bookmark
-                                color={scrapped ? "#3399ff" : "#aaa"}
-                                fill={scrapped ? "#3399ff" : "none"}
-                            />
-                            <span>스크랩</span>
-                        </button>
-
                         {post.isAuthor && (
                             <MenuButton
                                 onEdit={() =>
@@ -268,7 +286,6 @@ const PostDetail = () => {
                         )}
                     </div>
                 </div>
-
                 <div className="post-meta">
                     {post.boardType === "SECRET" ? (
                         <div className="anonymous-writer">익명</div>
@@ -279,9 +296,31 @@ const PostDetail = () => {
                             id={post.writerId}
                         />
                     )}
-                    <div>
-                        {post.createdDate?.slice(0, 10)} | 조회 {post.viewCount}
-
+                    <div className="info-area">
+                        <div className="info-left">
+                            <div className="date">
+                                {post.createdDate
+                                    ? formatDate(new Date(post.createdDate))
+                                    : ""}
+                            </div>
+                            <div className="view">
+                                <Eye />
+                                {post.viewCount}
+                            </div>
+                        </div>
+                        <div className="info-right">
+                            {/* 스크랩 버튼 */}
+                            <button
+                                className={`scrap-btn${scrapped ? " scrapped" : ""}`}
+                                onClick={handleScrapBtnClick}
+                            >
+                                <Bookmark
+                                    color={scrapped ? "#2b85e4" : "#aaa"}
+                                    fill={scrapped ? "#2b85e4" : "none"}
+                                />
+                                <span>스크랩</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -322,10 +361,36 @@ const PostDetail = () => {
                             <div
                                 className="post-content"
                                 dangerouslySetInnerHTML={{
-                                    __html: post.content,
+                                    __html: cleanedContent,
                                 }}
                             ></div>
                         </section>
+                        {post.targetUrl && (
+                            <Link
+                                to={post.targetUrl}
+                                target="_blank"
+                                className="link-area"
+                            >
+                                {post.boardType === "NOTICE_UNIV"
+                                    ? "학교"
+                                    : "학과"}{" "}
+                                홈페이지에서 보기 <ChevronsRight />
+                            </Link>
+                        )}
+
+                        {/* 좋아요 버튼 */}
+                        <div className="react-area">
+                            <button
+                                className={`like-toggle-button${liked ? " liked" : ""}`}
+                                onClick={handleLikeBtnClick}
+                            >
+                                <Heart
+                                    color={liked ? "#e74c3c" : "#aaa"}
+                                    fill={liked ? "#e74c3c" : "none"}
+                                />
+                            </button>
+                            <span>{likenum}</span>
+                        </div>
                     </>
                 )}
 
@@ -335,8 +400,9 @@ const PostDetail = () => {
                     </span>
                     <div className="sort-controls">
                         <button
-                            className={`sort-button ${sortOrder === "oldest" ? "active" : ""
-                                }`}
+                            className={`sort-button ${
+                                sortOrder === "oldest" ? "active" : ""
+                            }`}
                             onClick={() => {
                                 setSortOrder("oldest");
                                 setComments(sortComments(comments, "oldest"));
@@ -347,8 +413,9 @@ const PostDetail = () => {
                             등록순
                         </button>
                         <button
-                            className={`sort-button ${sortOrder === "newest" ? "active" : ""
-                                }`}
+                            className={`sort-button ${
+                                sortOrder === "newest" ? "active" : ""
+                            }`}
                             onClick={() => {
                                 setSortOrder("newest");
                                 setComments(sortComments(comments, "newest"));

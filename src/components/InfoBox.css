@@ -64,8 +64,8 @@
 /* 리스트 영역 */
 .InfoBox .list-area {
     height: calc(65px * 6 + 44px);
-    border-radius: 24px;
     margin: 14px 0 0;
+    border-radius: 24px;
     border: 1px solid var(--base-border-color);
     box-shadow: var(--board-shadow-color);
     background-color: white;
@@ -182,5 +182,13 @@
 
     .InfoBox .list {
         padding: 16px 20px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .InfoBox .left-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 }

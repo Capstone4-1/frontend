@@ -2,6 +2,9 @@
 import axios from "axios";
 import refreshAccessToken from "./refreshAccessToken";
 
+// 개발 환경 체크
+const isDev = import.meta.env.MODE === "development";
+
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL + "/api",
   headers: { "Content-Type": "application/json" },
@@ -27,23 +30,27 @@ function onRefreshed(token) {
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log(`📥 [${response.data.message || "No message"}]`, {
-      url: response.config?.url,
-      method: response.config?.method,
-      status: response.status,
-      data: response.data,
-    });
+    if (isDev) {
+      console.log(`📥 [${response.data.message || "No message"}]`, {
+        url: response.config?.url,
+        method: response.config?.method,
+        status: response.status,
+        data: response.data,
+      });
+    }
     return response;
   },
   async (error) => {
     const originalRequest = error.config;
 
-    console.error("❌ [Axios Error Response]", {
-      url: error.config?.url,
-      method: error.config?.method,
-      status: error.response?.status,
-      data: error.response?.data,
-    });
+    if (isDev) {
+      console.error("❌ [Axios Error Response]", {
+        url: error.config?.url,
+        method: error.config?.method,
+        status: error.response?.status,
+        data: error.response?.data,
+      });
+    }
 
     const isExpired =
       error.response?.status === 401 &&

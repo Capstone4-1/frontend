@@ -27,11 +27,16 @@ export const declineFriendRequest = async (idToDecline) => {
 };
 
 export const getRequestFriendList = async () => {
-  const res = await axiosInstance.get("/friend/request-friend-list");
-  return res.data.requestMemberList;
+    const res = await axiosInstance.get("/friend/request-friend-list");
+    return res.data.requestMemberList;
 };
 
 export const getMyFriends = async () => {
-  const res = await axiosInstance.get("/friend/my-friends");
-  return res.data.acceptMemberDtoList;
+    const res = await axiosInstance.get("/friend/my-friends");
+    return res.data.acceptMemberDtoList;
+};
+
+export const removeFriend = async (targetId) => {
+    const res = await axiosInstance.delete(`/friend/${targetId}`);
+    return res.data;
 };

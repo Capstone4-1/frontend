@@ -1,0 +1,52 @@
+.lock-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* bg-black/50 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.lock-modal-content {
+    background: white;
+    border-radius: 0.5rem; /* rounded-lg */
+    padding: 2rem 3.5rem; /* px-14 py-8 */
+    max-width: 28rem; /* max-w-md */
+    margin: 0 1rem; /* mx-4 */
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* shadow-2 */
+}
+
+.lock-modal-icon {
+    font-size: 3.75rem; /* text-6xl */
+    margin-bottom: 1rem;
+}
+
+.lock-modal-title {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #1f2937; /* text-gray-800 */
+}
+
+.lock-modal-text {
+    color: #4b5563; /* text-gray-600 */
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.lock-modal-button {
+    background-color: #3b82f6; /* blue-500 */
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem; /* py-2 px-6 */
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.lock-modal-button:hover {
+    background-color: #2563eb; /* blue-600 */
+}

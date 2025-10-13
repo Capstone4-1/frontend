@@ -3,24 +3,24 @@ import Friends from "./Friends";
 import "./Header.css";
 import MailBox from "./MailBox";
 import MobileMenu from "./MobileMenu";
-import MyProfile from "./Myprofile";
 import Sidebar from "./Sidebar";
+import { useLockModal } from "./hooks/useLockModal";
+import LockModal from "./modals/LockModal";
 import axiosInstance from "./utils/AxiosInstance";
+import { roleHierarchy } from "./utils/RoleUtils";
 import { UserContext } from "./utils/UserContext";
 import { Menu } from "lucide-react";
 import { useContext, useEffect, useState, useRef } from "react";
 import {
-    FcAdvertising,
+    FcQuestions,
     FcGraduationCap,
     FcManager,
-    FcRating,
     FcCollaboration,
     FcLock,
     FcSms,
     FcPaid,
 } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import { roleHierarchy } from "./utils/RoleUtils";
 
 function Header() {
     const { user } = useContext(UserContext);
@@ -35,6 +35,9 @@ function Header() {
 
     const openSidebar = () => setSidebarOpen(true);
     const closeSidebar = () => setSidebarOpen(false);
+
+    const { isLockModalOpen, closeLockModal, handleLockedItemClick } =
+        useLockModal();
 
     const handleLogout = async () => {
         try {
@@ -177,7 +180,13 @@ function Header() {
             label: "커뮤니티",
             basePath: "/main/community/free",
             subMenus: [
-                
+
+                {
+                    title: "질문 게시판",
+                    desc: "학습을 위한 질문을 하는 공간이에요.",
+                    icon: <FcQuestions />,
+                    to: "/main/community/qna",
+                },
                 {
                     title: "자유 게시판",
                     desc: "자유롭게 이야기를 나눠보세요.",
@@ -196,6 +205,7 @@ function Header() {
                     icon: <FcSms />,
                     to: "/main/community/review",
                 },
+        
             ],
         },
         {
@@ -214,6 +224,7 @@ function Header() {
             label: "스터디룸",
             basePath: "/main/study-dashboard",
             subMenus: [],
+            locked: true,
         },
     ];
 
@@ -221,12 +232,24 @@ function Header() {
         gnbData.map((menu, idx) => (
             <div key={idx} className="tooltip-area">
                 <div className="tooltip-label">
-                    <Link
-                        to={menu.basePath}
-                        className={`gnb-title ${location.pathname.startsWith(menu.basePath) ? "on" : ""}`}
-                    >
-                        {menu.label}
-                    </Link>
+                    {menu.locked ? (
+                        <button
+                            onClick={handleLockedItemClick}
+                            className="gnb-title"
+                        >
+                            {menu.label}
+                        </button>
+                    ) : (
+                        <Link
+                            to={menu.basePath}
+                            className={`gnb-title ${location.pathname.startsWith(menu.basePath)
+                                    ? "on"
+                                    : ""
+                                }`}
+                        >
+                            {menu.label}
+                        </Link>
+                    )}
                 </div>
                 {menu.subMenus.length > 0 && (
                     <div className="tooltip">
@@ -260,11 +283,6 @@ function Header() {
         <div className={`header ${isScrolled ? "shadow" : ""}`}>
             <div className="header-container">
                 <div className="header-inner">
-                    {!isMobile && (
-                        <button className="menu-btn" onClick={openSidebar}>
-                            <Menu size={24} />
-                        </button>
-                    )}
                     <Link to="/main" className="logo-btn">
                         <img src="/icons/logo.svg" alt="모아이 로고" />
                     </Link>
@@ -288,16 +306,14 @@ function Header() {
                         </div>
                         {!isMobile && (
                             <div className="btn-wrap more-gap">
-                                <button
-                                    aria-label="프로필"
+                                <div
                                     className="header-btn profile"
-                                >
-                                    <MyProfile
-                                        profileImageUrl={
-                                            user?.profileThumbnails
-                                        }
-                                    />
-                                </button>
+                                    style={{
+                                        backgroundImage: `url(${user?.profileThumbnails || "/default-profile.png"})`,
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                    }}
+                                />
                                 <div className="profile-menu-list-area">
                                     <ul className="profile-menu-list">
                                         {profileMenuItems.map((item, index) => (
@@ -328,18 +344,22 @@ function Header() {
                         )}
                     </div>
 
-                    {user?.roles?.some(role => roleHierarchy.indexOf(role) >= roleHierarchy.indexOf("STUDENT_COUNCIL")) && (
-                        <div className="header-wrap">
-                            <div className="btn-wrap">
-                                <button
-                                    className="admin-btn"
-                                    onClick={goToAdminPage}
-                                >
-                                    관리자
-                                </button>
+                    {user?.roles?.some(
+                        (role) =>
+                            roleHierarchy.indexOf(role) >=
+                            roleHierarchy.indexOf("STUDENT_COUNCIL"),
+                    ) && (
+                            <div className="header-wrap">
+                                <div className="btn-wrap">
+                                    <button
+                                        className="admin-btn"
+                                        onClick={goToAdminPage}
+                                    >
+                                        관리자
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
                 </div>
 
                 <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
@@ -351,6 +371,7 @@ function Header() {
                     newMailCount={newMailCount}
                 />
             </div>
+            <LockModal isOpen={isLockModalOpen} onClose={closeLockModal} />
         </div>
     );
 }

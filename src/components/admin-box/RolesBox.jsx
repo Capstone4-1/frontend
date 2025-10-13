@@ -1,17 +1,27 @@
-// RolesBox.jsx
+// src/components/RolesBox.jsx
 import { useState } from "react";
 import "./RolesBox.css";
 import axiosInstance from "../utils/AxiosInstance";
-import { ROLE_OPTIONS } from "../utils/RoleUtils";
+import { ROLE_DEFS } from "../utils/RoleUtils";
 import { toast } from "sonner";
+import RoleTag from "../RoleTag";
+
+// ROLE_DEFS 기반으로 ROLE_OPTIONS 생성
+const ROLE_OPTIONS = ROLE_DEFS.map((r) => ({ label: r.title, value: r.value }));
+
 const RolesBox = () => {
   const [filters, setFilters] = useState({ username: "", name: "", role: "" });
   const [users, setUsers] = useState([]);
   const [searched, setSearched] = useState(false);
   const [selectedRole, setSelectedRole] = useState("STUDENT");
 
+  // 역할 key → 한글 매핑
+  const getRoleTitle = (key) => {
+    const role = ROLE_DEFS.find((r) => r.value === key);
+    return role ? role.title : key;
+  };
 
-
+  // 사용자 검색
   const handleSearch = async () => {
     try {
       const res = await axiosInstance.get("/admin/search-users", {
@@ -24,44 +34,42 @@ const RolesBox = () => {
       setUsers(res.data);
       setSearched(true);
     } catch (err) {
-      toast.error(err.response.data.message)
+      toast.error(err.response?.data?.message || "검색 실패");
     }
   };
 
+  // 권한 부여
   const handleGrantRole = async (userId) => {
     try {
       await axiosInstance.post("/admin/grant-role", null, {
         params: { userId, role: selectedRole },
       });
-
       toast.success("권한 부여 완료");
       handleSearch();
     } catch (err) {
-      const msg = err.response?.data?.message || "권한 부여 실패";
-      toast.error(msg)
+      toast.error(err.response?.data?.message || "권한 부여 실패");
     }
   };
 
+  // 권한 회수
   const handleRevokeRole = async (userId) => {
     try {
       await axiosInstance.delete("/admin/revoke-role", {
         params: { userId, role: selectedRole },
       });
-      toast.success("권한 회수 완료")
+      toast.success("권한 회수 완료");
       handleSearch();
     } catch (err) {
-      const msg = err.response?.data?.message || "권한 회수 실패";
-      toast.error(msg)
+      toast.error(err.response?.data?.message || "권한 회수 실패");
     }
   };
 
-
   return (
     <div className="RolesBox">
-
       <h2>유저 권한 관리</h2>
 
       <div>
+        {/* 검색 필터 */}
         <form
           className="filter-form"
           onSubmit={(e) => {
@@ -73,9 +81,7 @@ const RolesBox = () => {
             type="text"
             placeholder="아이디"
             value={filters.username}
-            onChange={(e) =>
-              setFilters({ ...filters, username: e.target.value })
-            }
+            onChange={(e) => setFilters({ ...filters, username: e.target.value })}
           />
           <input
             type="text"
@@ -89,7 +95,7 @@ const RolesBox = () => {
           >
             <option value="">전체 권한</option>
             {ROLE_OPTIONS.map((role) => (
-              <option key={role.value} value={role.value}>
+              <option key={role.value} value={role.value} title={role.label}>
                 {role.label}
               </option>
             ))}
@@ -99,6 +105,7 @@ const RolesBox = () => {
           </button>
         </form>
 
+        {/* 변경할 권한 선택 */}
         <div className="role-control">
           <label>변경할 권한 선택: </label>
           <select
@@ -106,13 +113,14 @@ const RolesBox = () => {
             onChange={(e) => setSelectedRole(e.target.value)}
           >
             {ROLE_OPTIONS.map((role) => (
-              <option key={role.value} value={role.value}>
+              <option key={role.value} value={role.value} title={role.label}>
                 {role.label}
               </option>
             ))}
           </select>
         </div>
 
+        {/* 검색 결과 */}
         {searched && users.length > 0 && (
           <table className="user-table">
             <thead>
@@ -134,7 +142,13 @@ const RolesBox = () => {
                   <td>{u.name}</td>
                   <td>{u.nickname}</td>
                   <td>{u.email}</td>
-                  <td>{u.roles?.join(", ")}</td>
+                  {/* 현재 권한: RoleTag 사용, 한글 타이틀 표시 */}
+                  <td>
+                    {u.roles?.map((role) => (
+                      <RoleTag key={role} role={role} title={getRoleTitle(role)} />
+                    ))}
+                  </td>
+                  {/* 권한 관리 버튼 */}
                   <td>
                     <button
                       className="btn grant-btn"
@@ -159,7 +173,6 @@ const RolesBox = () => {
           <p className="no-result">검색 결과 없음</p>
         )}
       </div>
-
     </div>
   );
 };
