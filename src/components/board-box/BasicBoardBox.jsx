@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Star } from "lucide-react";
 import axiosInstance from "../utils/AxiosInstance";
 import "./BasicBoardBox.css";
 import { getBoardLabel } from "../utils/boardUtils";
