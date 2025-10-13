@@ -11,7 +11,8 @@ import {
   Link as LinkIcon,
   AArrowUp,
   AArrowDown,
-} from "lucide-react";
+  Palette,
+} from "lucide-react"; 
 import { toast } from "sonner";
 
 const WritePage = () => {
@@ -25,8 +26,8 @@ const WritePage = () => {
   const editorRef = useRef(null);
   const imageInputRef = useRef(null);
   const fileInputRef = useRef(null);
+  const colorInputRef = useRef(null);
 
-  // 게시판 선택 및 NOTICE 게시판 새 글 제목 자동 추가
   useEffect(() => {
     if (boardType) {
       setSelectedBoard({
@@ -40,7 +41,6 @@ const WritePage = () => {
     }
   }, [boardType, isEditMode]);
 
-  // 수정 모드 시 게시글 불러오기
   useEffect(() => {
     if (isEditMode) {
       axiosInstance
@@ -68,11 +68,19 @@ const WritePage = () => {
     editorRef.current.focus();
   };
 
+  /* HTML 삽입 */
   const insertHTML = (html) => {
     editorRef.current.focus();
     document.execCommand("insertHTML", false, html);
   };
 
+  /* 글자 색상 적용 */
+  const applyColor = (color) => {
+    document.execCommand("foreColor", false, color);
+    editorRef.current.focus();
+  };
+
+  /* 이미지 업로드 */
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -98,6 +106,7 @@ const WritePage = () => {
     }
   };
 
+  /* 파일 업로드 */
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -105,6 +114,7 @@ const WritePage = () => {
     insertHTML(fileTag);
   };
 
+  /* 게시글 등록*/
   const handleSubmit = async () => {
     const content = editorRef.current.innerHTML.trim();
     if (!selectedBoard || !title.trim() || !content) {
@@ -149,38 +159,31 @@ const WritePage = () => {
     }
   };
 
-  const changeFontSize = (delta) => {
-    const selection = window.getSelection();
-    if (!selection.rangeCount || selection.isCollapsed) return;
-    const range = selection.getRangeAt(0);
-    let wrapper;
-    if (
-      range.startContainer.parentNode === range.endContainer.parentNode &&
-      range.startContainer.parentNode.nodeName === "SPAN"
-    ) {
-      wrapper = range.startContainer.parentNode;
-    } else {
-      wrapper = document.createElement("span");
-      try {
-        range.surroundContents(wrapper);
-      } catch (e) {
-        const span = document.createElement("span");
-        span.appendChild(range.extractContents());
-        range.insertNode(span);
-        wrapper = span;
-      }
-    }
-    const currentSize = parseFloat(window.getComputedStyle(wrapper).fontSize) || 16;
-    wrapper.style.fontSize = `${Math.max(1, currentSize + delta)}px`;
-    const newRange = document.createRange();
-    newRange.selectNodeContents(wrapper);
-    selection.removeAllRanges();
-    selection.addRange(newRange);
-  };
+  /* 글자 크기 변경 */
+const changeFontSize = (delta) => {
+  const selection = window.getSelection();
+  if (!selection.rangeCount || selection.isCollapsed) return;
 
-  const increaseFontSize = () => changeFontSize(1);
-  const decreaseFontSize = () => changeFontSize(-1);
+  const range = selection.getRangeAt(0);
+  let targetNode = range.startContainer.parentElement;
 
+  // 현재 선택된 글자의 폰트 크기
+  const currentSize =
+    parseFloat(window.getComputedStyle(targetNode).fontSize) || 16;
+
+  if (targetNode.tagName === "SPAN") {
+    targetNode.style.fontSize = `${currentSize + delta}px`;
+  } else {
+    const span = document.createElement("span");
+    span.style.fontSize = `${currentSize + delta}px`;
+    range.surroundContents(span);
+  }
+  editorRef.current.focus();
+};
+  const increaseFontSize = () => changeFontSize(2);
+  const decreaseFontSize = () => changeFontSize(-2);
+
+  /* 링크 삽입 */
   const applyLink = () => {
     const selection = window.getSelection();
     if (!selection.rangeCount || selection.isCollapsed) {
@@ -198,6 +201,11 @@ const WritePage = () => {
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     link.textContent = selection.toString();
+
+    link.style.color = "#1a73e8"; // 기본 파란색
+    link.style.textDecoration = "underline";
+    link.style.cursor = "pointer";
+
     range.deleteContents();
     range.insertNode(link);
     editorRef.current.focus();
@@ -210,6 +218,7 @@ const WritePage = () => {
           <h2 className="write-title">
             [{selectedBoard?.label}] 게시글 {isEditMode ? "수정" : "작성"}
           </h2>
+
           <div className="write-section">
             <div className="write-box">
               <input
@@ -220,7 +229,9 @@ const WritePage = () => {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
+
             <div className="editor-box flat">
+              {/* === 툴바 1: 파일/링크 === */}
               <div className="toolbar-row flat">
                 <button
                   title="사진"
@@ -256,7 +267,10 @@ const WritePage = () => {
                   onChange={handleFileUpload}
                 />
               </div>
+
               <hr className="divider" />
+
+              {/* === 툴바 2: 서식 === */}
               <div className="toolbar-row flat">
                 <button title="굵게" onClick={() => applyStyle("bold")}>
                   <b>B</b>
@@ -267,6 +281,17 @@ const WritePage = () => {
                 <button title="밑줄" onClick={() => applyStyle("underline")}>
                   <u>U</u>
                 </button>
+
+                <label className="color-picker-label">
+                  <Palette size={18} color="#333" />
+                  <input
+                    ref={colorInputRef}
+                    type="color"
+                    className="hidden-color-input"
+                    onChange={(e) => applyColor(e.target.value)}
+                  />
+                </label>
+
                 <button title="글자 키우기" onClick={increaseFontSize}>
                   <AArrowUp size={20} />
                 </button>
@@ -274,7 +299,10 @@ const WritePage = () => {
                   <AArrowDown size={20} />
                 </button>
               </div>
+
               <hr className="divider" />
+
+              {/* === 본문 입력 === */}
               <div
                 ref={editorRef}
                 className="write-textarea editable"
@@ -283,6 +311,7 @@ const WritePage = () => {
               ></div>
             </div>
           </div>
+
           <div className="write-actions">
             <button className="submit-post" onClick={handleSubmit}>
               {isEditMode ? "수정 완료" : "등록"}
