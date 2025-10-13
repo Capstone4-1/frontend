@@ -24,68 +24,41 @@
   border-radius: 2px;
 }
 
-/* 카드 컨테이너 */
-.scraps-card {
-  background: #fff;
-  border: 1px solid #e9eef5;
-  border-radius: 14px;
-  box-shadow: 0 8px 22px rgba(27, 44, 74, 0.06);
-  padding: 6px;
-}
-
-.scraps-empty {
-  text-align: center;
-  padding: 34px 12px 40px;
-  color: #6b7a8c;
-}
-
-.scraps-empty .empty-title {
-  margin: 8px 0 4px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #2a2e33;
-}
-
-.scraps-empty .empty-desc {
-  margin: 0;
-  font-size: 13px;
-  color: #6b7a8c;
-}
-
 /* 리스트 */
 .scraps-list {
   list-style: none;
   margin: 0;
-  padding: 6px;
+  padding: 0;
 }
 
-/* 아이템 */
+/* 항목 */
 .scrap-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  padding: 14px 14px;
-  border-radius: 10px;
-  transition: background-color .2s ease, transform .15s ease, box-shadow .2s ease;
+  padding: 10px 6px;
+  border-bottom: 1px solid #f0f2f5;
   cursor: pointer;
-  position: relative;
-  outline: none;
+  transition: background-color 0.15s ease;
 }
 
-.scrap-item + .scrap-item {
-  margin-top: 6px;
+.scrap-item:hover {
+  background-color: #f8fafc;
 }
-.scrap-item::after {
-  content: "";
-  position: absolute;
-  left: 14px; right: 14px; bottom: -3px;
-  height: 1px;
-  background: #f1f4f8;
-}
-.scrap-item:last-child::after { display: none; }
 
 .scrap-item:focus {
-  box-shadow: 0 0 0 3px rgba(45,140,255,0.24);
+  outline: 2px solid #2d8cff;
+  outline-offset: 2px;
+}
+
+.scrap-item.empty {
+  text-align: center;
+  color: #999;
+  cursor: default;
+  border: none;
+  background: none;
+  padding: 20px 0;
 }
 
 /* 내용 */
@@ -93,10 +66,11 @@
   flex: 1;
   min-width: 0;
 }
+
 .scrap-title {
   margin: 0;
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.5;
   color: #1f2a37;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -104,8 +78,9 @@
   overflow: hidden;
   word-break: break-word;
 }
+
 .scrap-excerpt {
-  margin: 6px 0 0;
+  margin: 4px 0 0;
   font-size: 14px;
   line-height: 1.5;
   color: #425164;
@@ -118,51 +93,55 @@
 
 .scrap-meta {
   display: inline-block;
-  margin-top: 6px;
-  font-size: 12px;
+  margin-top: 4px;
+  font-size: 13px;
   color: #6b7a8c;
 }
 
 /* 버튼 */
 .unscrap-btn {
-  border: 1px solid #e2eaf5;
-  background: #ffffff;
+  border: 1px solid #dfe5ed;
+  background: transparent;
   color: #365c9a;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 5px 9px;
+  border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
-  transition: background-color .2s ease, border-color .2s ease, transform .15s ease, box-shadow .2s ease;
+  transition: background-color .15s ease, border-color .15s ease;
   cursor: pointer;
-  margin-left: 8px;
   flex-shrink: 0;
 }
 .unscrap-btn:hover {
   background: #f3f8ff;
   border-color: #cfe1ff;
-  box-shadow: 0 3px 10px rgba(45,140,255,0.12);
-  transform: translateY(-1px);
 }
-.unscrap-btn:active { transform: translateY(0); }
 
-/* > 화살표 */
+/* 화살표 */
 .scrap-chevron {
-  font-size: 22px;
+  font-size: 18px;
   color: #9ab9e7;
-  transition: transform .15s ease, color .2s ease;
   margin-left: 6px;
+  transition: transform .15s ease, color .15s ease;
 }
-
-.scrap-item:hover {
-  background: #f3f8ff;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(45,140,255,0.12);
-}
-.scrap-item:hover .scrap-title { color: #165fbf; }
 .scrap-item:hover .scrap-chevron {
   color: #2d8cff;
   transform: translateX(2px);
 }
 
-
-
+/* 비었을때 */
+.scraps-empty {
+  text-align: center;
+  padding: 34px 12px 40px;
+  color: #6b7a8c;
+}
+.scraps-empty .empty-title {
+  margin: 8px 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2a2e33;
+}
+.scraps-empty .empty-desc {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7a8c;
+}
