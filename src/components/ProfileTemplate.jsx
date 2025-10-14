@@ -3,7 +3,6 @@ import "./ProfileTemplate.css";
 import axiosInstance from "./utils/AxiosInstance";
 import { sendFriendRequest } from "./utils/friendApi";
 import ProfileModal from "./modals/ProfileModal";
-import LockModal from "./modals/LockModal";
 
 
 const ProfileTemplate = ({ profileImageUrl, name, id }) => {

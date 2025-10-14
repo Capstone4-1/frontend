@@ -4,7 +4,7 @@ import { ROLE_DEFS } from "../utils/RoleUtils";
 import RoleTag from "../RoleTag";
 import LockModal from "./LockModal";
 import Exit from "../buttons/Exit";
-import "./Modal.css";
+import "./ProfileModal.css";
 
 const getRoleDefs = (roles) =>
   ROLE_DEFS.filter((role) => roles.includes(role.key));
@@ -47,7 +47,6 @@ const ProfileModal = ({ userInfo, onClose, onAddFriend, friendMessage, isFriendE
                 <span className="ProfileModalRoleIcon">{getRoleIcon(userInfo.roles)}</span>
               )}
             </h3>
-            <span className="ProfileModalUsername">{userInfo.email}</span>
           </div>
 
           {/* Exit 버튼 */}
