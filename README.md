@@ -1,7 +1,7 @@
 # 🗿 모아이 (모여라 AI)
 
 > 한국해양대학교 인공지능공학부 학과 전용 웹 서비스 
--- https://www.kmoumoai.site
+-- https://www.kmoumoai.site(폐쇄)
 - 게스트 체험 계정
 - id:00000000
 - pw:guest0000
